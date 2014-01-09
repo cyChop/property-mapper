@@ -5,16 +5,8 @@ A proof-of-concept for an annotation-based map-to-object property mapper.
 
 ### Still to do
 
-#### Metadata annotation and mapping
-* default value
-* custom setter (bypass converter)
-* mandatory
-
-#### Temporal
-* allow _now_ as a default value?
-
-#### Object-to-map mapping
-* specify a list of values (@OutgoingMapping?)
+* Test: customGetter
+* Temporal: allow _now_ as a default value?
 
 [1]: https://secure.travis-ci.org/cyChop/property-mapper.png
 [2]: http://travis-ci.org/cyChop/property-mapper
