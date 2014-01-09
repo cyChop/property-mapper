@@ -32,7 +32,7 @@ public class ConverterProviderTest {
 
     @Test
     public void testGetConverter() {
-        ConverterProvider provider = new ConverterProvider();
+        BaseConverterProvider provider = new BaseConverterProvider();
 
         assertEquals(StringConverter.class, provider.getConverter(String.class).getClass());
         assertEquals(BooleanConverter.class, provider.getConverter(Boolean.class).getClass());
@@ -53,7 +53,7 @@ public class ConverterProviderTest {
      */
     // @Test
     // public void testExtensibleGetConverter() {
-    // ConverterProvider provider = new ConverterProvider();
+    // BaseConverterProvider provider = new BaseConverterProvider();
     //
     // assertEquals(DoubleConverter.class,
     // provider.getConverter(Double.class).getClass());
