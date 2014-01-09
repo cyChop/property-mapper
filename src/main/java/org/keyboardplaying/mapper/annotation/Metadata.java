@@ -33,4 +33,6 @@ public @interface Metadata {
     String value();
 
     boolean mandatory() default false;
+
+    String customSetter() default "";
 }

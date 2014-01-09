@@ -108,7 +108,13 @@ public class MappingEngineTest {
         bean = mappingEngine.mapToBean(metadata, TestBean.class);
         assertTrue(bean.isSomeBool());
 
-        /* Ensure null-proof */
+        /* Test custom setter. */
+        metadata.put("somebody_s_name", "John DOE");
+        metadata.put("somebody_s_phone", "4815162342");
+        bean = mappingEngine.mapToBean(metadata, TestBean.class);
+        assertEquals("John DOE (4815162342)", bean.getContact());
+
+        /* Ensure null-proof. */
         // test Object and primitive types
         metadata.put("hello_world", null);
         metadata.put("some_number", null);

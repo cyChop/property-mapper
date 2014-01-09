@@ -18,6 +18,7 @@ package org.keyboardplaying.mapper.engine;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -109,26 +110,71 @@ public class MappingEngine {
     }
 
     private <T> void performMappingToField(Map<String, String> metadata, T bean, Field field) throws MappingException {
-        Metadata metadataAnnot = field.getAnnotation(Metadata.class);
-        String metadataName = metadataAnnot.value();
+        Metadata settings = field.getAnnotation(Metadata.class);
+        String metadataName = settings.value();
 
         if (metadata.containsKey(metadataName)) {
-            // TODO handle the case of a custom setter
-            setField(bean, field, metadata.get(metadataName));
 
-        } else if (metadataAnnot.mandatory()) {
+            /* Set the value using the value provided with the metadata. */
+            setField(metadata, bean, field, settings, metadata.get(metadataName));
 
-            // Data is absent though mandatory, raise an exception
+        } else if (settings.mandatory()) {
+
+            /* Data is absent though mandatory, raise an exception. */
             throw new MappingException("Mandatory data " + metadataName + " is missing from metadata map ("
                     + metadata.keySet().toString() + ").");
 
         } else if (field.isAnnotationPresent(DefaultValue.class)) {
 
-            // XXX custom setter?
+            /* Set the value using the provided default value. */
             setField(bean, field, field.getAnnotation(DefaultValue.class).value());
+        }
+        /* Otherwise, leave field as is. */
+    }
+
+    /**
+     * Sets the value of the supplied field in the supplied bean to the supplied
+     * value, in accordance with the settings provided via annotations.
+     * 
+     * @param metadata
+     *            the flat metadata
+     * @param bean
+     *            the destination bean
+     * @param field
+     *            the field to set
+     * @param settings
+     *            the main settings for parsing the value from metadata
+     * @param value
+     *            the value which should be set
+     * @throws MappingException
+     *             when the mapping is impossible
+     */
+    private <T> void setField(Map<String, String> metadata, T bean, Field field, Metadata settings, String value)
+            throws MappingException {
+        String customSetter = settings.customSetter();
+        if (StringUtils.isEmpty(customSetter)) {
+            setField(bean, field, value);
+        } else {
+            // a custom setter was defined, overrides the default converter
+            setFieldUsingCustomSetter(bean, customSetter, value, metadata);
         }
     }
 
+    /**
+     * Sets the field, using the default converter for the type of the field and
+     * the field's setter.
+     * <p/>
+     * This requires the bean to respect the bean notation.
+     * 
+     * @param bean
+     *            the destination bean
+     * @param field
+     *            the field to set
+     * @param value
+     *            the non-converted value for the field
+     * @throws MappingException
+     *             when the mapping is impossible
+     */
     private <T> void setField(T bean, Field field, String value) throws MappingException {
         try {
             PropertyUtils.setProperty(bean, field.getName(),
@@ -149,6 +195,62 @@ public class MappingEngine {
         }
     }
 
+    /**
+     * Sets the field, using the supplied setter.
+     * <p/>
+     * The signature for the setter should be
+     * {@code setSomething(java.lang.String, java.util.Map<String, String>)}. It
+     * will receive the value for the required metadata as the first argument,
+     * and the whole flat metadata as the second.
+     * 
+     * @param bean
+     *            the destination bean
+     * @param customSetter
+     *            the setter to use
+     * @param value
+     *            the non-converted value for the field
+     * @param metadata
+     *            the flat metadata
+     * 
+     * @throws MappingException
+     *             when the mapping is impossible
+     */
+    private <T> void setFieldUsingCustomSetter(T bean, String customSetter, String value, Map<String, String> metadata)
+            throws MappingException {
+        try {
+
+            Method method = bean.getClass().getMethod(customSetter, String.class, Map.class);
+            method.invoke(bean, value, metadata);
+
+        } catch (IllegalArgumentException e) {
+            throw new MappingException("Custom setter " + customSetter + " of " + bean.getClass().getName()
+                    + " could not be called.", e);
+        } catch (IllegalAccessException e) {
+            throw new MappingException("Custom setter " + customSetter + " of " + bean.getClass().getName()
+                    + " could not be called.", e);
+        } catch (InvocationTargetException e) {
+            throw new MappingException("Custom setter " + customSetter + " of " + bean.getClass().getName()
+                    + " could not be called.", e);
+        } catch (SecurityException e) {
+            throw new MappingException("Custom setter " + customSetter + " of " + bean.getClass().getName()
+                    + " could not be called.", e);
+        } catch (NoSuchMethodException e) {
+            throw new MappingException("Custom setter " + customSetter + " of " + bean.getClass().getName()
+                    + " could not be called.", e);
+        }
+    }
+
+    /**
+     * Returns the appropriate {@link Converter} based on the supplied's field
+     * type.
+     * 
+     * @param field
+     *            the field to convert a value from or to
+     * @return
+     * @throws MappingException
+     *             when no {@link Converter} can be found or annotation settings
+     *             are missing (e.g. {@link Temporal} on temporal fields)
+     */
     private <T> Converter<T> getConverter(Field field) throws MappingException {
         Converter<T> converter = converterProvider.getConverter(field.getType());
 

@@ -19,6 +19,7 @@ package org.keyboardplaying.mapper.bean;
 import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 import org.keyboardplaying.mapper.annotation.BooleanValues;
 import org.keyboardplaying.mapper.annotation.DefaultValue;
@@ -62,6 +63,9 @@ public class TestBean {
 
     @Nested(className = "org.keyboardplaying.mapper.bean.TestInnerImpl")
     private TestInnerBean innerItf;
+
+    @Metadata(value = "somebody_s_name", customSetter = "setContact")
+    private String contact;
 
     public TestBean() {
         super();
@@ -137,5 +141,17 @@ public class TestBean {
 
     public void setInnerItf(TestInnerBean innerItf) {
         this.innerItf = innerItf;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public void setContact(String name, Map<String, String> metadata) {
+        this.contact = String.format("%s (%s)", name, metadata.get("somebody_s_phone"));
     }
 }
