@@ -51,13 +51,13 @@
 
     <!-- Project additional information -->
     <scm>
-        <connection>scm:git:git@github.com:cyChop/labs-java--property-mapper.git</connection>
-        <url>scm:git:git@github.com:cyChop/labs-java--property-mapper.git</url>
-        <developerConnection>scm:git:git@github.com:cyChop/labs-java--property-mapper.git</developerConnection>
+        <connection>scm:git:git@github.com:cyChop/property-mapper.git</connection>
+        <url>scm:git:git@github.com:cyChop/property-mapper.git</url>
+        <developerConnection>scm:git:git@github.com:cyChop/property-mapper.git</developerConnection>
     </scm>
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/cyChop/labs-java--property-mapper/issues</url>
+        <url>https://github.com/cyChop/property-mapper/issues</url>
     </issueManagement>
     <developers>
         <developer>
