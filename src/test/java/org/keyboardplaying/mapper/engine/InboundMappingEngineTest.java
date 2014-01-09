@@ -37,9 +37,9 @@ import org.keyboardplaying.mapper.exception.MappingException;
 /**
  * @author cyChop (http://keyboardplaying.org/)
  */
-public class MappingEngineTest {
+public class InboundMappingEngineTest {
 
-    private MappingEngine mappingEngine = new MappingEngine();
+    private InboundMappingEngine mappingEngine = new InboundMappingEngine();
 
     @Test
     public void testMapToBean() throws MappingException, ConversionException {
