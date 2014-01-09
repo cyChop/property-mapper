@@ -14,28 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.keyboardplaying.mapper.annotation;
-
-import org.keyboardplaying.mapper.utils.Defaults;
+package org.keyboardplaying.mapper.utils;
 
 // XXX JAVADOC
 /**
  * @author cyChop (http://keyboardplaying.org/)
  */
-public enum TemporalType {
-    /** For date values, not including the notion of time. */
-    DATE(Defaults.FORMAT_DATE),
-    /** For timestamp values, including both date and time. */
-    DATETIME(Defaults.FORMAT_DATETIME);
+public final class Defaults {
 
-    /** The format of the string representation of the date. */
-    private String format;
+    public static final String FORMAT_DATE = "yyyy/MM/dd";
+    public static final String FORMAT_DATETIME = "yyyy/MM/dd-HH:mm:ss";
 
-    private TemporalType(String format) {
-        this.format = format;
-    }
+    public static final String BOOLEAN_TRUE = "YES";
+    public static final String BOOLEAN_FALSE = "NO";
+    public static final String BOOLEAN_TRUE_FR = "OUI";
+    public static final String BOOLEAN_FALSE_FR = "NON";
 
-    public String getFormat() {
-        return format;
+    private Defaults() {
     }
 }

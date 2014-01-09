@@ -20,6 +20,7 @@ import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.keyboardplaying.mapper.annotation.BooleanValues;
 import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
@@ -35,11 +36,15 @@ public class TestBean {
     @DefaultValue("Did not say hello... :(")
     private String hello;
 
+    @Metadata("some_bool")
+    @BooleanValues(whenTrue = "true", whenFalse = "false")
+    private boolean someBool;
+
     @Metadata("some_number")
     private int someInt;
 
     @Metadata("some_number")
-    private long someLong;
+    private Long someLong;
 
     @Metadata("some_number")
     private BigInteger someBig;
@@ -70,6 +75,14 @@ public class TestBean {
         this.hello = hello;
     }
 
+    public boolean isSomeBool() {
+        return someBool;
+    }
+
+    public void setSomeBool(boolean someBool) {
+        this.someBool = someBool;
+    }
+
     public int getSomeInt() {
         return someInt;
     }
@@ -78,11 +91,11 @@ public class TestBean {
         this.someInt = someInt;
     }
 
-    public long getSomeLong() {
+    public Long getSomeLong() {
         return someLong;
     }
 
-    public void setSomeLong(long someLong) {
+    public void setSomeLong(Long someLong) {
         this.someLong = someLong;
     }
 

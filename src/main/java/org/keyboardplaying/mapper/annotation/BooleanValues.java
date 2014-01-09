@@ -16,26 +16,22 @@
  */
 package org.keyboardplaying.mapper.annotation;
 
-import org.keyboardplaying.mapper.utils.Defaults;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-// XXX JAVADOC
+// TODO JAVADOC
 /**
  * @author cyChop (http://keyboardplaying.org/)
  */
-public enum TemporalType {
-    /** For date values, not including the notion of time. */
-    DATE(Defaults.FORMAT_DATE),
-    /** For timestamp values, including both date and time. */
-    DATETIME(Defaults.FORMAT_DATETIME);
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
+public @interface BooleanValues {
 
-    /** The format of the string representation of the date. */
-    private String format;
+    String whenTrue();
 
-    private TemporalType(String format) {
-        this.format = format;
-    }
-
-    public String getFormat() {
-        return format;
-    }
+    String whenFalse();
 }

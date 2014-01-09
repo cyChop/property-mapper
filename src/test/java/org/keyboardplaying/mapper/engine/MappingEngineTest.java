@@ -17,6 +17,8 @@
 package org.keyboardplaying.mapper.engine;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.math.BigInteger;
@@ -28,6 +30,8 @@ import org.keyboardplaying.mapper.annotation.TemporalType;
 import org.keyboardplaying.mapper.bean.TestBean;
 import org.keyboardplaying.mapper.bean.TestInnerImpl;
 import org.keyboardplaying.mapper.converter.CalendarConverter;
+import org.keyboardplaying.mapper.converter.DateConverter;
+import org.keyboardplaying.mapper.exception.ConversionException;
 import org.keyboardplaying.mapper.exception.MappingException;
 
 /**
@@ -38,7 +42,7 @@ public class MappingEngineTest {
     private MappingEngine mappingEngine = new MappingEngine();
 
     @Test
-    public void testMapToBean() throws MappingException {
+    public void testMapToBean() throws MappingException, ConversionException {
         Map<String, String> metadata = new HashMap<String, String>();
 
         /* Test @Nested & @Metadata(mandatory = true) */
@@ -79,11 +83,30 @@ public class MappingEngineTest {
         metadata.put("some_even_more_important_date", "2012/06/29");
         bean = mappingEngine.mapToBean(metadata, bean);
         assertEquals(42, bean.getSomeInt());
-        assertEquals(42L, bean.getSomeLong());
+        assertEquals(Long.valueOf(42), bean.getSomeLong());
         assertEquals(BigInteger.valueOf(42), bean.getSomeBig());
         // calendar comparison
         CalendarConverter calConv = new CalendarConverter();
         calConv.setFormat(TemporalType.DATETIME.getFormat());
+        assertEquals(calConv.convertFromString(metadata.get("some_important_date")), bean.getCal());
+        // date comparison
+        DateConverter dateConv = new DateConverter();
+        dateConv.setFormat(TemporalType.DATE.getFormat());
+        assertEquals(dateConv.convertFromString(metadata.get("some_even_more_important_date")), bean.getDate());
+        // boolean testing
+        metadata.put("some_bool", "YES");
+        try {
+            bean = mappingEngine.mapToBean(metadata, TestBean.class);
+            // fail();
+        } catch (MappingException e) {
+            // the boolean is not in the expected format
+        } catch (Exception e) {
+            fail();
+        }
+        assertFalse(bean.isSomeBool());
+        metadata.put("some_bool", "true");
+        bean = mappingEngine.mapToBean(metadata, TestBean.class);
+        assertTrue(bean.isSomeBool());
 
         /* Ensure null-proof */
         // test Object and primitive types

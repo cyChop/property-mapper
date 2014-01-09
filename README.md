@@ -5,12 +5,6 @@ A proof-of-concept for an annotation-based map-to-object property mapper.
 
 ### Still to do
 
-#### BooleanConverter
-Rules:
-* true if matches ^(?:true|1|y(?:es)?|o(?:ui)?)$
-* false if matches ^(?:false|0|n(?:o(?:n)?)?)$
-* ConversionException otherwise
-
 #### Metadata annotation and mapping
 * default value
 * custom setter (bypass converter)

@@ -26,7 +26,7 @@ import java.util.Map.Entry;
  * 
  * @author cyChop (http://keyboardplaying.org/)
  */
-public class ClassUtils {
+public final class ClassUtils {
 
     /** A correspondance table between primitive and wrapper classes. */
     private static final Map<Class<?>, Class<?>> WRAPPER_CLASSES;
@@ -57,6 +57,9 @@ public class ClassUtils {
         defaults.put(float.class, 0f);
         defaults.put(double.class, 0d);
         DEFAULTS = Collections.unmodifiableMap(defaults);
+    }
+
+    private ClassUtils() {
     }
 
     /**

@@ -22,10 +22,12 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.keyboardplaying.mapper.annotation.BooleanValues;
 import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.annotation.Temporal;
+import org.keyboardplaying.mapper.converter.BooleanConverter;
 import org.keyboardplaying.mapper.converter.Converter;
 import org.keyboardplaying.mapper.converter.ConverterProvider;
 import org.keyboardplaying.mapper.converter.TemporalConverter;
@@ -156,18 +158,21 @@ public class MappingEngine {
                     + field.getName() + " of " + field.getDeclaringClass().getName() + ")");
 
         } else if (converter instanceof TemporalConverter) {
-            if (field.isAnnotationPresent(Temporal.class)) {
 
+            if (field.isAnnotationPresent(Temporal.class)) {
                 Temporal temporal = field.getAnnotation(Temporal.class);
                 ((TemporalConverter<T>) converter).setFormat(temporal.value().getFormat());
-
             } else {
-
                 throw new MappingException("Field " + field.getName() + " of " + field.getDeclaringClass().getName()
                         + " must declare the @Temporal annotation.");
-
             }
+
+        } else if (converter instanceof BooleanConverter && field.isAnnotationPresent(BooleanValues.class)) {
+
+            BooleanValues annot = field.getAnnotation(BooleanValues.class);
+            ((BooleanConverter) converter).setTrueFalse(annot.whenTrue(), annot.whenFalse());
         }
+
         return converter;
     }
 }

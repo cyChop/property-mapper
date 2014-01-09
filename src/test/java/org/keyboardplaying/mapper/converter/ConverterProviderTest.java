@@ -35,6 +35,8 @@ public class ConverterProviderTest {
         ConverterProvider provider = new ConverterProvider();
 
         assertEquals(StringConverter.class, provider.getConverter(String.class).getClass());
+        assertEquals(BooleanConverter.class, provider.getConverter(Boolean.class).getClass());
+        assertEquals(BooleanConverter.class, provider.getConverter(boolean.class).getClass());
         assertEquals(IntegerConverter.class, provider.getConverter(Integer.class).getClass());
         assertEquals(IntegerConverter.class, provider.getConverter(int.class).getClass());
         assertEquals(LongConverter.class, provider.getConverter(Long.class).getClass());
