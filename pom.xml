@@ -9,6 +9,13 @@
     <name>Property mapper</name>
     <description>A proof-of-concept for an annotation-based map-to-object and object-to-map parser</description>
 
+    <properties>
+        <!-- Specify Java version and encoding for the compiler plugin -->
+        <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>commons-logging</groupId>
@@ -41,4 +48,28 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <!-- Project additional information -->
+    <scm>
+        <connection>scm:git:git@github.com:cyChop/labs-java--property-mapper.git</connection>
+        <url>scm:git:git@github.com:cyChop/labs-java--property-mapper.git</url>
+        <developerConnection>scm:git:git@github.com:cyChop/labs-java--property-mapper.git</developerConnection>
+    </scm>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/cyChop/labs-java--property-mapper/issues</url>
+    </issueManagement>
+    <developers>
+        <developer>
+            <id>cyChop</id>
+            <name>Cyrille Chopelet</name>
+            <email>cyrille[dot]chopelet@gmail[dot]com</email>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>+1</timezone>
+            <url>http://keyboardplaying.org</url>
+        </developer>
+    </developers>
 </project>

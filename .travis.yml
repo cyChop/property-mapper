@@ -1,0 +1,5 @@
+language: java
+# Java 6 is the target for now
+jdk:
+  - oraclejdk7
+  - openjdk6
