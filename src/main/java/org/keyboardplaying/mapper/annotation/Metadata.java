@@ -35,4 +35,6 @@ public @interface Metadata {
     boolean mandatory() default false;
 
     String customSetter() default "";
+
+    String customGetter() default "";
 }

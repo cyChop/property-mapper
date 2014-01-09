@@ -37,9 +37,9 @@ import org.keyboardplaying.mapper.exception.MappingException;
 /**
  * @author cyChop (http://keyboardplaying.org/)
  */
-public class InboundMappingEngineTest {
+public class UnmappingEngineTest {
 
-    private InboundMappingEngine mappingEngine = new InboundMappingEngine();
+    private UnmappingEngine mappingEngine = new UnmappingEngine();
 
     @Test
     public void testMapToBean() throws MappingException, ConversionException {
@@ -48,7 +48,7 @@ public class InboundMappingEngineTest {
         /* Test @Nested & @Metadata(mandatory = true) */
         // The metadata of nested beans is mandatory.
         try {
-            mappingEngine.mapToBean(metadata, TestBean.class);
+            mappingEngine.unmap(metadata, TestBean.class);
             fail();
         } catch (MappingException e) {
             // a mandatory field is missing from metadata ('hello_world_inner')
@@ -58,7 +58,7 @@ public class InboundMappingEngineTest {
 
         /* Test @Nested & @DefaultValue */
         metadata.put("hello_world_inner", "Hello, Little Big Planet!");
-        TestBean bean = mappingEngine.mapToBean(metadata, TestBean.class);
+        TestBean bean = mappingEngine.unmap(metadata, TestBean.class);
         // default value
         assertEquals("Did not say hello... :(", bean.getHello());
         // autowired nested
@@ -70,18 +70,18 @@ public class InboundMappingEngineTest {
         /* Test overwriting an existing bean. */
         // overwrite with default value
         bean.setHello("Honey, I'm home! Oh, forgot... I'm not married.");
-        bean = mappingEngine.mapToBean(metadata, bean);
+        bean = mappingEngine.unmap(metadata, bean);
         assertEquals("Did not say hello... :(", bean.getHello());
         // overwrite with metadata
         metadata.put("hello_world", "Hello, World.");
-        bean = mappingEngine.mapToBean(metadata, bean);
+        bean = mappingEngine.unmap(metadata, bean);
         assertEquals("Hello, World.", bean.getHello());
 
         /* Test various data types. */
         metadata.put("some_number", "42");
         metadata.put("some_important_date", "1985/10/24-21:20:00");
         metadata.put("some_even_more_important_date", "2012/06/29");
-        bean = mappingEngine.mapToBean(metadata, bean);
+        bean = mappingEngine.unmap(metadata, bean);
         assertEquals(42, bean.getSomeInt());
         assertEquals(Long.valueOf(42), bean.getSomeLong());
         assertEquals(BigInteger.valueOf(42), bean.getSomeBig());
@@ -96,7 +96,7 @@ public class InboundMappingEngineTest {
         // boolean testing
         metadata.put("some_bool", "YES");
         try {
-            bean = mappingEngine.mapToBean(metadata, TestBean.class);
+            bean = mappingEngine.unmap(metadata, TestBean.class);
             // fail();
         } catch (MappingException e) {
             // the boolean is not in the expected format
@@ -105,20 +105,20 @@ public class InboundMappingEngineTest {
         }
         assertFalse(bean.isSomeBool());
         metadata.put("some_bool", "true");
-        bean = mappingEngine.mapToBean(metadata, TestBean.class);
+        bean = mappingEngine.unmap(metadata, TestBean.class);
         assertTrue(bean.isSomeBool());
 
         /* Test custom setter. */
         metadata.put("somebody_s_name", "John DOE");
         metadata.put("somebody_s_phone", "4815162342");
-        bean = mappingEngine.mapToBean(metadata, TestBean.class);
+        bean = mappingEngine.unmap(metadata, TestBean.class);
         assertEquals("John DOE (4815162342)", bean.getContact());
 
         /* Ensure null-proof. */
         // test Object and primitive types
         metadata.put("hello_world", null);
         metadata.put("some_number", null);
-        bean = mappingEngine.mapToBean(metadata, bean);
+        bean = mappingEngine.unmap(metadata, bean);
         assertEquals(null, bean.getHello());
         assertEquals(0, bean.getSomeInt());
     }

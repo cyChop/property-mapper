@@ -32,26 +32,15 @@ import org.keyboardplaying.mapper.utils.ClassUtils;
 
 // XXX JAVADOC
 /**
+ * The mapping engine for mapping a flat map to a POJO (unmapping).
+ * 
  * @author cyChop (http://keyboardplaying.org/)
  */
-public class InboundMappingEngine extends MappingEngine {
+public class UnmappingEngine extends AbstractEngine {
 
-    /**
-     * Instantiates a new bean of the specified type and sets its field with the
-     * metadata in accordance with the annotations of the bean.
-     * 
-     * @param metadata
-     *            the flat metadata
-     * @param beanType
-     *            the destination bean type
-     * @return the initialised bean
-     * @throws MappingException
-     *             when the mapping is impossible
-     * @see #mapToBean(Map, Object)
-     */
-    public <T> T mapToBean(Map<String, String> metadata, Class<T> beanType) throws MappingException {
+    public <T> T unmap(Map<String, String> metadata, Class<T> beanType) throws MappingException {
         try {
-            return mapToBean(metadata, beanType.newInstance());
+            return unmap(metadata, beanType.newInstance());
         } catch (InstantiationException e) {
             throw new MappingException("Could not instanciate a new bean for type " + beanType.getSimpleName() + ".", e);
         } catch (IllegalAccessException e) {
@@ -59,19 +48,7 @@ public class InboundMappingEngine extends MappingEngine {
         }
     }
 
-    /**
-     * Updates the supplied bean with the metadata in accordance with the
-     * annotations of the bean.
-     * 
-     * @param metadata
-     *            the flat metadata
-     * @param bean
-     *            the destination bean
-     * @return the initialised bean
-     * @throws MappingException
-     *             when the mapping is impossible
-     */
-    public <T> T mapToBean(Map<String, String> metadata, T bean) throws MappingException {
+    public <T> T unmap(Map<String, String> metadata, T bean) throws MappingException {
         /* Control the validity of arguments. */
         if (bean == null) {
             throw new MappingException("The supplied bean was null.");
@@ -79,53 +56,52 @@ public class InboundMappingEngine extends MappingEngine {
             throw new MappingException("The supplied metadata was null.");
         }
 
-        /* Go and parse. */
-        try {
-            performMappingToBean(metadata, bean);
-        } catch (IllegalAccessException e) {
-            throw new MappingException(e);
-        } catch (InvocationTargetException e) {
-            throw new MappingException(e);
-        } catch (NoSuchMethodException e) {
-            throw new MappingException("Problem, setter not found.", e);
+        /* Now perform the unmapping. */
+        final Field[] fields = bean.getClass().getDeclaredFields();
+
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(Nested.class)) {
+                performInnerUnmapping(metadata, bean, field);
+            } else if (field.isAnnotationPresent(Metadata.class)) {
+                performFieldUnmapping(metadata, bean, field);
+            }
         }
 
         return bean;
     }
 
-    private <T> void performMappingToBean(Map<String, String> metadata, T bean) throws IllegalAccessException,
-            InvocationTargetException, NoSuchMethodException, MappingException {
-        final Field[] fields = bean.getClass().getDeclaredFields();
+    private <T> void performInnerUnmapping(Map<String, String> metadata, T bean, Field field) throws MappingException {
+        try {
 
-        for (Field field : fields) {
-            if (field.isAnnotationPresent(Nested.class)) {
-                performMappingToInnerBean(metadata, bean, field);
-            } else if (field.isAnnotationPresent(Metadata.class)) {
-                performMappingToField(metadata, bean, field);
+            Object innerBean = PropertyUtils.getProperty(bean, field.getName());
+            if (innerBean == null) {
+                String className = field.getAnnotation(Nested.class).className();
+                try {
+                    innerBean = unmap(metadata,
+                            StringUtils.isEmpty(className) ? field.getType() : Class.forName(className));
+                } catch (ClassNotFoundException e) {
+                    throw new MappingException("Could not find class " + className
+                            + " when instantiating bean for inner field " + field.getName() + " of class "
+                            + field.getDeclaringClass().getName(), e);
+                }
+            } else {
+                innerBean = unmap(metadata, innerBean);
             }
+            PropertyUtils.setProperty(bean, field.getName(), innerBean);
+
+        } catch (IllegalAccessException e) {
+            throw new MappingException("Error while unmapping nested bean " + field.getName() + " of "
+                    + field.getDeclaringClass().getName(), e);
+        } catch (InvocationTargetException e) {
+            throw new MappingException("Error while unmapping nested bean " + field.getName() + " of "
+                    + field.getDeclaringClass().getName(), e);
+        } catch (NoSuchMethodException e) {
+            throw new MappingException("Error while unmapping nested bean " + field.getName() + " of "
+                    + field.getDeclaringClass().getName(), e);
         }
     }
 
-    private <T> void performMappingToInnerBean(Map<String, String> metadata, T bean, Field field)
-            throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, MappingException {
-        Object innerBean = PropertyUtils.getProperty(bean, field.getName());
-        if (innerBean == null) {
-            String className = field.getAnnotation(Nested.class).className();
-            try {
-                innerBean = mapToBean(metadata,
-                        StringUtils.isEmpty(className) ? field.getType() : Class.forName(className));
-            } catch (ClassNotFoundException e) {
-                throw new MappingException("Could not find class " + className
-                        + " when instantiating bean for inner field " + field.getName() + " of class "
-                        + field.getDeclaringClass().getName(), e);
-            }
-        } else {
-            innerBean = mapToBean(metadata, innerBean);
-        }
-        PropertyUtils.setProperty(bean, field.getName(), innerBean);
-    }
-
-    private <T> void performMappingToField(Map<String, String> metadata, T bean, Field field) throws MappingException {
+    private <T> void performFieldUnmapping(Map<String, String> metadata, T bean, Field field) throws MappingException {
         Metadata settings = field.getAnnotation(Metadata.class);
         String metadataName = settings.value();
 
