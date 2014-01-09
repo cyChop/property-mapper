@@ -16,33 +16,35 @@
  */
 package org.keyboardplaying.mapper.converter.mock;
 
-import org.keyboardplaying.mapper.converter.BaseConverter;
+import org.keyboardplaying.mapper.converter.Converter;
 import org.keyboardplaying.mapper.exception.ConversionException;
 
 /**
  * @author cyChop (http://keyboardplaying.org/)
  */
-public class DoubleConverter extends BaseConverter<Double> {
+public class DoubleConverter implements Converter<Double> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * org.keyboardplaying.mapper.converter.Converter#convertFromString(java
-     * .lang.String, java.lang.Object)
+     * .lang.String)
      */
-    public Double convertFromString(String value, Double def) throws ConversionException {
-        return value == null ? def : Double.parseDouble(value);
+    @Override
+    public Double convertFromString(String value) throws ConversionException {
+        return Double.parseDouble(value);
     }
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * org.keyboardplaying.mapper.converter.Converter#convertToString(java.lang
-     * .Object, java.lang.Object)
+     * .Object)
      */
-    public String convertToString(Double value, Double def) throws ConversionException {
-        return value == null ? def == null ? null : def.toString() : value.toString();
+    @Override
+    public String convertToString(Double value) throws ConversionException {
+        return value.toString();
     }
 }

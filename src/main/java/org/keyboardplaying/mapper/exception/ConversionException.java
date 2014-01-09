@@ -16,11 +16,11 @@
  */
 package org.keyboardplaying.mapper.exception;
 
-// XXX Javadoc
+// XXX JAVADOC
 /**
  * An exception to throw when a metadata could not be converted to the
  * destination format.
- *
+ * 
  * @author cyChop (http://keyboardplaying.org/)
  */
 public class ConversionException extends Exception {

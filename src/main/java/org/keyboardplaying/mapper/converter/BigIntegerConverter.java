@@ -23,20 +23,22 @@ import org.keyboardplaying.mapper.exception.ConversionException;
 /**
  * Implementation of {@link Converter} for {@code BigInteger} to {@code String}
  * conversion.
- *
+ * 
  * @author cyChop (http://keyboardplaying.org/)
  */
-public class BigIntegerConverter extends BaseConverter<BigInteger> {
+public class BigIntegerConverter implements Converter<BigInteger> {
 
     /*
      * (non-Javadoc)
-     *
-     * @see org.keyboardplaying.mapper.converter.Converter#convertFromString
-     * (java .lang.String, java.lang.Object)
+     * 
+     * @see
+     * org.keyboardplaying.mapper.converter.Converter#convertFromString(java
+     * .lang.String)
      */
-    public BigInteger convertFromString(String value, BigInteger def) throws ConversionException {
+    @Override
+    public BigInteger convertFromString(String value) throws ConversionException {
         try {
-            return value == null ? def : new BigInteger(value);
+            return new BigInteger(value);
         } catch (IllegalArgumentException e) {
             throw new ConversionException("Value <" + value + "> could not be parsed to BigInteger", e);
         }
@@ -44,11 +46,13 @@ public class BigIntegerConverter extends BaseConverter<BigInteger> {
 
     /*
      * (non-Javadoc)
-     *
-     * @see org.keyboardplaying.mapper.converter.Converter#convertToString(
-     * java.lang.Object, java.lang.Object)
+     * 
+     * @see
+     * org.keyboardplaying.mapper.converter.Converter#convertToString(java.lang
+     * .Object)
      */
-    public String convertToString(BigInteger value, BigInteger def) {
-        return value == null ? def == null ? null : def.toString() : value.toString();
+    @Override
+    public String convertToString(BigInteger value) {
+        return value.toString();
     }
 }

@@ -21,20 +21,22 @@ import org.keyboardplaying.mapper.exception.ConversionException;
 /**
  * Implementation of {@link Converter} for {@code Long} to {@code String}
  * conversion.
- *
+ * 
  * @author cyChop (http://keyboardplaying.org/)
  */
-public class LongConverter extends BaseConverter<Long> {
+public class LongConverter implements Converter<Long> {
 
     /*
      * (non-Javadoc)
-     *
-     * @see org.keyboardplaying.mapper.converter.Converter#convertFromString
-     * (java .lang.String, java.lang.Object)
+     * 
+     * @see
+     * org.keyboardplaying.mapper.converter.Converter#convertFromString(java
+     * .lang.String)
      */
-    public Long convertFromString(String value, Long def) throws ConversionException {
+    @Override
+    public Long convertFromString(String value) throws ConversionException {
         try {
-            return value == null ? def : Long.valueOf(value);
+            return Long.valueOf(value);
         } catch (IllegalArgumentException e) {
             throw new ConversionException("Value <" + value + "> could not be parsed to long", e);
         }
@@ -42,11 +44,13 @@ public class LongConverter extends BaseConverter<Long> {
 
     /*
      * (non-Javadoc)
-     *
-     * @see org.keyboardplaying.mapper.converter.Converter#convertToString(
-     * java.lang.Object, java.lang.Object)
+     * 
+     * @see
+     * org.keyboardplaying.mapper.converter.Converter#convertToString(java.lang
+     * .Object)
      */
-    public String convertToString(Long value, Long def) {
-        return value == null ? def == null ? null : def.toString() : value.toString();
+    @Override
+    public String convertToString(Long value) {
+        return value.toString();
     }
 }

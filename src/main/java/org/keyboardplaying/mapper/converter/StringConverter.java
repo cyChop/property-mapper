@@ -16,48 +16,39 @@
  */
 package org.keyboardplaying.mapper.converter;
 
+import org.keyboardplaying.mapper.exception.ConversionException;
+
 /**
  * Implementation of {@link Converter} for {@code String} to {@code String}
  * conversion.
  * <p/>
  * No change is made except in case of a default value.
- *
+ * 
  * @author cyChop (http://keyboardplaying.org/)
  */
-public class StringConverter extends BaseConverter<String> {
+public class StringConverter implements Converter<String> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * org.keyboardplaying.mapper.converter.Converter#convertFromString(java
-     * .lang.String, java.lang.Object)
+     * .lang.String)
      */
-    public String convertFromString(String value, String def) {
-        return valueOrDefault(value, def);
+    @Override
+    public String convertFromString(String value) throws ConversionException {
+        return value;
     }
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * org.keyboardplaying.mapper.converter.Converter#convertToString(java.lang
-     * .Object, java.lang.String)
+     * .Object)
      */
-    public String convertToString(String value, String def) {
-        return valueOrDefault(value, def);
-    }
-
-    /**
-     * Returns the value or a default value if the value is {@code null}.
-     *
-     * @param value
-     *            the value
-     * @param def
-     *            the default value
-     * @return the value or a default one if the first is {@code null}
-     */
-    private String valueOrDefault(String value, String def) {
-        return value == null ? def : value;
+    @Override
+    public String convertToString(String value) {
+        return value;
     }
 }

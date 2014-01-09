@@ -14,27 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.keyboardplaying.mapper.converter;
-
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-import org.keyboardplaying.mapper.exception.ConversionException;
-
 /**
- * @author cyChop (http://keyboardplaying.org/)
+ * The engine responsible for mapping the data.
  */
-public class StringConverterTest {
-
-    private StringConverter c = new StringConverter();
-
-    @Test
-    public void testConvertFromString() throws ConversionException {
-        assertEquals("value", c.convertFromString("value"));
-    }
-
-    @Test
-    public void testConvertToString() throws ConversionException {
-        assertEquals("value", c.convertToString("value"));
-    }
-}
+package org.keyboardplaying.mapper.engine;

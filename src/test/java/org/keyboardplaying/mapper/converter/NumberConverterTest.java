@@ -17,7 +17,6 @@
 package org.keyboardplaying.mapper.converter;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.math.BigInteger;
@@ -36,12 +35,9 @@ public class NumberConverterTest {
 
     @Test
     public void testConvertStringToInteger() throws ConversionException {
-        assertEquals(Integer.valueOf(1), ic.convertFromString("1", -1));
-        assertEquals(Integer.valueOf(1), ic.convertFromString("1", null));
-        assertEquals(Integer.valueOf(-1), ic.convertFromString(null, -1));
-        assertNull(ic.convertFromString(null, null));
+        assertEquals(Integer.valueOf(1), ic.convertFromString("1"));
         try {
-            ic.convertFromString("notANumber", -1);
+            ic.convertFromString("notANumber");
             fail();
         } catch (ConversionException e) {
             // do nothing, this is expected
@@ -51,21 +47,16 @@ public class NumberConverterTest {
     }
 
     @Test
-    public void testConvertIntegerToString() {
-        assertEquals("1", ic.convertToString(1, -1));
-        assertEquals("1", ic.convertToString(Integer.valueOf(1), null));
-        assertEquals("-1", ic.convertToString(null, -1));
-        assertNull(ic.convertToString(null, null));
+    public void testConvertIntegerToString() throws ConversionException {
+        assertEquals("1", ic.convertToString(1));
+        assertEquals("1", ic.convertToString(Integer.valueOf(1)));
     }
 
     @Test
     public void testConvertStringToLong() throws ConversionException {
-        assertEquals(Long.valueOf(1), lc.convertFromString("1", -1L));
-        assertEquals(Long.valueOf(1), lc.convertFromString("1", null));
-        assertEquals(Long.valueOf(-1), lc.convertFromString(null, -1L));
-        assertNull(lc.convertFromString(null, null));
+        assertEquals(Long.valueOf(1), lc.convertFromString("1"));
         try {
-            lc.convertFromString("notANumber", -1L);
+            lc.convertFromString("notANumber");
             fail();
         } catch (ConversionException e) {
             // do nothing, this is expected
@@ -75,21 +66,16 @@ public class NumberConverterTest {
     }
 
     @Test
-    public void testConvertLongToString() {
-        assertEquals("1", lc.convertToString(1L, -1L));
-        assertEquals("1", lc.convertToString(Long.valueOf(1), null));
-        assertEquals("-1", lc.convertToString(null, -1L));
-        assertNull(lc.convertToString(null, null));
+    public void testConvertLongToString() throws ConversionException {
+        assertEquals("1", lc.convertToString(1L));
+        assertEquals("1", lc.convertToString(Long.valueOf(1)));
     }
 
     @Test
     public void testConvertStringToBigInteger() throws ConversionException {
-        assertEquals(BigInteger.valueOf(1), bic.convertFromString("1", BigInteger.valueOf(-1)));
-        assertEquals(BigInteger.valueOf(1), bic.convertFromString("1", null));
-        assertEquals(BigInteger.valueOf(-1), bic.convertFromString(null, BigInteger.valueOf(-1)));
-        assertNull(bic.convertFromString(null, null));
+        assertEquals(BigInteger.valueOf(1), bic.convertFromString("1"));
         try {
-            bic.convertFromString("notANumber", BigInteger.valueOf(-1));
+            bic.convertFromString("notANumber");
             fail();
         } catch (ConversionException e) {
             // do nothing, this is expected
@@ -99,10 +85,7 @@ public class NumberConverterTest {
     }
 
     @Test
-    public void testConvertBigIntegerToString() {
-        assertEquals("1", bic.convertToString(BigInteger.valueOf(1), BigInteger.valueOf(-1)));
-        assertEquals("1", bic.convertToString(BigInteger.valueOf(1), null));
-        assertEquals("-1", bic.convertToString(null, BigInteger.valueOf(-1)));
-        assertNull(bic.convertToString(null, null));
+    public void testConvertBigIntegerToString() throws ConversionException {
+        assertEquals("1", bic.convertToString(BigInteger.valueOf(1)));
     }
 }

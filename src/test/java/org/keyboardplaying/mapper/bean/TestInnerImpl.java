@@ -14,27 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.keyboardplaying.mapper.converter;
+package org.keyboardplaying.mapper.bean;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-import org.keyboardplaying.mapper.exception.ConversionException;
+import org.keyboardplaying.mapper.annotation.Metadata;
 
 /**
  * @author cyChop (http://keyboardplaying.org/)
  */
-public class StringConverterTest {
+public class TestInnerImpl implements TestInnerBean {
 
-    private StringConverter c = new StringConverter();
+    @Metadata(value = "hello_world_inner", mandatory = true)
+    private String hello;
 
-    @Test
-    public void testConvertFromString() throws ConversionException {
-        assertEquals("value", c.convertFromString("value"));
+    @Override
+    public String getHello() {
+        return hello;
     }
 
-    @Test
-    public void testConvertToString() throws ConversionException {
-        assertEquals("value", c.convertToString("value"));
+    public void setHello(String hello) {
+        this.hello = hello;
     }
 }

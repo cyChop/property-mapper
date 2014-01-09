@@ -65,4 +65,17 @@ public class ClassUtilsTest {
             log.debug(e.getMessage(), e);
         }
     }
+
+    @Test
+    public void testDefaultValue() {
+        assertEquals((byte) 0, ClassUtils.getDefaultValue(byte.class));
+        assertEquals((short) 0, ClassUtils.getDefaultValue(short.class));
+        assertEquals(0, ClassUtils.getDefaultValue(int.class));
+        assertEquals(0L, ClassUtils.getDefaultValue(long.class));
+        assertEquals(0F, ClassUtils.getDefaultValue(float.class));
+        assertEquals(0D, ClassUtils.getDefaultValue(double.class));
+        assertEquals('\0', ClassUtils.getDefaultValue(char.class));
+        assertEquals(false, ClassUtils.getDefaultValue(boolean.class));
+        assertEquals(null, ClassUtils.getDefaultValue(String.class));
+    }
 }

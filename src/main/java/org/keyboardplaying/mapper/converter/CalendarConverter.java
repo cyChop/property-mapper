@@ -23,20 +23,10 @@ import org.keyboardplaying.mapper.exception.ConversionException;
 /**
  * Implementation of {@link Converter} for {@code Calendar} to {@code String}
  * conversion.
- *
+ * 
  * @author cyChop (http://keyboardplaying.org/)
  */
 public class CalendarConverter extends BaseTemporalConverter<Calendar> {
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.keyboardplaying.mapper.converter.Converter#convertFromString
-     * (java.lang.String, java.lang.Object)
-     */
-    public Calendar convertFromString(String value, Calendar def) throws ConversionException {
-        return value == null ? def : convertStringToCalendar(value);
-    }
 
     /**
      * Converts a {@link String} representation of a date to a {@link Calendar}
@@ -44,7 +34,7 @@ public class CalendarConverter extends BaseTemporalConverter<Calendar> {
      * <p/>
      * The {@link String} is expected to conform to the format specified for
      * this {@link BaseTemporalConverter}.
-     *
+     * 
      * @param value
      *            the {@link String} representation of a date
      * @return a {@link Calendar} instance
@@ -52,25 +42,28 @@ public class CalendarConverter extends BaseTemporalConverter<Calendar> {
      *             when the supplied {@link String} could not be parsed
      * @see {@link BaseTemporalConverter#convertStringToDate(String)}
      */
-    private Calendar convertStringToCalendar(String value) throws ConversionException {
+    @Override
+    public Calendar convertFromString(String value) throws ConversionException {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(convertStringToDate(value));
         return calendar;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.keyboardplaying.mapper.converter.Converter#convertToString(
-     * java.lang.Object, java.lang.String)
+    /**
+     * Converts a {@link Calendar} instance to a {@link String} representation.
+     * <p/>
+     * The {@link String} will conform to the format specified for this
+     * {@link BaseTemporalConverter}.
+     * 
+     * @param value
+     *            the {@link Calendar}
+     * @return a {@link String} representation of the supplied date
+     * @throws ConversionException
+     *             when the supplied {@link String} could not be parsed
+     * @see {@link BaseTemporalConverter#convertDateToString(String)}
      */
-    public String convertToString(Calendar value, Calendar def) {
-        String result = null;
-        if (value != null) {
-            result = convertDateToString(value.getTime());
-        } else if (def != null) {
-            result = convertDateToString(def.getTime());
-        }
-        return result;
+    @Override
+    public String convertToString(Calendar value) {
+        return convertDateToString(value.getTime());
     }
 }

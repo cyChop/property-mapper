@@ -21,20 +21,22 @@ import org.keyboardplaying.mapper.exception.ConversionException;
 /**
  * Implementation of {@link Converter} for {@code Integer} to {@code String}
  * conversion.
- *
+ * 
  * @author cyChop (http://keyboardplaying.org/)
  */
-public class IntegerConverter extends BaseConverter<Integer> {
+public class IntegerConverter implements Converter<Integer> {
 
     /*
      * (non-Javadoc)
-     *
-     * @see org.keyboardplaying.mapper.converter.Converter#convertFromString
-     * (java .lang.String, java.lang.Object)
+     * 
+     * @see
+     * org.keyboardplaying.mapper.converter.Converter#convertFromString(java
+     * .lang.String)
      */
-    public Integer convertFromString(String value, Integer def) throws ConversionException {
+    @Override
+    public Integer convertFromString(String value) throws ConversionException {
         try {
-            return value == null ? def : Integer.valueOf(value);
+            return Integer.valueOf(value);
         } catch (IllegalArgumentException e) {
             throw new ConversionException("Value <" + value + "> could not be parsed to integer", e);
         }
@@ -42,11 +44,13 @@ public class IntegerConverter extends BaseConverter<Integer> {
 
     /*
      * (non-Javadoc)
-     *
-     * @see org.keyboardplaying.mapper.converter.Converter#convertToString(
-     * java.lang.Object, java.lang.Object)
+     * 
+     * @see
+     * org.keyboardplaying.mapper.converter.Converter#convertToString(java.lang
+     * .Object)
      */
-    public String convertToString(Integer value, Integer def) {
-        return value == null ? def == null ? null : def.toString() : value.toString();
+    @Override
+    public String convertToString(Integer value) {
+        return value.toString();
     }
 }

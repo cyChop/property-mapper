@@ -23,19 +23,31 @@ import java.util.Date;
 
 import org.keyboardplaying.mapper.exception.ConversionException;
 
-// XXX JAVADOC
 /**
+ * This implementation of {@link Converter} provides some utility methods when
+ * parsing time representations.
+ * <p/>
+ * Using this implies to use {@link Date} objects at least as intermediary
+ * steps. You might wish to use more direct ways if it is possible.
+ * 
  * @author cyChop (http://keyboardplaying.org/)
  * @param <T>
+ *            the type of time objects this {@link Converter} converts from and
+ *            to
  */
-public abstract class BaseTemporalConverter<T> implements Converter<T> {
+public abstract class BaseTemporalConverter<T> implements TemporalConverter<T> {
 
+    /** The format to use for the string representation of timestamps. */
     private DateFormat format;
 
-    public boolean isFormatRequired() {
-        return true;
-    }
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.keyboardplaying.mapper.converter.TemporalConverter#setFormat(java
+     * .lang.String)
+     */
+    @Override
     public void setFormat(String format) {
         this.format = new SimpleDateFormat(format);
     }
@@ -46,23 +58,34 @@ public abstract class BaseTemporalConverter<T> implements Converter<T> {
      * <p/>
      * The {@link String} is expected to conform to the format specified for
      * this {@link BaseTemporalConverter}.
-     *
+     * 
      * @param value
      *            the {@link String} representation of a date
      * @return a {@link Date} instance
      * @throws ConversionException
      *             when the supplied {@link String} could not be parsed
-     * @see {@link BaseTemporalConverter#convertStringToDate(String)}
      */
     protected Date convertStringToDate(String value) throws ConversionException {
         try {
             return format.parse(value);
         } catch (ParseException e) {
-            throw new ConversionException("Value <" + value + "> could not be parsed to date using format <"
-                    + format + ">.");
+            throw new ConversionException("Value <" + value + "> could not be parsed to date using format <" + format
+                    + ">.");
         }
     }
 
+    /**
+     * Converts a {@link Date} instance to a {@link String} representation.
+     * <p/>
+     * The {@link String} will conform to the format specified for this
+     * {@link BaseTemporalConverter}.
+     * 
+     * @param value
+     *            the {@link Date}
+     * @return a {@link String} representation of the supplied date
+     * @throws ConversionException
+     *             when the supplied {@link String} could not be parsed
+     */
     protected String convertDateToString(Date value) {
         return format.format(value);
     }

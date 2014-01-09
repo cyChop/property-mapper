@@ -14,27 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.keyboardplaying.mapper.converter;
+package org.keyboardplaying.mapper.annotation;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-import org.keyboardplaying.mapper.exception.ConversionException;
-
+// XXX JAVADOC
 /**
  * @author cyChop (http://keyboardplaying.org/)
  */
-public class StringConverterTest {
+public enum TemporalType {
+    DATE("yyyy/MM/dd"), DATETIME("yyyy/MM/dd-HH:mm:ss");
 
-    private StringConverter c = new StringConverter();
+    private String format;
 
-    @Test
-    public void testConvertFromString() throws ConversionException {
-        assertEquals("value", c.convertFromString("value"));
+    private TemporalType(String format) {
+        this.format = format;
     }
 
-    @Test
-    public void testConvertToString() throws ConversionException {
-        assertEquals("value", c.convertToString("value"));
+    public String getFormat() {
+        return format;
     }
 }

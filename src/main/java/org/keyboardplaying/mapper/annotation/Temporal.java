@@ -16,25 +16,20 @@
  */
 package org.keyboardplaying.mapper.annotation;
 
-// XXX JAVADOC
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+// TODO JAVADOC
 /**
  * @author cyChop (http://keyboardplaying.org/)
  */
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
 public @interface Temporal {
 
-    enum Type {
-        DATE("yyyy/MM/dd"), DATETIME("yyyy/MM/dd-HH:mm:ss");
-
-        private String format;
-
-        private Type(String format) {
-            this.format = format;
-        }
-
-        public String getFormat() {
-            return format;
-        }
-    }
-
-    Type value();
+    TemporalType value();
 }

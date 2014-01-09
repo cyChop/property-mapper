@@ -28,7 +28,7 @@ import org.keyboardplaying.mapper.exception.ConversionException;
  * <strong>Notice:</strong> Please note that all implementations of this
  * interface should provide a {@code public} no-arg constructor, so that the
  * {@link ConverterProvider} is able to instantiate any {@link Converter}.
- *
+ * 
  * @author cyChop (http://keyboardplaying.org/)
  * @param <T>
  *            the type of object being parsed from and to {@code String}
@@ -36,45 +36,28 @@ import org.keyboardplaying.mapper.exception.ConversionException;
 public interface Converter<T> {
 
     /**
-     * Determines whether a format is mandatory for this converter.
-     *
-     * @return {@code true} if the format is a required for this converter
-     */
-    boolean isFormatRequired();
-
-    /**
-     * Sets the format this converter should use.
-     *
-     * @param format
-     *            the format this converter should use
-     */
-    void setFormat(String format);
-
-    /**
      * Parses a {@code String} to an object.
-     *
+     * <p/>
+     * Implementations do not need to be null-safe.
+     * 
      * @param value
-     *            the {@code String} value
-     * @param def
-     *            the default value if {@code value} is null; {@code null} is
-     *            accepted
+     *            the {@code String} value accepted
      * @return the object
      * @throws ConversionException
      *             if the conversion cannot be performed
      */
-    T convertFromString(String value, T def) throws ConversionException;
+    T convertFromString(String value) throws ConversionException;
 
     /**
      * Parses an object to its {@code String} representation.
-     *
+     * <p/>
+     * Implementations do not need to be null-safe.
+     * 
      * @param value
      *            the object to parse
-     * @param def
-     *            the default value if {@code value} is null; {@code null} is
-     *            accepted
      * @return the {@code String} representation
      * @throws ConversionException
      *             if the conversion cannot be performed
      */
-    String convertToString(T value, T def) throws ConversionException;
+    String convertToString(T value) throws ConversionException;
 }

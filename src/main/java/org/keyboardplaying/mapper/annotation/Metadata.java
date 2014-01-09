@@ -16,13 +16,21 @@
  */
 package org.keyboardplaying.mapper.annotation;
 
-// XXX JAVADOC
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+// TODO JAVADOC
 /**
  * @author cyChop (http://keyboardplaying.org/)
  */
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
 public @interface Metadata {
     String value();
 
     boolean mandatory() default false;
-
 }

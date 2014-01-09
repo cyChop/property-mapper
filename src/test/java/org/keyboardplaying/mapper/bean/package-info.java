@@ -14,37 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.keyboardplaying.mapper.converter;
-
-// XXX JAVADOC
 /**
- * @author cyChop (http://keyboardplaying.org/)
+ * Beans for testing.
  */
-public abstract class BaseConverter<T> implements Converter<T> {
-
-    private String format;
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.keyboardplaying.mapper.converter.Converter#isFormatRequired()
-     */
-    public boolean isFormatRequired() {
-        return false;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.keyboardplaying.mapper.converter.Converter#setFormat(java.lang.String
-     * )
-     */
-    public void setFormat(String format) {
-        this.format = format;
-    }
-
-    protected String getFormat() {
-        return this.format;
-    }
-}
+package org.keyboardplaying.mapper.bean;

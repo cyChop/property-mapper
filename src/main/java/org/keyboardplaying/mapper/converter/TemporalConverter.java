@@ -16,25 +16,21 @@
  */
 package org.keyboardplaying.mapper.converter;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-import org.keyboardplaying.mapper.exception.ConversionException;
-
 /**
+ * Specific version of {@link Converter} for temporal objects.
+ * <p/>
+ * Fields converted using an implementation of this interface should declare the
+ * {@link org.keyboardplaying.mapper.annotation.Temporal} annotation.
+ * 
  * @author cyChop (http://keyboardplaying.org/)
  */
-public class StringConverterTest {
+public interface TemporalConverter<T> extends Converter<T> {
 
-    private StringConverter c = new StringConverter();
-
-    @Test
-    public void testConvertFromString() throws ConversionException {
-        assertEquals("value", c.convertFromString("value"));
-    }
-
-    @Test
-    public void testConvertToString() throws ConversionException {
-        assertEquals("value", c.convertToString("value"));
-    }
+    /**
+     * Sets the format this converter should use.
+     * 
+     * @param format
+     *            the format this converter should use
+     */
+    void setFormat(String format);
 }
