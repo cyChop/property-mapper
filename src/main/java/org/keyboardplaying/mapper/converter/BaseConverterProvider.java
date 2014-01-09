@@ -38,19 +38,19 @@ import org.keyboardplaying.mapper.utils.ClassUtils;
  * is
  * {@code META-INF/services/org.keyboardplaying.mapper.converter.Converter/java.lang.String}
  * , and its content is:
- *
+ * 
  * <pre>
  * org.keyboardplaying.mapper.converter.StringConverter
  * </pre>
  * <p/>
  * This class implements the singleton design pattern.
- *
+ * 
  * @author cyChop (http://keyboardplaying.org/)
  */
 public class BaseConverterProvider implements ConverterProvider {
 
     private static BaseConverterProvider instance = new BaseConverterProvider();
-    
+
     /**
      * A list of all converter implementations, with the converted class name as
      * a key.
@@ -60,7 +60,7 @@ public class BaseConverterProvider implements ConverterProvider {
 
     /**
      * Returns the single instance of this class.
-     *
+     * 
      * @return the single instance of this class
      */
     public static BaseConverterProvider getInstance() {
@@ -88,10 +88,11 @@ public class BaseConverterProvider implements ConverterProvider {
 
     /**
      * Fetches the appropriate {@link Converter} for the supplied class.
-     *
-     * @param klass the class to convert from or to
+     * 
+     * @param klass
+     *            the class to convert from or to
      * @return the {@link Converter} to use for conversion
-     *
+     * 
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
@@ -100,7 +101,8 @@ public class BaseConverterProvider implements ConverterProvider {
     public <T> Converter<T> getConverter(Class<?> klass) {
 
         Class<T> destination = (Class<T>) (klass.isPrimitive() ? ClassUtils.wrap(klass) : klass);
-        Class<? extends Converter<T>> converterClass = (Class<? extends Converter<T>>) implementations.get(destination.getName());
+        Class<? extends Converter<T>> converterClass = (Class<? extends Converter<T>>) implementations.get(destination
+                .getName());
 
         try {
             return converterClass == null ? null : converterClass.newInstance();

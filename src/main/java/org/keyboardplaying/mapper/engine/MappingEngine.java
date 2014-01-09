@@ -20,7 +20,11 @@ import java.lang.reflect.Field;
 
 import org.keyboardplaying.mapper.annotation.BooleanValues;
 import org.keyboardplaying.mapper.annotation.Temporal;
-import org.keyboardplaying.mapper.converter.*;
+import org.keyboardplaying.mapper.converter.BaseConverterProvider;
+import org.keyboardplaying.mapper.converter.BooleanConverter;
+import org.keyboardplaying.mapper.converter.Converter;
+import org.keyboardplaying.mapper.converter.ConverterProvider;
+import org.keyboardplaying.mapper.converter.TemporalConverter;
 import org.keyboardplaying.mapper.exception.MappingException;
 
 // XXX JAVADOC
@@ -34,8 +38,9 @@ public abstract class MappingEngine {
 
     /**
      * Sets the provider for fetching converters.
-     *
-     * @param converterProvider the converter provider
+     * 
+     * @param converterProvider
+     *            the converter provider
      */
     public void setConverterProvider(ConverterProvider converterProvider) {
         this.converterProvider = converterProvider;
@@ -44,12 +49,13 @@ public abstract class MappingEngine {
     /**
      * Returns the appropriate {@link Converter} based on the supplied field's
      * type.
-     *
-     * @param field the field to convert a value from or to
+     * 
+     * @param field
+     *            the field to convert a value from or to
      * @return the {@link Converter} to use
-     * @throws MappingException when no {@link Converter} can be found or
-     * annotation settings are missing (e.g. {@link Temporal} on temporal
-     * fields)
+     * @throws MappingException
+     *             when no {@link Converter} can be found or annotation settings
+     *             are missing (e.g. {@link Temporal} on temporal fields)
      */
     protected <T> Converter<T> getConverter(Field field) throws MappingException {
         if (converterProvider == null) {

@@ -19,22 +19,21 @@ package org.keyboardplaying.mapper.converter;
 /**
  * Provides the correct implementation of {@link Converter} to use based on the
  * type of the field to convert.
- *
+ * 
  * @author cyChop (http://keyboardplaying.org/)
  */
 public interface ConverterProvider {
 
     /**
      * Fetches the appropriate {@link Converter} for the supplied class.
-     *
+     * 
      * @param klass
-     * the class to convert from or to
+     *            the class to convert from or to
      * @return the {@link Converter} to use for conversion
-     *
+     * 
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    @SuppressWarnings(value = "unchecked")
     <T> Converter<T> getConverter(Class<?> klass);
 
     /**

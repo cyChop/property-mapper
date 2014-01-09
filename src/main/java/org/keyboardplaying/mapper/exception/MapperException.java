@@ -18,7 +18,7 @@ package org.keyboardplaying.mapper.exception;
 
 /**
  * A parent type to all exceptions this project may throw.
- *
+ * 
  * @author cyChop (http://keyboardplaying.org/)
  */
 public abstract class MapperException extends Exception {

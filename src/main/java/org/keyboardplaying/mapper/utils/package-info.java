@@ -18,3 +18,4 @@
  * Utility classes.
  */
 package org.keyboardplaying.mapper.utils;
+
