@@ -16,20 +16,28 @@
  */
 package org.keyboardplaying.mapper.utils;
 
-// XXX JAVADOC
 /**
+ * Some default values.
+ *
  * @author cyChop (http://keyboardplaying.org/)
  */
 public final class Defaults {
 
+    /** The default date format. */
     public static final String FORMAT_DATE = "yyyy/MM/dd";
+    /** The default timestamp format. */
     public static final String FORMAT_DATETIME = "yyyy/MM/dd-HH:mm:ss";
 
+    /** The {@link String} representation for {@code true}. */
     public static final String BOOLEAN_TRUE = "YES";
+    /** The {@link String} representation for {@code false}. */
     public static final String BOOLEAN_FALSE = "NO";
+    /** An alternate {@link String} representation for {@code true}. */
     public static final String BOOLEAN_TRUE_FR = "OUI";
+    /** An alternate {@link String} representation for {@code false}. */
     public static final String BOOLEAN_FALSE_FR = "NON";
 
+    /** Private constructor to avoid instantiation. */
     private Defaults() {
     }
 }

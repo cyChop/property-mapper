@@ -34,6 +34,7 @@ import org.keyboardplaying.mapper.bean.TestInnerImpl;
 import org.keyboardplaying.mapper.exception.ConversionException;
 import org.keyboardplaying.mapper.exception.MappingException;
 
+// TODO test custom getter
 /**
  * @author cyChop (http://keyboardplaying.org/)
  */

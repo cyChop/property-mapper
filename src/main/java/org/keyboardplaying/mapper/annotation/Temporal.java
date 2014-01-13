@@ -22,8 +22,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-// TODO JAVADOC
 /**
+ * This annotation is used to mark fields representing a time.
+ * <p/>
+ * More specifically, it defines which {@link TemporalType} should be used when
+ * mapping from and to the metadata map.
+ *
  * @author cyChop (http://keyboardplaying.org/)
  */
 @Documented
@@ -31,5 +35,12 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface Temporal {
 
+    /**
+     * Returns the {@link TemporalType} to use when mapping from and to the
+     * metadata map.
+     *
+     * @return the {@link TemporalType} to use when mapping from and to the
+     *         metadata map
+     */
     TemporalType value();
 }

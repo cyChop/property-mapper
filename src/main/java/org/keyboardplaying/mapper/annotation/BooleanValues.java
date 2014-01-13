@@ -22,8 +22,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-// TODO JAVADOC
+import org.keyboardplaying.mapper.utils.Defaults;
+
 /**
+ * Defines the {@link String} representations for {@code true} and {@code false}
+ * when dealing with boolean metadata.
+ *
  * @author cyChop (http://keyboardplaying.org/)
  */
 @Documented
@@ -31,7 +35,17 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface BooleanValues {
 
-    String whenTrue();
+    /**
+     * The {@link String} representation of a {@code true} boolean.
+     *
+     * @return the {@link String} representation of a {@code true} boolean.
+     */
+    String whenTrue() default Defaults.BOOLEAN_TRUE;
 
-    String whenFalse();
+    /**
+     * The {@link String} representation of a {@code false} boolean.
+     *
+     * @return the {@link String} representation of a {@code false} boolean.
+     */
+    String whenFalse() default Defaults.BOOLEAN_FALSE;
 }

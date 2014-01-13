@@ -27,18 +27,21 @@ import org.keyboardplaying.mapper.converter.ConverterProvider;
 import org.keyboardplaying.mapper.converter.TemporalConverter;
 import org.keyboardplaying.mapper.exception.MappingException;
 
-// XXX JAVADOC
 // XXX Study the opportunity of creating a MappingExceptionFactory
 /**
+ * An abstract base for engine. This class includes methods for fetching
+ * {@link Converter} instances when mapping or unmapping.
+ *
  * @author cyChop (http://keyboardplaying.org/)
  */
 public abstract class AbstractEngine {
 
+    /** The {@link ConverterProvider}. */
     private ConverterProvider converterProvider;
 
     /**
      * Sets the provider for fetching converters.
-     * 
+     *
      * @param converterProvider
      *            the converter provider
      */
@@ -47,9 +50,23 @@ public abstract class AbstractEngine {
     }
 
     /**
+     * Returns the provider for fetching converters.
+     * <p/>
+     * If no provider was set, the {@link BaseConverterProvider} will be used.
+     *
+     * @return the converter provider
+     */
+    private ConverterProvider getConverterProvider() {
+        if (converterProvider == null) {
+            converterProvider = BaseConverterProvider.getInstance();
+        }
+        return converterProvider;
+    }
+
+    /**
      * Returns the appropriate {@link Converter} based on the supplied field's
      * type.
-     * 
+     *
      * @param field
      *            the field to convert a value from or to
      * @return the {@link Converter} to use
@@ -58,11 +75,7 @@ public abstract class AbstractEngine {
      *             are missing (e.g. {@link Temporal} on temporal fields)
      */
     protected <T> Converter<T> getConverter(Field field) throws MappingException {
-        if (converterProvider == null) {
-            converterProvider = BaseConverterProvider.getInstance();
-        }
-
-        Converter<T> converter = converterProvider.getConverter(field.getType());
+        Converter<T> converter = getConverterProvider().getConverter(field.getType());
 
         if (converter == null) {
 

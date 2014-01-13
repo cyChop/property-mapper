@@ -30,14 +30,25 @@ import org.keyboardplaying.mapper.exception.ConversionException;
 import org.keyboardplaying.mapper.exception.MappingException;
 import org.keyboardplaying.mapper.utils.ClassUtils;
 
-// XXX JAVADOC
 /**
  * The mapping engine for mapping a flat map to a POJO (unmapping).
- * 
+ *
  * @author cyChop (http://keyboardplaying.org/)
  */
 public class UnmappingEngine extends AbstractEngine {
 
+    /**
+     * Instantiates a new bean of specified type and unmaps metadata to it,
+     * based on the annotations in the bean.
+     *
+     * @param metadata
+     *            the flat metadata
+     * @param beanType
+     *            the destination bean's type
+     * @return the destination bean
+     * @throws MappingException
+     *             when the mapping fails
+     */
     public <T> T unmap(Map<String, String> metadata, Class<T> beanType) throws MappingException {
         try {
             return unmap(metadata, beanType.newInstance());
@@ -48,6 +59,20 @@ public class UnmappingEngine extends AbstractEngine {
         }
     }
 
+    /**
+     * Unmaps metadata to a destination bean, based on the annotations in the
+     * bean.
+     * <p/>
+     * Non-annotated fields are not overwritten.
+     *
+     * @param metadata
+     *            the flat metadata
+     * @param bean
+     *            the destination bean
+     * @return the destination bean
+     * @throws MappingException
+     *             when the mapping fails
+     */
     public <T> T unmap(Map<String, String> metadata, T bean) throws MappingException {
         /* Control the validity of arguments. */
         if (bean == null) {
@@ -70,6 +95,19 @@ public class UnmappingEngine extends AbstractEngine {
         return bean;
     }
 
+    /**
+     * Performs the unmapping to a field which is an inner bean (marked with the
+     * {@link Nested} annotation).
+     *
+     * @param metadata
+     *            the flat metadata
+     * @param bean
+     *            the destination bean
+     * @param field
+     *            the field to set
+     * @throws MappingException
+     *             when the mapping fails
+     */
     private <T> void performInnerUnmapping(Map<String, String> metadata, T bean, Field field) throws MappingException {
         try {
 
@@ -101,6 +139,18 @@ public class UnmappingEngine extends AbstractEngine {
         }
     }
 
+    /**
+     * Performs the unmapping for a convertible-typed field.
+     *
+     * @param metadata
+     *            the flat metadata
+     * @param bean
+     *            the destination bean
+     * @param field
+     *            the field to set
+     * @throws MappingException
+     *             when the mapping fails
+     */
     private <T> void performFieldUnmapping(Map<String, String> metadata, T bean, Field field) throws MappingException {
         Metadata settings = field.getAnnotation(Metadata.class);
         String metadataName = settings.value();
@@ -127,7 +177,7 @@ public class UnmappingEngine extends AbstractEngine {
     /**
      * Sets the value of the supplied field in the supplied bean to the supplied
      * value, in accordance with the settings provided via annotations.
-     * 
+     *
      * @param metadata
      *            the flat metadata
      * @param bean
@@ -139,7 +189,7 @@ public class UnmappingEngine extends AbstractEngine {
      * @param value
      *            the value which should be set
      * @throws MappingException
-     *             when the mapping is impossible
+     *             when the mapping fails
      */
     private <T> void setField(Map<String, String> metadata, T bean, Field field, Metadata settings, String value)
             throws MappingException {
@@ -157,7 +207,7 @@ public class UnmappingEngine extends AbstractEngine {
      * the field's setter.
      * <p/>
      * This requires the bean to respect the bean notation.
-     * 
+     *
      * @param bean
      *            the destination bean
      * @param field
@@ -165,7 +215,7 @@ public class UnmappingEngine extends AbstractEngine {
      * @param value
      *            the non-converted value for the field
      * @throws MappingException
-     *             when the mapping is impossible
+     *             when the mapping fails
      */
     private <T> void setField(T bean, Field field, String value) throws MappingException {
         try {
@@ -194,7 +244,7 @@ public class UnmappingEngine extends AbstractEngine {
      * {@code setSomething(java.lang.String, java.util.Map<String, String>)}. It
      * will receive the value for the required metadata as the first argument,
      * and the whole flat metadata as the second.
-     * 
+     *
      * @param bean
      *            the destination bean
      * @param customSetter
@@ -203,9 +253,9 @@ public class UnmappingEngine extends AbstractEngine {
      *            the non-converted value for the field
      * @param metadata
      *            the flat metadata
-     * 
+     *
      * @throws MappingException
-     *             when the mapping is impossible
+     *             when the mapping fails
      */
     private <T> void setFieldUsingCustomSetter(T bean, String customSetter, String value, Map<String, String> metadata)
             throws MappingException {
