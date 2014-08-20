@@ -1,5 +1,5 @@
-# Labs (Java) [![Build Status][1]][2]
-## Property mapper
+# PoC: Property mapper [![Build Status][1]][2]
+## Goal
 
 This was designed both as a learning project and a proof-of-concept.
 
