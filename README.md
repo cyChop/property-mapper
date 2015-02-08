@@ -1,8 +1,9 @@
 # Proof-of-concept: Property mapper
-## Goal
 
 [![Build Status][1]][2]
 [![Coverage Status][3]][4]
+
+## Goal
 
 This was designed both as a learning project and a proof-of-concept.
 
