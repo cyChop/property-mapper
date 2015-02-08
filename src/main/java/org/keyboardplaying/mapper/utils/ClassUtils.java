@@ -24,7 +24,7 @@ import java.util.Map.Entry;
 /**
  * Provides utilities for class manipulation.
  * 
- * @author cyChop (http://keyboardplaying.org/)
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public final class ClassUtils {
 

@@ -14,7 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * Beans for testing.
- */
+/** Beans for testing. */
 package org.keyboardplaying.mapper.bean;

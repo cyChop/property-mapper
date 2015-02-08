@@ -34,8 +34,9 @@ import org.keyboardplaying.mapper.converter.DateConverter;
 import org.keyboardplaying.mapper.exception.ConversionException;
 import org.keyboardplaying.mapper.exception.MappingException;
 
+// XXX Javadoc
 /**
- * @author cyChop (http://keyboardplaying.org/)
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public class UnmappingEngineTest {
 
@@ -92,7 +93,8 @@ public class UnmappingEngineTest {
         // date comparison
         DateConverter dateConv = new DateConverter();
         dateConv.setFormat(TemporalType.DATE.getFormat());
-        assertEquals(dateConv.convertFromString(metadata.get("some_even_more_important_date")), bean.getDate());
+        assertEquals(dateConv.convertFromString(metadata.get("some_even_more_important_date")),
+                bean.getDate());
         // boolean testing
         metadata.put("some_bool", "YES");
         try {

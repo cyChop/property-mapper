@@ -19,7 +19,7 @@ package org.keyboardplaying.mapper.utils;
 /**
  * Some default values.
  *
- * @author cyChop (http://keyboardplaying.org/)
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public final class Defaults {
 

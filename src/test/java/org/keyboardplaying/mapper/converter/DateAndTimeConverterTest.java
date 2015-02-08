@@ -27,8 +27,9 @@ import org.junit.Test;
 import org.keyboardplaying.mapper.annotation.TemporalType;
 import org.keyboardplaying.mapper.exception.ConversionException;
 
+// XXX Javadoc
 /**
- * @author cyChop (http://keyboardplaying.org/)
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public class DateAndTimeConverterTest {
 

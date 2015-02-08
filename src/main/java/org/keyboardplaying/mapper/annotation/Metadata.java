@@ -23,11 +23,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This annotation marks a field that should be mapped between map and bean. It
- * should be used to map the bean's field with the name of its counterpart in
- * the map as a value.
+ * This annotation marks a field that should be mapped between map and bean. It should be used to
+ * map the bean's field with the name of its counterpart in the map as a value.
  *
- * @author cyChop (http://keyboardplaying.org/)
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -35,8 +34,7 @@ import java.lang.annotation.Target;
 public @interface Metadata {
 
     /**
-     * Returns the key for the value in the map which should be used when
-     * setting this field.
+     * Returns the key for the value in the map which should be used when setting this field.
      *
      * @return the key for this field's value in the metadata map
      */
@@ -45,8 +43,8 @@ public @interface Metadata {
     /**
      * Defines whether a field is mandatory.
      * <p/>
-     * If the field is mandatory but missing when mapping (or missing in the map
-     * when unmapping), an exception will be thrown.
+     * If the field is mandatory but missing when mapping (or missing in the map when unmapping), an
+     * exception will be thrown.
      *
      * @return {@code true} if this field is mandatory, {@code false} otherwise
      */
@@ -56,9 +54,9 @@ public @interface Metadata {
      * The name of a custom setter to use when unmapping this field.
      * <p/>
      * The signature of the setter should be
-     * {@code setSomething(java.lang.String, java.util.Map<String, String>)}. It
-     * will receive the value for the required metadata as the first argument,
-     * and the whole metadata map as the second.
+     * {@code setSomething(java.lang.String, java.util.Map<String, String>)}. It will receive the
+     * value for the required metadata as the first argument, and the whole metadata map as the
+     * second.
      *
      * @return the name of the custom setter to use when unmapping
      */

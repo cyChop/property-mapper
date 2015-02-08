@@ -25,8 +25,9 @@ import org.junit.Test;
 import org.keyboardplaying.mapper.exception.ConversionException;
 import org.keyboardplaying.mapper.utils.Defaults;
 
+// XXX Javadoc
 /**
- * @author cyChop (http://keyboardplaying.org/)
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public class BooleanConverterTest {
 

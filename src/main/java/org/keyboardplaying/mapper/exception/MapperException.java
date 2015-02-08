@@ -16,10 +16,11 @@
  */
 package org.keyboardplaying.mapper.exception;
 
+//TODO Javadoc
 /**
  * A parent type to all exceptions this project may throw.
- * 
- * @author cyChop (http://keyboardplaying.org/)
+ *
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public abstract class MapperException extends Exception {
 

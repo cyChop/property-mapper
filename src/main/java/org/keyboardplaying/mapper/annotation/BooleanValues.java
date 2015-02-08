@@ -25,10 +25,10 @@ import java.lang.annotation.Target;
 import org.keyboardplaying.mapper.utils.Defaults;
 
 /**
- * Defines the {@link String} representations for {@code true} and {@code false}
- * when dealing with boolean metadata.
+ * Defines the {@link String} representations for {@code true} and {@code false} when dealing with
+ * boolean metadata.
  *
- * @author cyChop (http://keyboardplaying.org/)
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

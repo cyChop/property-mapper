@@ -28,8 +28,9 @@ import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.annotation.Temporal;
 import org.keyboardplaying.mapper.annotation.TemporalType;
 
+// XXX Javadoc
 /**
- * @author cyChop (http://keyboardplaying.org/)
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public class TestBean {
 

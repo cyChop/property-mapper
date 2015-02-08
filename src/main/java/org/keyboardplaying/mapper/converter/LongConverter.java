@@ -19,19 +19,16 @@ package org.keyboardplaying.mapper.converter;
 import org.keyboardplaying.mapper.exception.ConversionException;
 
 /**
- * Implementation of {@link Converter} for {@code Long} to {@code String}
- * conversion.
- * 
- * @author cyChop (http://keyboardplaying.org/)
+ * Implementation of {@link Converter} for {@code Long} to {@code String} conversion.
+ *
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public class LongConverter implements Converter<Long> {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see
-     * org.keyboardplaying.mapper.converter.Converter#convertFromString(java
-     * .lang.String)
+     *
+     * @see org.keyboardplaying.mapper.converter.Converter#convertFromString(java .lang.String)
      */
     @Override
     public Long convertFromString(String value) throws ConversionException {
@@ -44,10 +41,8 @@ public class LongConverter implements Converter<Long> {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see
-     * org.keyboardplaying.mapper.converter.Converter#convertToString(java.lang
-     * .Object)
+     *
+     * @see org.keyboardplaying.mapper.converter.Converter#convertToString(java.lang .Object)
      */
     @Override
     public String convertToString(Long value) {

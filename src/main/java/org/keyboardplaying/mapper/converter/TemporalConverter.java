@@ -22,7 +22,7 @@ package org.keyboardplaying.mapper.converter;
  * Fields converted using an implementation of this interface should declare the
  * {@link org.keyboardplaying.mapper.annotation.Temporal} annotation.
  * 
- * @author cyChop (http://keyboardplaying.org/)
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public interface TemporalConverter<T> extends Converter<T> {
 

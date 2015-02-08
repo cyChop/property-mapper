@@ -21,20 +21,18 @@ import java.util.Calendar;
 import org.keyboardplaying.mapper.exception.ConversionException;
 
 /**
- * Implementation of {@link Converter} for {@code Calendar} to {@code String}
- * conversion.
- * 
- * @author cyChop (http://keyboardplaying.org/)
+ * Implementation of {@link Converter} for {@code Calendar} to {@code String} conversion.
+ *
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public class CalendarConverter extends BaseTemporalConverter<Calendar> {
 
     /**
-     * Converts a {@link String} representation of a date to a {@link Calendar}
-     * instance.
+     * Converts a {@link String} representation of a date to a {@link Calendar} instance.
      * <p/>
-     * The {@link String} is expected to conform to the format specified for
-     * this {@link BaseTemporalConverter}.
-     * 
+     * The {@link String} is expected to conform to the format specified for this
+     * {@link BaseTemporalConverter}.
+     *
      * @param value
      *            the {@link String} representation of a date
      * @return a {@link Calendar} instance
@@ -54,7 +52,7 @@ public class CalendarConverter extends BaseTemporalConverter<Calendar> {
      * <p/>
      * The {@link String} will conform to the format specified for this
      * {@link BaseTemporalConverter}.
-     * 
+     *
      * @param value
      *            the {@link Calendar}
      * @return a {@link String} representation of the supplied date

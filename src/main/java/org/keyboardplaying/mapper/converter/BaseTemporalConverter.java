@@ -24,16 +24,15 @@ import java.util.Date;
 import org.keyboardplaying.mapper.exception.ConversionException;
 
 /**
- * This implementation of {@link Converter} provides some utility methods when
- * parsing time representations.
+ * This implementation of {@link Converter} provides some utility methods when parsing time
+ * representations.
  * <p/>
- * Using this implies to use {@link Date} objects at least as intermediary
- * steps. You might wish to use more direct ways if it is possible.
- * 
- * @author cyChop (http://keyboardplaying.org/)
+ * Using this implies to use {@link Date} objects at least as intermediary steps. You might wish to
+ * use more direct ways if it is possible.
+ *
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  * @param <T>
- *            the type of time objects this {@link Converter} converts from and
- *            to
+ *            the type of time objects this {@link Converter} converts from and to
  */
 public abstract class BaseTemporalConverter<T> implements TemporalConverter<T> {
 
@@ -42,10 +41,8 @@ public abstract class BaseTemporalConverter<T> implements TemporalConverter<T> {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see
-     * org.keyboardplaying.mapper.converter.TemporalConverter#setFormat(java
-     * .lang.String)
+     *
+     * @see org.keyboardplaying.mapper.converter.TemporalConverter#setFormat(java .lang.String)
      */
     @Override
     public void setFormat(String format) {
@@ -53,12 +50,11 @@ public abstract class BaseTemporalConverter<T> implements TemporalConverter<T> {
     }
 
     /**
-     * Converts a {@link String} representation of a date to a {@link Date}
-     * instance.
+     * Converts a {@link String} representation of a date to a {@link Date} instance.
      * <p/>
-     * The {@link String} is expected to conform to the format specified for
-     * this {@link BaseTemporalConverter}.
-     * 
+     * The {@link String} is expected to conform to the format specified for this
+     * {@link BaseTemporalConverter}.
+     *
      * @param value
      *            the {@link String} representation of a date
      * @return a {@link Date} instance
@@ -69,8 +65,8 @@ public abstract class BaseTemporalConverter<T> implements TemporalConverter<T> {
         try {
             return format.parse(value);
         } catch (ParseException e) {
-            throw new ConversionException("Value <" + value + "> could not be parsed to date using format <" + format
-                    + ">.");
+            throw new ConversionException("Value <" + value
+                    + "> could not be parsed to date using format <" + format + ">.");
         }
     }
 
@@ -79,7 +75,7 @@ public abstract class BaseTemporalConverter<T> implements TemporalConverter<T> {
      * <p/>
      * The {@link String} will conform to the format specified for this
      * {@link BaseTemporalConverter}.
-     * 
+     *
      * @param value
      *            the {@link Date}
      * @return a {@link String} representation of the supplied date

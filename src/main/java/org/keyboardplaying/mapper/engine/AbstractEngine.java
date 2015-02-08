@@ -29,10 +29,10 @@ import org.keyboardplaying.mapper.exception.MappingException;
 
 // XXX Study the opportunity of creating a MappingExceptionFactory
 /**
- * An abstract base for engine. This class includes methods for fetching
- * {@link Converter} instances when mapping or unmapping.
+ * An abstract base for engine. This class includes methods for fetching {@link Converter} instances
+ * when mapping or unmapping.
  *
- * @author cyChop (http://keyboardplaying.org/)
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public abstract class AbstractEngine {
 
@@ -64,23 +64,23 @@ public abstract class AbstractEngine {
     }
 
     /**
-     * Returns the appropriate {@link Converter} based on the supplied field's
-     * type.
+     * Returns the appropriate {@link Converter} based on the supplied field's type.
      *
      * @param field
      *            the field to convert a value from or to
      * @return the {@link Converter} to use
      * @throws MappingException
-     *             when no {@link Converter} can be found or annotation settings
-     *             are missing (e.g. {@link Temporal} on temporal fields)
+     *             when no {@link Converter} can be found or annotation settings are missing (e.g.
+     *             {@link Temporal} on temporal fields)
      */
     protected <T> Converter<T> getConverter(Field field) throws MappingException {
         Converter<T> converter = getConverterProvider().getConverter(field.getType());
 
         if (converter == null) {
 
-            throw new MappingException("No converter could be found for type " + field.getType() + " (field "
-                    + field.getName() + " of " + field.getDeclaringClass().getName() + ")");
+            throw new MappingException("No converter could be found for type " + field.getType()
+                    + " (field " + field.getName() + " of " + field.getDeclaringClass().getName()
+                    + ")");
 
         } else if (converter instanceof TemporalConverter) {
 
@@ -88,11 +88,13 @@ public abstract class AbstractEngine {
                 Temporal temporal = field.getAnnotation(Temporal.class);
                 ((TemporalConverter<T>) converter).setFormat(temporal.value().getFormat());
             } else {
-                throw new MappingException("Field " + field.getName() + " of " + field.getDeclaringClass().getName()
+                throw new MappingException("Field " + field.getName() + " of "
+                        + field.getDeclaringClass().getName()
                         + " must declare the @Temporal annotation.");
             }
 
-        } else if (converter instanceof BooleanConverter && field.isAnnotationPresent(BooleanValues.class)) {
+        } else if (converter instanceof BooleanConverter
+                && field.isAnnotationPresent(BooleanValues.class)) {
 
             BooleanValues annot = field.getAnnotation(BooleanValues.class);
             ((BooleanConverter) converter).setTrueFalse(annot.whenTrue(), annot.whenFalse());

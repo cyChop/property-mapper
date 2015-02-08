@@ -16,8 +16,9 @@
  */
 package org.keyboardplaying.mapper.bean;
 
+// XXX Javadoc
 /**
- * @author cyChop (http://keyboardplaying.org/)
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public interface TestInnerBean {
 

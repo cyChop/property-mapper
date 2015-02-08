@@ -16,16 +16,14 @@
  */
 package org.keyboardplaying.mapper.converter;
 
-import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.keyboardplaying.mapper.exception.ConversionException;
 import org.keyboardplaying.mapper.utils.Defaults;
 
 /**
- * Implementation of {@link Converter} for {@code Boolean} to {@code String}
- * conversion.
- * 
- * 
- * @author cyChop (http://keyboardplaying.org/)
+ * Implementation of {@link Converter} for {@code Boolean} to {@code String} conversion.
+ *
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public class BooleanConverter implements Converter<Boolean> {
 
@@ -36,7 +34,7 @@ public class BooleanConverter implements Converter<Boolean> {
 
     /**
      * Sets the values to use for {@code true} and {@code false} values.
-     * 
+     *
      * @param trueString
      *            the {@link String} representation of {@code true}
      * @param falseString
@@ -49,10 +47,8 @@ public class BooleanConverter implements Converter<Boolean> {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see
-     * org.keyboardplaying.mapper.converter.Converter#convertFromString(java
-     * .lang.String)
+     *
+     * @see org.keyboardplaying.mapper.converter.Converter#convertFromString(java .lang.String)
      */
     @Override
     public Boolean convertFromString(String value) throws ConversionException {
@@ -62,18 +58,17 @@ public class BooleanConverter implements Converter<Boolean> {
         } else if (this.whenFalse.equalsIgnoreCase(value)) {
             result = false;
         } else {
-            throw new ConversionException("Value <" + value + "> could not be parsed to boolean (authorized: "
-                    + this.whenTrue + "/" + this.whenFalse + ")");
+            throw new ConversionException("Value <" + value
+                    + "> could not be parsed to boolean (authorized: " + this.whenTrue + "/"
+                    + this.whenFalse + ")");
         }
         return result;
     }
 
     /*
      * (non-Javadoc)
-     * 
-     * @see
-     * org.keyboardplaying.mapper.converter.Converter#convertToString(java.lang
-     * .Object)
+     *
+     * @see org.keyboardplaying.mapper.converter.Converter#convertToString(java.lang .Object)
      */
     @Override
     public String convertToString(Boolean value) {

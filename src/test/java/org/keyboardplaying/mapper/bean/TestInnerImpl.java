@@ -18,8 +18,9 @@ package org.keyboardplaying.mapper.bean;
 
 import org.keyboardplaying.mapper.annotation.Metadata;
 
+// XXX Javadoc
 /**
- * @author cyChop (http://keyboardplaying.org/)
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public class TestInnerImpl implements TestInnerBean {
 

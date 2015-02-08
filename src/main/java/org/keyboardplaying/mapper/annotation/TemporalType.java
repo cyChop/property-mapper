@@ -21,7 +21,7 @@ import org.keyboardplaying.mapper.utils.Defaults;
 /**
  * This enum lists the available time representations in the metadata mapping.
  *
- * @author cyChop (http://keyboardplaying.org/)
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public enum TemporalType {
     /** For date values, not including the notion of time. */
@@ -36,20 +36,19 @@ public enum TemporalType {
      * Private constructor.
      *
      * @param format
-     *            the format to use when parsing the {@link String}
-     *            representation of a time or formatting the time to a
-     *            {@link String}
+     *            the format to use when parsing the {@link String} representation of a time or
+     *            formatting the time to a {@link String}
      */
     private TemporalType(String format) {
         this.format = format;
     }
 
     /**
-     * Returns the format to use when parsing the {@link String} representation
-     * of a time or formatting the time to a {@link String}.
+     * Returns the format to use when parsing the {@link String} representation of a time or
+     * formatting the time to a {@link String}.
      *
-     * @return the format to use when parsing between time objects and their
-     *         {@link String} representation
+     * @return the format to use when parsing between time objects and their {@link String}
+     *         representation
      */
     public String getFormat() {
         return format;

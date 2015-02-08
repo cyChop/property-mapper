@@ -23,44 +23,41 @@ import org.apache.xbean.finder.ResourceFinder;
 import org.keyboardplaying.mapper.utils.ClassUtils;
 
 /**
- * Provides the correct implementation of {@link Converter} to use based on the
- * type of the field to convert.
+ * Provides the correct implementation of {@link Converter} to use based on the type of the field to
+ * convert.
  * <p/>
- * <h1>Adding custom converters</h1> It is possible to add custom converters. To
- * do so, you need to create a
- * {@code META-INF/services/org.keyboardplaying.mapper.converter.Converter}
- * directory in your project.
+ * <h1>Adding custom converters</h1> It is possible to add custom converters. To do so, you need to
+ * create a {@code META-INF/services/org.keyboardplaying.mapper.converter.Converter} directory in
+ * your project.
  * <p/>
- * In this directory, you will need to add one file per converter. This file
- * will be named after the fully qualified type of field your converter handles,
- * and contain only one line which is the fully qualified class of your
- * converter. For example, in the case of the {@link StringConverter}, the file
- * is
- * {@code META-INF/services/org.keyboardplaying.mapper.converter.Converter/java.lang.String}
- * , and its content is:
- * 
+ * In this directory, you will need to add one file per converter. This file will be named after the
+ * fully qualified type of field your converter handles, and contain only one line which is the
+ * fully qualified class of your converter. For example, in the case of the {@link StringConverter},
+ * the file is
+ * {@code META-INF/services/org.keyboardplaying.mapper.converter.Converter/java.lang.String} , and
+ * its content is:
+ *
  * <pre>
  * org.keyboardplaying.mapper.converter.StringConverter
  * </pre>
  * <p/>
  * This class implements the singleton design pattern.
- * 
- * @author cyChop (http://keyboardplaying.org/)
+ *
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public class BaseConverterProvider implements ConverterProvider {
 
     private static BaseConverterProvider instance = new BaseConverterProvider();
 
     /**
-     * A list of all converter implementations, with the converted class name as
-     * a key.
+     * A list of all converter implementations, with the converted class name as a key.
      */
     @SuppressWarnings("rawtypes")
     private Map<String, Class<? extends Converter>> implementations;
 
     /**
      * Returns the single instance of this class.
-     * 
+     *
      * @return the single instance of this class
      */
     public static BaseConverterProvider getInstance() {
@@ -82,17 +79,18 @@ public class BaseConverterProvider implements ConverterProvider {
         try {
             implementations = finder.mapAvailableImplementations(Converter.class);
         } catch (IOException e) {
-            throw new IllegalStateException("Converter configuration files could not be accessed.", e);
+            throw new IllegalStateException("Converter configuration files could not be accessed.",
+                    e);
         }
     }
 
     /**
      * Fetches the appropriate {@link Converter} for the supplied class.
-     * 
+     *
      * @param klass
      *            the class to convert from or to
      * @return the {@link Converter} to use for conversion
-     * 
+     *
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
@@ -101,8 +99,8 @@ public class BaseConverterProvider implements ConverterProvider {
     public <T> Converter<T> getConverter(Class<?> klass) {
 
         Class<T> destination = (Class<T>) (klass.isPrimitive() ? ClassUtils.wrap(klass) : klass);
-        Class<? extends Converter<T>> converterClass = (Class<? extends Converter<T>>) implementations.get(destination
-                .getName());
+        Class<? extends Converter<T>> converterClass = (Class<? extends Converter<T>>) implementations
+                .get(destination.getName());
 
         try {
             return converterClass == null ? null : converterClass.newInstance();

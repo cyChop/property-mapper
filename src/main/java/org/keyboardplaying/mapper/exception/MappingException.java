@@ -16,12 +16,11 @@
  */
 package org.keyboardplaying.mapper.exception;
 
-// XXX JAVADOC
+// TODO JAVADOC
 /**
- * An exception to throw when the metadata could not be mapped to the
- * destination object.
- * 
- * @author cyChop (http://keyboardplaying.org/)
+ * An exception to throw when the metadata could not be mapped to the destination object.
+ *
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public class MappingException extends Exception {
 

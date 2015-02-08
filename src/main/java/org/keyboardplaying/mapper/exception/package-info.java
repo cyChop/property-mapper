@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * The exceptions this project can throw.
- */
+/** The exceptions this project can throw. */
 package org.keyboardplaying.mapper.exception;
 

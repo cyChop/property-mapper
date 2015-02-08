@@ -25,10 +25,10 @@ import java.lang.annotation.Target;
 /**
  * This annotation is used to mark fields representing a time.
  * <p/>
- * More specifically, it defines which {@link TemporalType} should be used when
- * mapping from and to the metadata map.
+ * More specifically, it defines which {@link TemporalType} should be used when mapping from and to
+ * the metadata map.
  *
- * @author cyChop (http://keyboardplaying.org/)
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -36,11 +36,9 @@ import java.lang.annotation.Target;
 public @interface Temporal {
 
     /**
-     * Returns the {@link TemporalType} to use when mapping from and to the
-     * metadata map.
+     * Returns the {@link TemporalType} to use when mapping from and to the metadata map.
      *
-     * @return the {@link TemporalType} to use when mapping from and to the
-     *         metadata map
+     * @return the {@link TemporalType} to use when mapping from and to the metadata map
      */
     TemporalType value();
 }

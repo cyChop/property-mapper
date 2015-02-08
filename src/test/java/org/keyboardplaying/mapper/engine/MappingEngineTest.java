@@ -25,8 +25,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.junit.Test;
 import org.keyboardplaying.mapper.annotation.TemporalType;
 import org.keyboardplaying.mapper.bean.TestBean;
@@ -35,8 +35,9 @@ import org.keyboardplaying.mapper.exception.ConversionException;
 import org.keyboardplaying.mapper.exception.MappingException;
 
 // TODO test custom getter
+// XXX Javadoc
 /**
- * @author cyChop (http://keyboardplaying.org/)
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public class MappingEngineTest {
 
@@ -87,7 +88,8 @@ public class MappingEngineTest {
         Calendar cal = Calendar.getInstance();
         cal.setTime(now);
         bean.setCal(cal);
-        expected.put("some_important_date", new SimpleDateFormat(TemporalType.DATETIME.getFormat()).format(now));
+        expected.put("some_important_date",
+                new SimpleDateFormat(TemporalType.DATETIME.getFormat()).format(now));
         assertContentEquals(expected, mappingEngine.map(bean));
     }
 
@@ -98,9 +100,9 @@ public class MappingEngineTest {
 
         for (Entry<?, ?> entry : expected.entrySet()) {
             if (!actual.containsKey(entry.getKey())
-                    || !ObjectUtils.equals(entry.getValue(), actual.get(entry.getKey()))) {
-                fail("Expected " + entry.getKey() + "=" + entry.getValue() + " but found " + entry.getKey() + "="
-                        + actual.get(entry.getKey()));
+                    || !Objects.equals(entry.getValue(), actual.get(entry.getKey()))) {
+                fail("Expected " + entry.getKey() + "=" + entry.getValue() + " but found "
+                        + entry.getKey() + "=" + actual.get(entry.getKey()));
             }
         }
     }

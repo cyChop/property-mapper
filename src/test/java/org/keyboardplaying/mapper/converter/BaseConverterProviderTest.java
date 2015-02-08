@@ -25,8 +25,9 @@ import java.util.Date;
 
 import org.junit.Test;
 
+// XXX Javadoc
 /**
- * @author cyChop (http://keyboardplaying.org/)
+ * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public class BaseConverterProviderTest {
 
@@ -48,8 +49,8 @@ public class BaseConverterProviderTest {
     }
 
     /*
-     * This should work but does not. It appears ResourceFinder ignores the
-     * test/resources/META-INF. Class loader/classpath problem?
+     * This should work but does not. It appears ResourceFinder ignores the test/resources/META-INF.
+     * Class loader/classpath problem?
      */
     // @Test
     // public void testExtensibleGetConverter() {
