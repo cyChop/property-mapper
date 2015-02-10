@@ -14,16 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.keyboardplaying.mapper.converter.mock;
+package org.keyboardplaying.mapper.mock.bean;
 
+import org.keyboardplaying.mapper.annotation.Metadata;
+
+// XXX Javadoc
 /**
- * A converter to test the case of a converter whose no-arg constructor is not accessible.
- *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class PrivateConstructorConverter extends DoubleConverter {
+public class TestInnerImpl implements TestInnerBean {
 
-    /** Creates a new instance. */
-    private PrivateConstructorConverter() {
+    @Metadata(value = "hello_world_inner", mandatory = true)
+    private String hello;
+
+    @Override
+    public String getHello() {
+        return hello;
+    }
+
+    public void setHello(String hello) {
+        this.hello = hello;
     }
 }

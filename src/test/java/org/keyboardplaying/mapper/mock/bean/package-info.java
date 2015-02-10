@@ -15,4 +15,4 @@
  * limitations under the License.
  */
 /** Beans for testing. */
-package org.keyboardplaying.mapper.bean;
+package org.keyboardplaying.mapper.mock.bean;

@@ -14,13 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.keyboardplaying.mapper.bean;
+package org.keyboardplaying.mapper.mock.converter;
 
-// XXX Javadoc
 /**
+ * A converter to test the case of a converter without a no-arg constructor.
+ *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public interface TestInnerBean {
+public class ArgConstructorConverter extends DoubleConverter {
 
-    public String getHello();
+    /**
+     * Creates a new instance.
+     *
+     * @param arg
+     *            an argument whatsoever
+     */
+    public ArgConstructorConverter(String arg) {
+    }
 }

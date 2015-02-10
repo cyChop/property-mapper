@@ -14,34 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.keyboardplaying.mapper.converter.mock;
-
-import org.keyboardplaying.mapper.converter.Converter;
-import org.keyboardplaying.mapper.exception.ConversionException;
+package org.keyboardplaying.mapper.mock.bean;
 
 // XXX Javadoc
 /**
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class DoubleConverter implements Converter<Double> {
+public interface TestInnerBean {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.keyboardplaying.mapper.converter.Converter#convertFromString(java .lang.String)
-     */
-    @Override
-    public Double convertFromString(String value) throws ConversionException {
-        return Double.parseDouble(value);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.keyboardplaying.mapper.converter.Converter#convertToString(java.lang .Object)
-     */
-    @Override
-    public String convertToString(Double value) throws ConversionException {
-        return value.toString();
-    }
+    public String getHello();
 }

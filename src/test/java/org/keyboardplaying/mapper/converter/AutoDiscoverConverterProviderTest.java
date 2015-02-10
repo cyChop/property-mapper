@@ -26,8 +26,8 @@ import java.util.GregorianCalendar;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.keyboardplaying.mapper.converter.mock.DoubleConverter;
 import org.keyboardplaying.mapper.exception.ConverterInitializationException;
+import org.keyboardplaying.mapper.mock.converter.DoubleConverter;
 
 // XXX Javadoc
 /**

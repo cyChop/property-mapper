@@ -14,25 +14,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.keyboardplaying.mapper.bean;
+package org.keyboardplaying.mapper.mock.converter;
 
-import org.keyboardplaying.mapper.annotation.Metadata;
+import org.keyboardplaying.mapper.converter.Converter;
+import org.keyboardplaying.mapper.exception.ConversionException;
 
 // XXX Javadoc
 /**
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class TestInnerImpl implements TestInnerBean {
+public class DoubleConverter implements Converter<Double> {
 
-    @Metadata(value = "hello_world_inner", mandatory = true)
-    private String hello;
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.keyboardplaying.mapper.converter.Converter#convertFromString(java .lang.String)
+     */
     @Override
-    public String getHello() {
-        return hello;
+    public Double convertFromString(String value) throws ConversionException {
+        return Double.parseDouble(value);
     }
 
-    public void setHello(String hello) {
-        this.hello = hello;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.keyboardplaying.mapper.converter.Converter#convertToString(java.lang .Object)
+     */
+    @Override
+    public String convertToString(Double value) throws ConversionException {
+        return value.toString();
     }
 }

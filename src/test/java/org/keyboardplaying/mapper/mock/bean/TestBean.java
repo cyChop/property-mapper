@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.keyboardplaying.mapper.bean;
+package org.keyboardplaying.mapper.mock.bean;
 
 import java.math.BigInteger;
 import java.util.Calendar;
@@ -62,7 +62,7 @@ public class TestBean {
     @Nested
     private TestInnerImpl innerImpl;
 
-    @Nested(className = "org.keyboardplaying.mapper.bean.TestInnerImpl")
+    @Nested(className = "org.keyboardplaying.mapper.mock.bean.TestInnerImpl")
     private TestInnerBean innerItf;
 
     @Metadata(value = "somebody_s_name", customSetter = "setContact")
