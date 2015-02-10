@@ -22,6 +22,9 @@ import static org.junit.Assert.fail;
 import java.math.BigInteger;
 
 import org.junit.Test;
+import org.keyboardplaying.mapper.converter.BigIntegerConverter;
+import org.keyboardplaying.mapper.converter.IntegerConverter;
+import org.keyboardplaying.mapper.converter.LongConverter;
 import org.keyboardplaying.mapper.exception.ConversionException;
 
 // XXX Javadoc

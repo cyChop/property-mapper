@@ -25,7 +25,7 @@ import org.junit.Test;
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class ConversionExceptionTest extends ExceptionTest<ConversionException> {
+public class ConversionExceptionTest extends MapperExceptionTest<ConversionException> {
 
     /** Creates a new instance. */
     public ConversionExceptionTest() {

@@ -36,7 +36,7 @@ import org.keyboardplaying.mapper.exception.MappingException;
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class UnmappingEngine extends AbstractEngine {
+public class UnmappingEngine extends BaseEngine {
 
     /** A map containing the default values of objects based on their types. */
     private static final Map<Class<?>, Object> DEFAULT_VALUES;

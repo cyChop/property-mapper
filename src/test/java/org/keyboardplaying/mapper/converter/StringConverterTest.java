@@ -19,6 +19,7 @@ package org.keyboardplaying.mapper.converter;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.keyboardplaying.mapper.converter.StringConverter;
 import org.keyboardplaying.mapper.exception.ConversionException;
 
 // XXX Javadoc

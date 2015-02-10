@@ -25,6 +25,8 @@ import java.util.Calendar;
 import org.junit.Before;
 import org.junit.Test;
 import org.keyboardplaying.mapper.annotation.TemporalType;
+import org.keyboardplaying.mapper.converter.CalendarConverter;
+import org.keyboardplaying.mapper.converter.DateConverter;
 import org.keyboardplaying.mapper.exception.ConversionException;
 
 // XXX Javadoc

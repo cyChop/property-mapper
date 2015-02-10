@@ -16,6 +16,7 @@
  */
 package org.keyboardplaying.mapper.converter;
 
+import org.keyboardplaying.mapper.engine.ConverterProvider;
 import org.keyboardplaying.mapper.exception.ConversionException;
 
 /**

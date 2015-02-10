@@ -26,11 +26,11 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-abstract class ExceptionTest<T extends Exception> {
+abstract class MapperExceptionTest<T extends MapperException> {
 
     private Class<T> klass;
 
-    protected ExceptionTest(Class<T> klass) {
+    protected MapperExceptionTest(Class<T> klass) {
         this.klass = klass;
     }
 

@@ -36,7 +36,7 @@ import org.keyboardplaying.mapper.exception.MappingException;
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class MappingEngine extends AbstractEngine {
+public class MappingEngine extends BaseEngine {
 
     public <T> Map<String, String> map(T bean) throws ConverterInitializationException,
             MappingException {

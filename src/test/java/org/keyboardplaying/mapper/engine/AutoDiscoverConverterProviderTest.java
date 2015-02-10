@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.keyboardplaying.mapper.converter;
+package org.keyboardplaying.mapper.engine;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -26,6 +26,13 @@ import java.util.GregorianCalendar;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.keyboardplaying.mapper.converter.BigIntegerConverter;
+import org.keyboardplaying.mapper.converter.BooleanConverter;
+import org.keyboardplaying.mapper.converter.CalendarConverter;
+import org.keyboardplaying.mapper.converter.IntegerConverter;
+import org.keyboardplaying.mapper.converter.LongConverter;
+import org.keyboardplaying.mapper.converter.StringConverter;
+import org.keyboardplaying.mapper.engine.AutoDiscoverConverterProvider;
 import org.keyboardplaying.mapper.exception.ConverterInitializationException;
 import org.keyboardplaying.mapper.mock.converter.DoubleConverter;
 

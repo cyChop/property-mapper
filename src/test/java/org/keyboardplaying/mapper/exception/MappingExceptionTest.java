@@ -25,7 +25,7 @@ import org.junit.Test;
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class MappingExceptionTest extends ExceptionTest<MappingException> {
+public class MappingExceptionTest extends MapperExceptionTest<MappingException> {
 
     /** Creates a new instance. */
     public MappingExceptionTest() {

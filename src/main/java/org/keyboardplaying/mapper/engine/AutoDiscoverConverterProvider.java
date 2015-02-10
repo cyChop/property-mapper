@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.keyboardplaying.mapper.converter;
+package org.keyboardplaying.mapper.engine;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 
+import org.keyboardplaying.mapper.converter.Converter;
+import org.keyboardplaying.mapper.converter.StringConverter;
 import org.keyboardplaying.mapper.exception.ConverterInitializationException;
 
 /**

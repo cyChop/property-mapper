@@ -20,10 +20,8 @@ import java.lang.reflect.Field;
 
 import org.keyboardplaying.mapper.annotation.BooleanValues;
 import org.keyboardplaying.mapper.annotation.Temporal;
-import org.keyboardplaying.mapper.converter.AutoDiscoverConverterProvider;
 import org.keyboardplaying.mapper.converter.BooleanConverter;
 import org.keyboardplaying.mapper.converter.Converter;
-import org.keyboardplaying.mapper.converter.ConverterProvider;
 import org.keyboardplaying.mapper.converter.TemporalConverter;
 import org.keyboardplaying.mapper.exception.ConverterInitializationException;
 import org.keyboardplaying.mapper.exception.MappingException;
@@ -35,7 +33,7 @@ import org.keyboardplaying.mapper.exception.MappingException;
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public abstract class AbstractEngine {
+public abstract class BaseEngine {
 
     /** The {@link ConverterProvider}. */
     private ConverterProvider converterProvider;

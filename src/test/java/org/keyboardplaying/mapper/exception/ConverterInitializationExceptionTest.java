@@ -26,7 +26,7 @@ import org.junit.Test;
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public class ConverterInitializationExceptionTest extends
-        ExceptionTest<ConverterInitializationException> {
+        MapperExceptionTest<ConverterInitializationException> {
 
     /** Creates a new instance. */
     public ConverterInitializationExceptionTest() {
