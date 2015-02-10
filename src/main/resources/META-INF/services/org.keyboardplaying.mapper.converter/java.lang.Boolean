@@ -1,1 +1,1 @@
-org.keyboardplaying.mapper.converter.BooleanConverter
+converter=org.keyboardplaying.mapper.converter.BooleanConverter

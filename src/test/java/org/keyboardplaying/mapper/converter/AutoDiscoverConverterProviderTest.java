@@ -17,6 +17,8 @@
 package org.keyboardplaying.mapper.converter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.math.BigInteger;
 import java.util.Calendar;
@@ -68,6 +70,33 @@ public class AutoDiscoverConverterProviderTest {
         // tests at the same time that auto-boxing is of no avail
         // (a bogus java.lang.Character descriptor exists)
         provider.getConverter(char.class);
+    }
+
+    @Test(expected = ConverterInitializationException.class)
+    public void testGetConverterWithEmptyDescriptor() throws ConverterInitializationException {
+        provider.getConverter(Short.class);
+    }
+
+    @Test(expected = InstantiationException.class)
+    public void testGetConverterWithArgumentedConstructor() throws Throwable {
+        try {
+            provider.getConverter(byte.class);
+        } catch (ConverterInitializationException e) {
+            assertNotNull(e.getCause());
+            throw e.getCause();
+        }
+        fail("A ConverterInitializationException was expected.");
+    }
+
+    @Test(expected = IllegalAccessException.class)
+    public void testGetConverterWithPrivateConstructor() throws Throwable {
+        try {
+            provider.getConverter(short.class);
+        } catch (ConverterInitializationException e) {
+            assertNotNull(e.getCause());
+            throw e.getCause();
+        }
+        fail("A ConverterInitializationException was expected.");
     }
 
     @Test

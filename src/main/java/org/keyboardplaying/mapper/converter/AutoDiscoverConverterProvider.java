@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Properties;
 
 import org.keyboardplaying.mapper.exception.ConverterInitializationException;
 
@@ -34,10 +35,10 @@ import org.keyboardplaying.mapper.exception.ConverterInitializationException;
  * create a {@code META-INF/services/org.keyboardplaying.mapper.converter} directory in your
  * project.
  * <p/>
- * In this directory, you will need to add one file per converter. This file will be named after the
- * fully qualified type of field your converter handles, and contain only one line which is the
- * fully qualified class of your converter. For example, in the case of the {@link StringConverter},
- * the file is:
+ * In this directory, you will need to add one descriptor file per converter. This file will be
+ * named after the fully qualified type of field your converter handles, and contain only one line
+ * which is the fully qualified class of your converter. For example, in the case of the
+ * {@link org.keyboardplaying.mapper.converter.StringConverter}, the file is:
  *
  * <pre>
  * META-INF/services/org.keyboardplaying.mapper.converter/java.lang.String
@@ -46,7 +47,7 @@ import org.keyboardplaying.mapper.exception.ConverterInitializationException;
  * and its content is:
  *
  * <pre>
- * org.keyboardplaying.mapper.converter.StringConverter
+ * converter=org.keyboardplaying.mapper.converter.StringConverter
  * </pre>
  * <p/>
  * This provider instantiates the converters only when required and then return them as singletons.
@@ -59,6 +60,7 @@ public class AutoDiscoverConverterProvider implements ConverterProvider {
 
     private static final String CONVERTER_DEFINITION_PATH =
             "META-INF/services/org.keyboardplaying.mapper.converter/";
+    private static final String CONVERTER_PROPERTY = "converter";
 
     private static AutoDiscoverConverterProvider instance = new AutoDiscoverConverterProvider();
 
@@ -142,18 +144,21 @@ public class AutoDiscoverConverterProvider implements ConverterProvider {
         if (in == null) {
             in = AutoDiscoverConverterProvider.class.getClassLoader().getResourceAsStream(uri);
             if (in == null) {
-                throw new ConverterInitializationException("No converter definition found for type "
+                throw new ConverterInitializationException("No converter descriptor found for type "
                         + klass.getName() + ".");
             }
         }
 
         String converterClassName;
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
-            if (!br.ready()) {
-                throw new ConverterInitializationException("Converter definition for class "
+        try (InputStream src = in) {
+            Properties properties = new Properties();
+            properties.load(in);
+
+            converterClassName = properties.getProperty(CONVERTER_PROPERTY);
+            if (converterClassName == null) {
+                throw new ConverterInitializationException("Converter descriptor for class "
                         + klass.getName() + " is incorrect (empty).");
             }
-            converterClassName = br.readLine();
         } catch (IOException e) {
             throw new ConverterInitializationException(
                     "Error occurred when trying to read converter descriptor for type "
