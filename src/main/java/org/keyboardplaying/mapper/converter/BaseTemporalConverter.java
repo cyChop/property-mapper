@@ -41,7 +41,7 @@ public abstract class BaseTemporalConverter<T> implements TemporalConverter<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.keyboardplaying.mapper.converter.TemporalConverter#setFormat(java .lang.String)
      */
     @Override

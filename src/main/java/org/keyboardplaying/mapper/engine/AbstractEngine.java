@@ -79,8 +79,8 @@ public abstract class AbstractEngine {
     @SuppressWarnings("unchecked")
     protected <T> Converter<? super T> getConverter(Field field) throws MappingException,
             ConverterInitializationException {
-        Converter<? super T> converter = getConverterProvider()
-                .getConverter((Class<T>) field.getType());
+        Converter<? super T> converter = getConverterProvider().getConverter(
+                (Class<T>) field.getType());
 
         if (converter == null) {
 

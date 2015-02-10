@@ -29,7 +29,7 @@ public class BigIntegerConverter implements Converter<BigInteger> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.keyboardplaying.mapper.converter.Converter#convertFromString(java .lang.String)
      */
     @Override
@@ -44,7 +44,7 @@ public class BigIntegerConverter implements Converter<BigInteger> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.keyboardplaying.mapper.converter.Converter#convertToString(java.lang .Object)
      */
     @Override

@@ -16,10 +16,8 @@
  */
 package org.keyboardplaying.mapper.converter;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -41,13 +39,13 @@ import org.keyboardplaying.mapper.exception.ConverterInitializationException;
  * {@link org.keyboardplaying.mapper.converter.StringConverter}, the file is:
  *
  * <pre>
- * META-INF/services/org.keyboardplaying.mapper.converter/java.lang.String
+ * META - INF / services / org.keyboardplaying.mapper.converter / java.lang.String
  * </pre>
  *
  * and its content is:
  *
  * <pre>
- * converter=org.keyboardplaying.mapper.converter.StringConverter
+ * converter = org.keyboardplaying.mapper.converter.StringConverter
  * </pre>
  * <p/>
  * This provider instantiates the converters only when required and then return them as singletons.
@@ -58,8 +56,7 @@ import org.keyboardplaying.mapper.exception.ConverterInitializationException;
  */
 public class AutoDiscoverConverterProvider implements ConverterProvider {
 
-    private static final String CONVERTER_DEFINITION_PATH =
-            "META-INF/services/org.keyboardplaying.mapper.converter/";
+    private static final String CONVERTER_DEFINITION_PATH = "META-INF/services/org.keyboardplaying.mapper.converter/";
     private static final String CONVERTER_PROPERTY = "converter";
 
     private static AutoDiscoverConverterProvider instance = new AutoDiscoverConverterProvider();
@@ -97,8 +94,8 @@ public class AutoDiscoverConverterProvider implements ConverterProvider {
         Objects.requireNonNull(klass, "A class must be provided when requiring a converter.");
 
         @SuppressWarnings("unchecked")
-        Class<? extends Converter<? super T>> converterClass =
-                (Class<? extends Converter<? super T>>) converterDefinitions.get(klass);
+        Class<? extends Converter<? super T>> converterClass = (Class<? extends Converter<? super T>>) converterDefinitions
+                .get(klass);
         if (converterClass == null) {
             converterClass = getConverterClass(klass);
             converterDefinitions.put(klass, converterClass);
@@ -111,11 +108,15 @@ public class AutoDiscoverConverterProvider implements ConverterProvider {
                 converter = converterClass.newInstance();
                 converters.put(converterClass, converter);
             } catch (InstantiationException e) {
-                throw new ConverterInitializationException(converterClass.getName()
-                        + " could not be instanciated. Does it define a public no-arg constructor?", e);
+                throw new ConverterInitializationException(
+                        converterClass.getName()
+                                + " could not be instanciated. Does it define a public no-arg constructor?",
+                        e);
             } catch (IllegalAccessException e) {
-                throw new ConverterInitializationException(converterClass.getName()
-                        + " could not be instanciated. Does it define a public no-arg constructor?", e);
+                throw new ConverterInitializationException(
+                        converterClass.getName()
+                                + " could not be instanciated. Does it define a public no-arg constructor?",
+                        e);
             }
         }
         return converter;
@@ -128,7 +129,7 @@ public class AutoDiscoverConverterProvider implements ConverterProvider {
      *            the class to look a converter for
      * @return the class for the converter to use
      * @throws ConverterInitializationException
-     *            if the {@link Converter} cannot be found or initialized
+     *             if the {@link Converter} cannot be found or initialized
      */
     @SuppressWarnings("unchecked")
     private <T> Class<? extends Converter<? super T>> getConverterClass(Class<T> klass)
@@ -144,8 +145,8 @@ public class AutoDiscoverConverterProvider implements ConverterProvider {
         if (in == null) {
             in = AutoDiscoverConverterProvider.class.getClassLoader().getResourceAsStream(uri);
             if (in == null) {
-                throw new ConverterInitializationException("No converter descriptor found for type "
-                        + klass.getName() + ".");
+                throw new ConverterInitializationException(
+                        "No converter descriptor found for type " + klass.getName() + ".");
             }
         }
 
@@ -162,7 +163,7 @@ public class AutoDiscoverConverterProvider implements ConverterProvider {
         } catch (IOException e) {
             throw new ConverterInitializationException(
                     "Error occurred when trying to read converter descriptor for type "
-                    + klass.getName(), e);
+                            + klass.getName(), e);
         }
 
         try {

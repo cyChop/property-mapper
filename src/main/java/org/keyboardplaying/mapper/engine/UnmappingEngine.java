@@ -44,18 +44,27 @@ public class UnmappingEngine extends AbstractEngine {
     static {
         /*
          * Initialize default values for primitive types.
-         *
+         * 
          * Skip Objects: their default value is null anyway.
          */
+        @SuppressWarnings("serial")
         Map<Class<?>, Object> defaultValues = new HashMap<Class<?>, Object>() {
-            // Default primitive values
+            /* Default primitive values (called through reflection). */
+            @SuppressWarnings("unused")
             private boolean b;
+            @SuppressWarnings("unused")
             private byte by;
+            @SuppressWarnings("unused")
             private char c;
+            @SuppressWarnings("unused")
             private double d;
+            @SuppressWarnings("unused")
             private float f;
+            @SuppressWarnings("unused")
             private int i;
+            @SuppressWarnings("unused")
             private long l;
+            @SuppressWarnings("unused")
             private short s;
 
             {
@@ -152,8 +161,10 @@ public class UnmappingEngine extends AbstractEngine {
             if (innerBean == null) {
                 String className = field.getAnnotation(Nested.class).className();
                 try {
-                    innerBean = unmap(metadata, className == null || className.length() == 0
-                            ? field.getType() : Class.forName(className));
+                    innerBean = unmap(
+                            metadata,
+                            className == null || className.length() == 0 ? field.getType() : Class
+                                    .forName(className));
                 } catch (ClassNotFoundException e) {
                     throw new MappingException("Could not find class " + className
                             + " when instantiating bean for inner field " + field.getName()
@@ -256,9 +267,11 @@ public class UnmappingEngine extends AbstractEngine {
      */
     private <T> void setField(T bean, Field field, String value) throws MappingException {
         try {
-            PropertyUtils.setProperty(bean, field.getName(),
-                    value == null ? DEFAULT_VALUES.get(field.getType()) : this
-                            .<T> getConverter(field).convertFromString(value));
+            PropertyUtils.setProperty(
+                    bean,
+                    field.getName(),
+                    value == null ? DEFAULT_VALUES.get(field.getType()) : this.<T> getConverter(
+                            field).convertFromString(value));
         } catch (ConverterInitializationException e) {
             throw new MappingException("Converter for field " + field.getName() + " of "
                     + field.getDeclaringClass().getName() + " could not be initialized.", e);

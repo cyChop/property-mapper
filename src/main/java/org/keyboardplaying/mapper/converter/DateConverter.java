@@ -29,9 +29,9 @@ public class DateConverter extends BaseTemporalConverter<Date> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.keyboardplaying.mapper.converter.Converter#convertFromString(java .lang.String)
-     *
+     * 
      * @see org.keyboardplaying.mapper.converter.BaseTemporalConverter#
      * convertStringToDate(java.lang.String)
      */
@@ -42,9 +42,9 @@ public class DateConverter extends BaseTemporalConverter<Date> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.keyboardplaying.mapper.converter.Converter#convertToString(java.lang .Object)
-     *
+     * 
      * @see org.keyboardplaying.mapper.converter.BaseTemporalConverter#
      * convertDateToString(java.util.Date)
      */

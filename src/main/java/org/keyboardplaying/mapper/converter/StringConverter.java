@@ -29,7 +29,7 @@ public class StringConverter implements Converter<String> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.keyboardplaying.mapper.converter.Converter#convertFromString(java .lang.String)
      */
     @Override
@@ -39,7 +39,7 @@ public class StringConverter implements Converter<String> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.keyboardplaying.mapper.converter.Converter#convertToString(java.lang .Object)
      */
     @Override

@@ -22,8 +22,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
-import org.keyboardplaying.mapper.exception.ConversionException;
 import org.keyboardplaying.mapper.Defaults;
+import org.keyboardplaying.mapper.exception.ConversionException;
 
 // XXX Javadoc
 /**

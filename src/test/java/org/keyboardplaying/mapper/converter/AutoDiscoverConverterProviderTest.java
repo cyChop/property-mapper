@@ -22,14 +22,11 @@ import static org.junit.Assert.fail;
 
 import java.math.BigInteger;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import org.keyboardplaying.mapper.converter.mock.DoubleConverter;
-import org.keyboardplaying.mapper.converter.mock.ExtendedDateConverter;
 import org.keyboardplaying.mapper.exception.ConverterInitializationException;
 
 // XXX Javadoc

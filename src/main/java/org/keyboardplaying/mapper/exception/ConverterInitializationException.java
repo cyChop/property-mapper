@@ -17,13 +17,15 @@
 package org.keyboardplaying.mapper.exception;
 
 // TODO JAVADOC
-// TODO Generate UID
 /**
  * An exception to throw when a Converter could not be found or initialized.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public class ConverterInitializationException extends Exception {
+
+    /** Generated serial version UID. */
+    private static final long serialVersionUID = 5870298776718721250L;
 
     public ConverterInitializationException() {
         super();

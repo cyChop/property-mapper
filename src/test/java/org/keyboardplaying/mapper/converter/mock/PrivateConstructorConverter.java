@@ -23,9 +23,7 @@ package org.keyboardplaying.mapper.converter.mock;
  */
 public class PrivateConstructorConverter extends DoubleConverter {
 
-    /**
-     * Creates a new instance.
-     */
+    /** Creates a new instance. */
     private PrivateConstructorConverter() {
     }
 }

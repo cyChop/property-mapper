@@ -25,7 +25,6 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.keyboardplaying.mapper.annotation.TemporalType;
 import org.keyboardplaying.mapper.bean.TestBean;
@@ -33,7 +32,6 @@ import org.keyboardplaying.mapper.bean.TestInnerImpl;
 import org.keyboardplaying.mapper.converter.CalendarConverter;
 import org.keyboardplaying.mapper.converter.DateConverter;
 import org.keyboardplaying.mapper.exception.ConversionException;
-import org.keyboardplaying.mapper.exception.ConverterInitializationException;
 import org.keyboardplaying.mapper.exception.MappingException;
 
 // XXX Javadoc
