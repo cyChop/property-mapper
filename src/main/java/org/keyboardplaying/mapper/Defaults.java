@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.keyboardplaying.mapper.utils;
+package org.keyboardplaying.mapper;
 
 /**
  * Some default values.
@@ -29,13 +29,13 @@ public final class Defaults {
     public static final String FORMAT_DATETIME = "yyyy/MM/dd-HH:mm:ss";
 
     /** The {@link String} representation for {@code true}. */
-    public static final String BOOLEAN_TRUE = "YES";
+    public static final String BOOLEAN_YES = "YES";
     /** The {@link String} representation for {@code false}. */
-    public static final String BOOLEAN_FALSE = "NO";
+    public static final String BOOLEAN_NO = "NO";
     /** An alternate {@link String} representation for {@code true}. */
-    public static final String BOOLEAN_TRUE_FR = "OUI";
+    public static final String BOOLEAN_YES_FR = "OUI";
     /** An alternate {@link String} representation for {@code false}. */
-    public static final String BOOLEAN_FALSE_FR = "NON";
+    public static final String BOOLEAN_NO_FR = "NON";
 
     /** Private constructor to avoid instantiation. */
     private Defaults() {

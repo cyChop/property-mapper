@@ -16,7 +16,7 @@
  */
 package org.keyboardplaying.mapper.annotation;
 
-import org.keyboardplaying.mapper.utils.Defaults;
+import org.keyboardplaying.mapper.Defaults;
 
 /**
  * This enum lists the available time representations in the metadata mapping.

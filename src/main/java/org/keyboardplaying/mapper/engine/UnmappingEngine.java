@@ -19,16 +19,16 @@ package org.keyboardplaying.mapper.engine;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.exception.ConversionException;
 import org.keyboardplaying.mapper.exception.MappingException;
-import org.keyboardplaying.mapper.utils.ClassUtils;
 
 /**
  * The mapping engine for mapping a flat map to a POJO (unmapping).
@@ -36,6 +36,40 @@ import org.keyboardplaying.mapper.utils.ClassUtils;
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public class UnmappingEngine extends AbstractEngine {
+
+    /** A map containing the default values of objects based on their types. */
+    private static final Map<Class<?>, Object> DEFAULT_VALUES;
+
+    static {
+        /*
+         * Initialize default values for primitive types.
+         *
+         * Skip Objects: their default value is null anyway.
+         */
+        Map<Class<?>, Object> defaultValues = new HashMap<Class<?>, Object>() {
+            // Default primitive values
+            private boolean b;
+            private byte by;
+            private char c;
+            private double d;
+            private float f;
+            private int i;
+            private long l;
+            private short s;
+
+            {
+                for (final Field field : getClass().getDeclaredFields()) {
+                    try {
+                        put(field.getType(), field.get(this));
+                    } catch (IllegalAccessException e) {
+                        throw new IllegalArgumentException(e);
+                    }
+                }
+            }
+        };
+
+        DEFAULT_VALUES = Collections.unmodifiableMap(defaultValues);
+    }
 
     /**
      * Instantiates a new bean of specified type and unmaps metadata to it, based on the annotations
@@ -117,8 +151,8 @@ public class UnmappingEngine extends AbstractEngine {
             if (innerBean == null) {
                 String className = field.getAnnotation(Nested.class).className();
                 try {
-                    innerBean = unmap(metadata, StringUtils.isEmpty(className) ? field.getType()
-                            : Class.forName(className));
+                    innerBean = unmap(metadata, className == null || className.length() == 0
+                            ? field.getType() : Class.forName(className));
                 } catch (ClassNotFoundException e) {
                     throw new MappingException("Could not find class " + className
                             + " when instantiating bean for inner field " + field.getName()
@@ -197,7 +231,7 @@ public class UnmappingEngine extends AbstractEngine {
     private <T> void setField(Map<String, String> metadata, T bean, Field field, Metadata settings,
             String value) throws MappingException {
         String customSetter = settings.customSetter();
-        if (StringUtils.isEmpty(customSetter)) {
+        if (customSetter == null || customSetter.length() == 0) {
             setField(bean, field, value);
         } else {
             // a custom setter was defined, overrides the default converter
@@ -222,7 +256,7 @@ public class UnmappingEngine extends AbstractEngine {
     private <T> void setField(T bean, Field field, String value) throws MappingException {
         try {
             PropertyUtils.setProperty(bean, field.getName(),
-                    value == null ? ClassUtils.getDefaultValue(field.getType()) : this
+                    value == null ? DEFAULT_VALUES.get(field.getType()) : this
                             .<T> getConverter(field).convertFromString(value));
         } catch (IllegalAccessException e) {
             throw new MappingException("Field " + field.getName() + " of "

@@ -16,9 +16,8 @@
  */
 package org.keyboardplaying.mapper.converter;
 
-import org.apache.commons.lang3.BooleanUtils;
 import org.keyboardplaying.mapper.exception.ConversionException;
-import org.keyboardplaying.mapper.utils.Defaults;
+import org.keyboardplaying.mapper.Defaults;
 
 /**
  * Implementation of {@link Converter} for {@code Boolean} to {@code String} conversion.
@@ -28,9 +27,9 @@ import org.keyboardplaying.mapper.utils.Defaults;
 public class BooleanConverter implements Converter<Boolean> {
 
     /** The {@link String} representation of {@code true}. */
-    private String whenTrue = Defaults.BOOLEAN_TRUE;
+    private String whenTrue = Defaults.BOOLEAN_YES;
     /** The {@link String} representation of {@code false}. */
-    private String whenFalse = Defaults.BOOLEAN_FALSE;
+    private String whenFalse = Defaults.BOOLEAN_NO;
 
     /**
      * Sets the values to use for {@code true} and {@code false} values.
@@ -48,7 +47,7 @@ public class BooleanConverter implements Converter<Boolean> {
     /*
      * (non-Javadoc)
      *
-     * @see org.keyboardplaying.mapper.converter.Converter#convertFromString(java .lang.String)
+     * @see org.keyboardplaying.mapper.converter.Converter#convertFromString(java.lang.String)
      */
     @Override
     public Boolean convertFromString(String value) throws ConversionException {
@@ -68,10 +67,10 @@ public class BooleanConverter implements Converter<Boolean> {
     /*
      * (non-Javadoc)
      *
-     * @see org.keyboardplaying.mapper.converter.Converter#convertToString(java.lang .Object)
+     * @see org.keyboardplaying.mapper.converter.Converter#convertToString(java.lang.Object)
      */
     @Override
-    public String convertToString(Boolean value) {
-        return BooleanUtils.isTrue(value) ? this.whenTrue : this.whenFalse;
+    public String convertToString(Boolean bool) {
+        return bool != null && bool.booleanValue() ? this.whenTrue : this.whenFalse;
     }
 }

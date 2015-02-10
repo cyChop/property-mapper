@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
@@ -120,7 +119,7 @@ public class MappingEngine extends AbstractEngine {
         String customGetter = settings.customGetter();
 
         String result;
-        if (StringUtils.isEmpty(customGetter)) {
+        if (customGetter == null || customGetter.length() == 0) {
             result = getFieldAsString(bean, field);
         } else {
             // a custom getter was defined, overrides the default converter

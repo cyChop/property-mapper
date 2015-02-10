@@ -23,7 +23,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.keyboardplaying.mapper.exception.ConversionException;
-import org.keyboardplaying.mapper.utils.Defaults;
+import org.keyboardplaying.mapper.Defaults;
 
 // XXX Javadoc
 /**
@@ -35,15 +35,15 @@ public class BooleanConverterTest {
     private BooleanConverter frC = new BooleanConverter();
 
     {
-        frC.setTrueFalse(Defaults.BOOLEAN_TRUE_FR, Defaults.BOOLEAN_FALSE_FR);
+        frC.setTrueFalse(Defaults.BOOLEAN_YES_FR, Defaults.BOOLEAN_NO_FR);
     }
 
     @Test
     public void testConvertFromString() throws ConversionException {
-        assertTrue(enC.convertFromString(Defaults.BOOLEAN_TRUE));
-        assertFalse(enC.convertFromString(Defaults.BOOLEAN_FALSE));
+        assertTrue(enC.convertFromString(Defaults.BOOLEAN_YES));
+        assertFalse(enC.convertFromString(Defaults.BOOLEAN_NO));
         try {
-            enC.convertFromString(Defaults.BOOLEAN_FALSE_FR);
+            enC.convertFromString(Defaults.BOOLEAN_NO_FR);
             fail();
         } catch (ConversionException e) {
             // incorrect value
@@ -51,10 +51,10 @@ public class BooleanConverterTest {
             fail();
         }
 
-        assertTrue(frC.convertFromString(Defaults.BOOLEAN_TRUE_FR));
-        assertFalse(frC.convertFromString(Defaults.BOOLEAN_FALSE_FR));
+        assertTrue(frC.convertFromString(Defaults.BOOLEAN_YES_FR));
+        assertFalse(frC.convertFromString(Defaults.BOOLEAN_NO_FR));
         try {
-            frC.convertFromString(Defaults.BOOLEAN_TRUE);
+            frC.convertFromString(Defaults.BOOLEAN_YES);
             fail();
         } catch (ConversionException e) {
             // incorrect value
@@ -65,9 +65,15 @@ public class BooleanConverterTest {
 
     @Test
     public void testConvertToString() throws ConversionException {
-        assertEquals(Defaults.BOOLEAN_TRUE, enC.convertToString(true));
-        assertEquals(Defaults.BOOLEAN_FALSE, enC.convertToString(false));
-        assertEquals(Defaults.BOOLEAN_TRUE_FR, frC.convertToString(true));
-        assertEquals(Defaults.BOOLEAN_FALSE_FR, frC.convertToString(false));
+        assertEquals(Defaults.BOOLEAN_YES, enC.convertToString(true));
+        assertEquals(Defaults.BOOLEAN_NO, enC.convertToString(false));
+        assertEquals(Defaults.BOOLEAN_YES_FR, frC.convertToString(true));
+        assertEquals(Defaults.BOOLEAN_NO_FR, frC.convertToString(false));
+    }
+
+    @Test
+    public void testNull() throws ConversionException {
+        assertEquals(Defaults.BOOLEAN_NO, enC.convertToString(null));
+        assertEquals(Defaults.BOOLEAN_NO_FR, frC.convertToString(null));
     }
 }

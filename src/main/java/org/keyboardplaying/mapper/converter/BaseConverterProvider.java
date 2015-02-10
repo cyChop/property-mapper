@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.xbean.finder.ResourceFinder;
-import org.keyboardplaying.mapper.utils.ClassUtils;
 
 /**
  * Provides the correct implementation of {@link Converter} to use based on the type of the field to
@@ -98,9 +97,8 @@ public class BaseConverterProvider implements ConverterProvider {
     @Override
     public <T> Converter<T> getConverter(Class<?> klass) {
 
-        Class<T> destination = (Class<T>) (klass.isPrimitive() ? ClassUtils.wrap(klass) : klass);
         Class<? extends Converter<T>> converterClass = (Class<? extends Converter<T>>) implementations
-                .get(destination.getName());
+                .get(klass.getName());
 
         try {
             return converterClass == null ? null : converterClass.newInstance();

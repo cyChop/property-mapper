@@ -22,7 +22,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.keyboardplaying.mapper.utils.Defaults;
+import org.keyboardplaying.mapper.Defaults;
 
 /**
  * Defines the {@link String} representations for {@code true} and {@code false} when dealing with
@@ -40,12 +40,12 @@ public @interface BooleanValues {
      *
      * @return the {@link String} representation of a {@code true} boolean.
      */
-    String whenTrue() default Defaults.BOOLEAN_TRUE;
+    String whenTrue() default Defaults.BOOLEAN_YES;
 
     /**
      * The {@link String} representation of a {@code false} boolean.
      *
      * @return the {@link String} representation of a {@code false} boolean.
      */
-    String whenFalse() default Defaults.BOOLEAN_FALSE;
+    String whenFalse() default Defaults.BOOLEAN_NO;
 }
