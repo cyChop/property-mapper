@@ -27,11 +27,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.keyboardplaying.mapper.annotation.TemporalType;
 import org.keyboardplaying.mapper.bean.TestBean;
 import org.keyboardplaying.mapper.bean.TestInnerImpl;
 import org.keyboardplaying.mapper.exception.ConversionException;
+import org.keyboardplaying.mapper.exception.ConverterInitializationException;
 import org.keyboardplaying.mapper.exception.MappingException;
 
 // TODO test custom getter

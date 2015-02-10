@@ -25,6 +25,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.keyboardplaying.mapper.annotation.TemporalType;
 import org.keyboardplaying.mapper.bean.TestBean;
@@ -32,6 +33,7 @@ import org.keyboardplaying.mapper.bean.TestInnerImpl;
 import org.keyboardplaying.mapper.converter.CalendarConverter;
 import org.keyboardplaying.mapper.converter.DateConverter;
 import org.keyboardplaying.mapper.exception.ConversionException;
+import org.keyboardplaying.mapper.exception.ConverterInitializationException;
 import org.keyboardplaying.mapper.exception.MappingException;
 
 // XXX Javadoc
@@ -42,20 +44,14 @@ public class UnmappingEngineTest {
 
     private UnmappingEngine mappingEngine = new UnmappingEngine();
 
+    @Test(expected = MappingException.class)
+    public void testMapWithMissingMandatory() throws MappingException {
+        mappingEngine.unmap(new HashMap<String, String>(), TestBean.class);
+    }
+
     @Test
     public void testMapToBean() throws MappingException, ConversionException {
         Map<String, String> metadata = new HashMap<String, String>();
-
-        /* Test @Nested & @Metadata(mandatory = true) */
-        // The metadata of nested beans is mandatory.
-        try {
-            mappingEngine.unmap(metadata, TestBean.class);
-            fail();
-        } catch (MappingException e) {
-            // a mandatory field is missing from metadata ('hello_world_inner')
-        } catch (Exception e) {
-            fail();
-        }
 
         /* Test @Nested & @DefaultValue */
         metadata.put("hello_world_inner", "Hello, Little Big Planet!");

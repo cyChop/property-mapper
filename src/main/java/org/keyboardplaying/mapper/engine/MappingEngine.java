@@ -27,6 +27,7 @@ import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.exception.ConversionException;
+import org.keyboardplaying.mapper.exception.ConverterInitializationException;
 import org.keyboardplaying.mapper.exception.MappingException;
 
 // TODO JAVADOC
@@ -110,7 +111,6 @@ public class MappingEngine extends AbstractEngine {
                         + " is null and does not define a default value.");
             }
         }
-        System.out.println(settings.value() + ":" + value);
         map.put(settings.value(), value);
     }
 
@@ -134,6 +134,9 @@ public class MappingEngine extends AbstractEngine {
             Object value = PropertyUtils.getProperty(bean, field.getName());
             return value == null ? null : getConverter(field).convertToString(value);
 
+        } catch (ConverterInitializationException e) {
+            throw new MappingException("Converter for field " + field.getName() + " of "
+                    + field.getDeclaringClass().getName() + " could not be initialized.", e);
         } catch (IllegalAccessException e) {
             throw new MappingException("Field " + field.getName() + " of "
                     + field.getDeclaringClass().getName() + " could not be got.", e);

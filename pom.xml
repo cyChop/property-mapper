@@ -30,11 +30,9 @@
 
     <!-- Version management -->
     <commons.beanutils.version>1.9.2</commons.beanutils.version>
-    <xbean.version>4.1</xbean.version>
     <!-- Version management - test -->
     <junit.version>4.12</junit.version>
     <jdepend.version>2.9.1</jdepend.version>
-    <commons.logging.version>1.2</commons.logging.version>
     <!-- Version management - coverage -->
     <cobertura.plugin.version>2.6</cobertura.plugin.version>
     <coveralls.plugin.version>3.0.1</coveralls.plugin.version>
@@ -49,25 +47,6 @@
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
       <version>${commons.beanutils.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.xbean</groupId>
-      <artifactId>xbean-finder</artifactId>
-      <version>${xbean.version}</version>
-    </dependency>
-
-      <!--  _               -->
-      <!-- | |   ___  __ _  -->
-      <!-- | |__/ _ \/ _` | -->
-      <!-- |____\___/\__, | -->
-      <!--           |___/  -->
-      <!-- Used only for testing; using this instead of SLF4J allows for ASF instead of GPL. -->
-    <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
-      <version>${commons.logging.version}</version>
-      <scope>test</scope>
     </dependency>
 
     <!--  _____       _    -->

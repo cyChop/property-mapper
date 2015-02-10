@@ -28,6 +28,7 @@ import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.exception.ConversionException;
+import org.keyboardplaying.mapper.exception.ConverterInitializationException;
 import org.keyboardplaying.mapper.exception.MappingException;
 
 /**
@@ -258,6 +259,9 @@ public class UnmappingEngine extends AbstractEngine {
             PropertyUtils.setProperty(bean, field.getName(),
                     value == null ? DEFAULT_VALUES.get(field.getType()) : this
                             .<T> getConverter(field).convertFromString(value));
+        } catch (ConverterInitializationException e) {
+            throw new MappingException("Converter for field " + field.getName() + " of "
+                    + field.getDeclaringClass().getName() + " could not be initialized.", e);
         } catch (IllegalAccessException e) {
             throw new MappingException("Field " + field.getName() + " of "
                     + field.getDeclaringClass().getName() + " could not be set.", e);

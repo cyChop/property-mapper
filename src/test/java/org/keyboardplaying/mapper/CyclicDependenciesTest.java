@@ -23,8 +23,6 @@ import java.io.IOException;
 import jdepend.framework.JDepend;
 import jdepend.framework.JavaPackage;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,9 +34,6 @@ import org.junit.Test;
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public class CyclicDependenciesTest {
-
-    /** Static logger for this class. */
-    private static Log log = LogFactory.getLog(CyclicDependenciesTest.class);
 
     /** The {@link JDepend} instance used to run tests. */
     private JDepend jdepend;
@@ -76,11 +71,7 @@ public class CyclicDependenciesTest {
                     sb.append('\n').append('\t').append(pack.getName());
                 }
             }
-            log.warn(sb.toString());
-
-            fail();
-        } else {
-            log.info("No package cycle detected.");
+            fail(sb.toString());
         }
     }
 }

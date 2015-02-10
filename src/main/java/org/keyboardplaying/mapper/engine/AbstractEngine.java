@@ -20,11 +20,12 @@ import java.lang.reflect.Field;
 
 import org.keyboardplaying.mapper.annotation.BooleanValues;
 import org.keyboardplaying.mapper.annotation.Temporal;
-import org.keyboardplaying.mapper.converter.BaseConverterProvider;
+import org.keyboardplaying.mapper.converter.AutoDiscoverConverterProvider;
 import org.keyboardplaying.mapper.converter.BooleanConverter;
 import org.keyboardplaying.mapper.converter.Converter;
 import org.keyboardplaying.mapper.converter.ConverterProvider;
 import org.keyboardplaying.mapper.converter.TemporalConverter;
+import org.keyboardplaying.mapper.exception.ConverterInitializationException;
 import org.keyboardplaying.mapper.exception.MappingException;
 
 // XXX Study the opportunity of creating a MappingExceptionFactory
@@ -52,13 +53,13 @@ public abstract class AbstractEngine {
     /**
      * Returns the provider for fetching converters.
      * <p/>
-     * If no provider was set, the {@link BaseConverterProvider} will be used.
+     * If no provider was set, the {@link AutoDiscoverConverterProvider} will be used.
      *
      * @return the converter provider
      */
     private ConverterProvider getConverterProvider() {
         if (converterProvider == null) {
-            converterProvider = BaseConverterProvider.getInstance();
+            converterProvider = AutoDiscoverConverterProvider.getInstance();
         }
         return converterProvider;
     }
@@ -72,9 +73,14 @@ public abstract class AbstractEngine {
      * @throws MappingException
      *             when no {@link Converter} can be found or annotation settings are missing (e.g.
      *             {@link Temporal} on temporal fields)
+     * @throws ConverterInitializationException
+     *             if the {@link Converter} cannot be found or initialized
      */
-    protected <T> Converter<T> getConverter(Field field) throws MappingException {
-        Converter<T> converter = getConverterProvider().getConverter(field.getType());
+    @SuppressWarnings("unchecked")
+    protected <T> Converter<? super T> getConverter(Field field) throws MappingException,
+            ConverterInitializationException {
+        Converter<? super T> converter = getConverterProvider()
+                .getConverter((Class<T>) field.getType());
 
         if (converter == null) {
 

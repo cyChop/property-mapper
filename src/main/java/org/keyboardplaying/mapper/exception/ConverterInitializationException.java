@@ -14,26 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.keyboardplaying.mapper.converter;
+package org.keyboardplaying.mapper.exception;
 
-import org.keyboardplaying.mapper.exception.ConverterInitializationException;
-
+// TODO JAVADOC
+// TODO Generate UID
 /**
- * Provides the correct implementation of {@link Converter} to use based on the type of the field to
- * convert.
+ * An exception to throw when a Converter could not be found or initialized.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public interface ConverterProvider {
+public class ConverterInitializationException extends Exception {
 
-    /**
-     * Fetches the appropriate {@link Converter} for the supplied class.
-     *
-     * @param klass
-     *            the class to convert from or to
-     * @return the {@link Converter} to use for conversion
-     * @throws ConverterInitializationException
-     *             if the {@link Converter} cannot be found or initialized
-     */
-    <T> Converter<? super T> getConverter(Class<T> klass) throws ConverterInitializationException;
+    public ConverterInitializationException() {
+        super();
+    }
+
+    public ConverterInitializationException(String message) {
+        super(message);
+    }
+
+    public ConverterInitializationException(Throwable cause) {
+        super(cause);
+    }
+
+    public ConverterInitializationException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

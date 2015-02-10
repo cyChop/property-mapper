@@ -16,7 +16,8 @@ Strings.
 
 ## TODO
 
-* Make converter provider able to discover other converters (make mapper extensible)
+* Convert descriptor files to properties (will allow for comments)
+* Make it possible to provide a custom implementation of the ConverterProvider
 * Study the removal of dependency to commons-beanutils
 
 [1]: http://img.shields.io/travis/cyChop/property-mapper/master.svg
