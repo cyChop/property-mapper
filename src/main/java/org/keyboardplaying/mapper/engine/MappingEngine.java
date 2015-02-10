@@ -38,11 +38,13 @@ import org.keyboardplaying.mapper.exception.MappingException;
  */
 public class MappingEngine extends AbstractEngine {
 
-    public <T> Map<String, String> map(T bean) throws MappingException {
+    public <T> Map<String, String> map(T bean) throws ConverterInitializationException,
+            MappingException {
         return map(bean, null);
     }
 
-    public <T> Map<String, String> map(T bean, Map<String, String> map) throws MappingException {
+    public <T> Map<String, String> map(T bean, Map<String, String> map)
+            throws ConverterInitializationException, MappingException {
         Map<String, String> result = map == null ? new HashMap<String, String>() : map;
 
         /* Control the validity of arguments. */
@@ -65,7 +67,7 @@ public class MappingEngine extends AbstractEngine {
     }
 
     private <T> void performInnerMapping(T bean, Field field, Map<String, String> result)
-            throws MappingException {
+            throws ConverterInitializationException, MappingException {
         try {
 
             Object value = PropertyUtils.getProperty(bean, field.getName());
@@ -74,22 +76,18 @@ public class MappingEngine extends AbstractEngine {
             }
 
         } catch (IllegalArgumentException e) {
-            throw new MappingException("Error while mapping nested " + field.getName() + " of "
-                    + field.getDeclaringClass().getName(), e);
+            throw makeNestedMappingError(field, e);
         } catch (IllegalAccessException e) {
-            throw new MappingException("Error while mapping nested " + field.getName() + " of "
-                    + field.getDeclaringClass().getName(), e);
+            throw makeNestedMappingError(field, e);
         } catch (InvocationTargetException e) {
-            throw new MappingException("Error while mapping nested " + field.getName() + " of "
-                    + field.getDeclaringClass().getName(), e);
+            throw makeNestedMappingError(field, e);
         } catch (NoSuchMethodException e) {
-            throw new MappingException("Error while mapping nested " + field.getName() + " of "
-                    + field.getDeclaringClass().getName(), e);
+            throw makeNestedMappingError(field, e);
         }
     }
 
     private <T> void performFieldMapping(T bean, Field field, Map<String, String> map)
-            throws MappingException {
+            throws ConverterInitializationException, MappingException {
         Metadata settings = field.getAnnotation(Metadata.class);
 
         /* Fetch the value from the bean. */
@@ -115,7 +113,7 @@ public class MappingEngine extends AbstractEngine {
     }
 
     private <T> String getFieldAsString(T bean, Field field, Metadata settings)
-            throws MappingException {
+            throws ConverterInitializationException, MappingException {
         String customGetter = settings.customGetter();
 
         String result;
@@ -128,27 +126,21 @@ public class MappingEngine extends AbstractEngine {
         return result;
     }
 
-    private <T> String getFieldAsString(T bean, Field field) throws MappingException {
+    private <T> String getFieldAsString(T bean, Field field)
+            throws ConverterInitializationException, MappingException {
         try {
 
             Object value = PropertyUtils.getProperty(bean, field.getName());
             return value == null ? null : getConverter(field).convertToString(value);
 
-        } catch (ConverterInitializationException e) {
-            throw new MappingException("Converter for field " + field.getName() + " of "
-                    + field.getDeclaringClass().getName() + " could not be initialized.", e);
         } catch (IllegalAccessException e) {
-            throw new MappingException("Field " + field.getName() + " of "
-                    + field.getDeclaringClass().getName() + " could not be got.", e);
+            throw makeFieldGettingError(field, e);
         } catch (ConversionException e) {
-            throw new MappingException("Field " + field.getName() + " of "
-                    + field.getDeclaringClass().getName() + " could not be got.", e);
+            throw makeFieldGettingError(field, e);
         } catch (InvocationTargetException e) {
-            throw new MappingException("Field " + field.getName() + " of "
-                    + field.getDeclaringClass().getName() + " could not be got.", e);
+            throw makeFieldGettingError(field, e);
         } catch (NoSuchMethodException e) {
-            throw new MappingException("Field " + field.getName() + " of "
-                    + field.getDeclaringClass().getName() + " could not be got.", e);
+            throw makeFieldGettingError(field, e);
         }
     }
 
@@ -160,23 +152,32 @@ public class MappingEngine extends AbstractEngine {
             return (String) method.invoke(bean);
 
         } catch (IllegalArgumentException e) {
-            throw new MappingException("Custom getter " + customGetter + " of "
-                    + bean.getClass().getName() + " could not be called.", e);
+            throw makeCustomGetterError(bean, customGetter, e);
         } catch (IllegalAccessException e) {
-            throw new MappingException("Custom getter " + customGetter + " of "
-                    + bean.getClass().getName() + " could not be called.", e);
+            throw makeCustomGetterError(bean, customGetter, e);
         } catch (InvocationTargetException e) {
-            throw new MappingException("Custom getter " + customGetter + " of "
-                    + bean.getClass().getName() + " could not be called.", e);
+            throw makeCustomGetterError(bean, customGetter, e);
         } catch (SecurityException e) {
-            throw new MappingException("Custom getter " + customGetter + " of "
-                    + bean.getClass().getName() + " could not be called.", e);
+            throw makeCustomGetterError(bean, customGetter, e);
         } catch (NoSuchMethodException e) {
-            throw new MappingException("Custom getter " + customGetter + " of "
-                    + bean.getClass().getName() + " could not be called.", e);
+            throw makeCustomGetterError(bean, customGetter, e);
         } catch (ClassCastException e) {
-            throw new MappingException("Custom getter " + customGetter + " of "
-                    + bean.getClass().getName() + " did not return a String", e);
+            throw makeCustomGetterError(bean, customGetter, e);
         }
+    }
+
+    private MappingException makeNestedMappingError(Field field, Exception cause) {
+        return new MappingException("Error while mapping nested " + field.getName() + " of "
+                + field.getDeclaringClass().getName(), cause);
+    }
+
+    private MappingException makeFieldGettingError(Field field, Exception cause) {
+        return new MappingException("Field " + field.getName() + " of "
+                + field.getDeclaringClass().getName() + " could not be got.", cause);
+    }
+
+    private MappingException makeCustomGetterError(Object bean, String customGetter, Exception cause) {
+        return new MappingException("Custom getter " + customGetter + " of "
+                + bean.getClass().getName() + " did not return a String", cause);
     }
 }

@@ -29,7 +29,7 @@ import org.junit.Test;
 import org.keyboardplaying.mapper.annotation.TemporalType;
 import org.keyboardplaying.mapper.converter.CalendarConverter;
 import org.keyboardplaying.mapper.converter.DateConverter;
-import org.keyboardplaying.mapper.exception.ConversionException;
+import org.keyboardplaying.mapper.exception.MapperException;
 import org.keyboardplaying.mapper.exception.MappingException;
 import org.keyboardplaying.mapper.mock.bean.TestBean;
 import org.keyboardplaying.mapper.mock.bean.TestInnerImpl;
@@ -43,12 +43,12 @@ public class UnmappingEngineTest {
     private UnmappingEngine mappingEngine = new UnmappingEngine();
 
     @Test(expected = MappingException.class)
-    public void testMapWithMissingMandatory() throws MappingException {
+    public void testMapWithMissingMandatory() throws MapperException {
         mappingEngine.unmap(new HashMap<String, String>(), TestBean.class);
     }
 
     @Test
-    public void testMapToBean() throws MappingException, ConversionException {
+    public void testMapToBean() throws MapperException {
         Map<String, String> metadata = new HashMap<String, String>();
 
         /* Test @Nested & @DefaultValue */

@@ -44,9 +44,10 @@ public class UnmappingEngine extends AbstractEngine {
     static {
         /*
          * Initialize default values for primitive types.
-         * 
+         *
          * Skip Objects: their default value is null anyway.
          */
+        // do not declare a serial: it would provide a default value for a String.
         @SuppressWarnings("serial")
         Map<Class<?>, Object> defaultValues = new HashMap<Class<?>, Object>() {
             /* Default primitive values (called through reflection). */
@@ -68,12 +69,13 @@ public class UnmappingEngine extends AbstractEngine {
             private short s;
 
             {
-                for (final Field field : getClass().getDeclaredFields()) {
-                    try {
+                try {
+                    for (final Field field : getClass().getDeclaredFields()) {
                         put(field.getType(), field.get(this));
-                    } catch (IllegalAccessException e) {
-                        throw new IllegalArgumentException(e);
                     }
+                } catch (IllegalAccessException e) {
+                    // this will never occur, or the application will not work properly
+                    throw new IllegalStateException(e);
                 }
             }
         };
@@ -90,18 +92,19 @@ public class UnmappingEngine extends AbstractEngine {
      * @param beanType
      *            the destination bean's type
      * @return the destination bean
+     * @throws ConverterInitializationException
+     *             when the converter could not be initialized for a field
      * @throws MappingException
      *             when the mapping fails
      */
-    public <T> T unmap(Map<String, String> metadata, Class<T> beanType) throws MappingException {
+    public <T> T unmap(Map<String, String> metadata, Class<T> beanType)
+            throws ConverterInitializationException, MappingException {
         try {
             return unmap(metadata, beanType.newInstance());
         } catch (InstantiationException e) {
-            throw new MappingException("Could not instanciate a new bean for type "
-                    + beanType.getSimpleName() + ".", e);
+            throw makeInstanciationError(beanType, e);
         } catch (IllegalAccessException e) {
-            throw new MappingException("Could not instanciate a new bean for type "
-                    + beanType.getSimpleName() + ".", e);
+            throw makeInstanciationError(beanType, e);
         }
     }
 
@@ -115,10 +118,13 @@ public class UnmappingEngine extends AbstractEngine {
      * @param bean
      *            the destination bean
      * @return the destination bean
+     * @throws ConverterInitializationException
+     *             when the converter could not be initialized for a field
      * @throws MappingException
      *             when the mapping fails
      */
-    public <T> T unmap(Map<String, String> metadata, T bean) throws MappingException {
+    public <T> T unmap(Map<String, String> metadata, T bean)
+            throws ConverterInitializationException, MappingException {
         /* Control the validity of arguments. */
         if (bean == null) {
             throw new MappingException("The supplied bean was null.");
@@ -150,11 +156,13 @@ public class UnmappingEngine extends AbstractEngine {
      *            the destination bean
      * @param field
      *            the field to set
+     * @throws ConverterInitializationException
+     *             when the converter could not be initialized for a field
      * @throws MappingException
      *             when the mapping fails
      */
     private <T> void performInnerUnmapping(Map<String, String> metadata, T bean, Field field)
-            throws MappingException {
+            throws ConverterInitializationException, MappingException {
         try {
 
             Object innerBean = PropertyUtils.getProperty(bean, field.getName());
@@ -176,14 +184,11 @@ public class UnmappingEngine extends AbstractEngine {
             PropertyUtils.setProperty(bean, field.getName(), innerBean);
 
         } catch (IllegalAccessException e) {
-            throw new MappingException("Error while unmapping nested bean " + field.getName()
-                    + " of " + field.getDeclaringClass().getName(), e);
+            throw makeNestedUnmappingError(field, e);
         } catch (InvocationTargetException e) {
-            throw new MappingException("Error while unmapping nested bean " + field.getName()
-                    + " of " + field.getDeclaringClass().getName(), e);
+            throw makeNestedUnmappingError(field, e);
         } catch (NoSuchMethodException e) {
-            throw new MappingException("Error while unmapping nested bean " + field.getName()
-                    + " of " + field.getDeclaringClass().getName(), e);
+            throw makeNestedUnmappingError(field, e);
         }
     }
 
@@ -196,11 +201,13 @@ public class UnmappingEngine extends AbstractEngine {
      *            the destination bean
      * @param field
      *            the field to set
+     * @throws ConverterInitializationException
+     *             when the converter for the field could not be initialized
      * @throws MappingException
      *             when the mapping fails
      */
     private <T> void performFieldUnmapping(Map<String, String> metadata, T bean, Field field)
-            throws MappingException {
+            throws ConverterInitializationException, MappingException {
         Metadata settings = field.getAnnotation(Metadata.class);
         String metadataName = settings.value();
 
@@ -237,11 +244,13 @@ public class UnmappingEngine extends AbstractEngine {
      *            the main settings for parsing the value from metadata
      * @param value
      *            the value which should be set
+     * @throws ConverterInitializationException
+     *             when the converter for the field could not be initialized
      * @throws MappingException
      *             when the mapping fails
      */
     private <T> void setField(Map<String, String> metadata, T bean, Field field, Metadata settings,
-            String value) throws MappingException {
+            String value) throws ConverterInitializationException, MappingException {
         String customSetter = settings.customSetter();
         if (customSetter == null || customSetter.length() == 0) {
             setField(bean, field, value);
@@ -262,31 +271,27 @@ public class UnmappingEngine extends AbstractEngine {
      *            the field to set
      * @param value
      *            the non-converted value for the field
+     * @throws ConverterInitializationException
+     *             when the converter for the field could not be initialized
      * @throws MappingException
      *             when the mapping fails
      */
-    private <T> void setField(T bean, Field field, String value) throws MappingException {
+    private <T> void setField(T bean, Field field, String value)
+            throws ConverterInitializationException, MappingException {
         try {
             PropertyUtils.setProperty(
                     bean,
                     field.getName(),
                     value == null ? DEFAULT_VALUES.get(field.getType()) : this.<T> getConverter(
                             field).convertFromString(value));
-        } catch (ConverterInitializationException e) {
-            throw new MappingException("Converter for field " + field.getName() + " of "
-                    + field.getDeclaringClass().getName() + " could not be initialized.", e);
         } catch (IllegalAccessException e) {
-            throw new MappingException("Field " + field.getName() + " of "
-                    + field.getDeclaringClass().getName() + " could not be set.", e);
+            throw makeFieldSettingError(field, e);
         } catch (InvocationTargetException e) {
-            throw new MappingException("Field " + field.getName() + " of "
-                    + field.getDeclaringClass().getName() + " could not be set.", e);
+            throw makeFieldSettingError(field, e);
         } catch (NoSuchMethodException e) {
-            throw new MappingException("Field " + field.getName() + " of "
-                    + field.getDeclaringClass().getName() + " could not be set.", e);
+            throw makeFieldSettingError(field, e);
         } catch (ConversionException e) {
-            throw new MappingException("Field " + field.getName() + " of "
-                    + field.getDeclaringClass().getName() + " could not be set.", e);
+            throw makeFieldSettingError(field, e);
         }
     }
 
@@ -318,20 +323,36 @@ public class UnmappingEngine extends AbstractEngine {
             method.invoke(bean, value, metadata);
 
         } catch (IllegalArgumentException e) {
-            throw new MappingException("Custom setter " + customSetter + " of "
-                    + bean.getClass().getName() + " could not be called.", e);
+            throw makeCustomSetterProblemError(bean, customSetter, e);
         } catch (IllegalAccessException e) {
-            throw new MappingException("Custom setter " + customSetter + " of "
-                    + bean.getClass().getName() + " could not be called.", e);
+            throw makeCustomSetterProblemError(bean, customSetter, e);
         } catch (InvocationTargetException e) {
-            throw new MappingException("Custom setter " + customSetter + " of "
-                    + bean.getClass().getName() + " could not be called.", e);
+            throw makeCustomSetterProblemError(bean, customSetter, e);
         } catch (SecurityException e) {
-            throw new MappingException("Custom setter " + customSetter + " of "
-                    + bean.getClass().getName() + " could not be called.", e);
+            throw makeCustomSetterProblemError(bean, customSetter, e);
         } catch (NoSuchMethodException e) {
-            throw new MappingException("Custom setter " + customSetter + " of "
-                    + bean.getClass().getName() + " could not be called.", e);
+            throw makeCustomSetterProblemError(bean, customSetter, e);
         }
+    }
+
+    private MappingException makeInstanciationError(Class<?> beanType, Exception cause) {
+        return new MappingException("Could not instanciate a new bean for type "
+                + beanType.getSimpleName() + ".", cause);
+    }
+
+    private MappingException makeNestedUnmappingError(Field field, Exception cause) {
+        return new MappingException("Error while unmapping nested bean " + field.getName() + " of "
+                + field.getDeclaringClass().getName(), cause);
+    }
+
+    private MappingException makeFieldSettingError(Field field, Exception cause) {
+        return new MappingException("Field " + field.getName() + " of "
+                + field.getDeclaringClass().getName() + " could not be set.", cause);
+    }
+
+    private MappingException makeCustomSetterProblemError(Object bean, String customSetter,
+            Exception cause) {
+        return new MappingException("Custom setter " + customSetter + " of "
+                + bean.getClass().getName() + " could not be called.", cause);
     }
 }
