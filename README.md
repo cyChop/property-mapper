@@ -16,12 +16,11 @@ Strings.
 
 ## TODO
 
-* Make it possible to provide a custom implementation of the ConverterProvider
-* Study the removal of dependency to commons-beanutils
+* Coverage for custom getter
 
 [1]: http://img.shields.io/travis/cyChop/property-mapper/master.svg
 [2]: https://travis-ci.org/cyChop/property-mapper
 [3]: http://img.shields.io/coveralls/cyChop/property-mapper/master.svg
 [4]: https://coveralls.io/r/cyChop/property-mapper?branch=master
-[5]: https://img.shields.io/badge/license-ASF%202.0-blue.svg
-[6]: http://www.apache.org/licenses/LICENSE-2.0
+[5]: https://img.shields.io/badge/license-New%20BSD-blue.svg
+[6]: http://opensource.org/licenses/BSD-3-Clause

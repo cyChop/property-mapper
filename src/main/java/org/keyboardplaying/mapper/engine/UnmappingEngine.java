@@ -16,6 +16,8 @@
  */
 package org.keyboardplaying.mapper.engine;
 
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -23,7 +25,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
@@ -165,7 +166,8 @@ public class UnmappingEngine extends BaseEngine {
             throws ConverterInitializationException, MappingException {
         try {
 
-            Object innerBean = PropertyUtils.getProperty(bean, field.getName());
+            PropertyDescriptor descriptor = new PropertyDescriptor(field.getName(), bean.getClass());
+            Object innerBean = descriptor.getReadMethod().invoke(bean);
             if (innerBean == null) {
                 String className = field.getAnnotation(Nested.class).className();
                 try {
@@ -181,13 +183,13 @@ public class UnmappingEngine extends BaseEngine {
             } else {
                 innerBean = unmap(metadata, innerBean);
             }
-            PropertyUtils.setProperty(bean, field.getName(), innerBean);
+            descriptor.getWriteMethod().invoke(bean, innerBean);
 
         } catch (IllegalAccessException e) {
             throw makeNestedUnmappingError(field, e);
         } catch (InvocationTargetException e) {
             throw makeNestedUnmappingError(field, e);
-        } catch (NoSuchMethodException e) {
+        } catch (IntrospectionException e) {
             throw makeNestedUnmappingError(field, e);
         }
     }
@@ -279,16 +281,13 @@ public class UnmappingEngine extends BaseEngine {
     private <T> void setField(T bean, Field field, String value)
             throws ConverterInitializationException, MappingException {
         try {
-            PropertyUtils.setProperty(
-                    bean,
-                    field.getName(),
-                    value == null ? DEFAULT_VALUES.get(field.getType()) : this.<T> getConverter(
-                            field).convertFromString(value));
+            set(bean, field, value == null ? DEFAULT_VALUES.get(field.getType()) : this
+                    .<T> getConverter(field).convertFromString(value));
         } catch (IllegalAccessException e) {
             throw makeFieldSettingError(field, e);
         } catch (InvocationTargetException e) {
             throw makeFieldSettingError(field, e);
-        } catch (NoSuchMethodException e) {
+        } catch (IntrospectionException e) {
             throw makeFieldSettingError(field, e);
         } catch (ConversionException e) {
             throw makeFieldSettingError(field, e);

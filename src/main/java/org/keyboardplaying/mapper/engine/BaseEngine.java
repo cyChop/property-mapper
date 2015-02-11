@@ -16,7 +16,10 @@
  */
 package org.keyboardplaying.mapper.engine;
 
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 
 import org.keyboardplaying.mapper.annotation.BooleanValues;
 import org.keyboardplaying.mapper.annotation.Temporal;
@@ -105,5 +108,36 @@ public abstract class BaseEngine {
         }
 
         return converter;
+    }
+
+    /**
+     * Gets the value of a field in the supplied bean.
+     *
+     * @param bean
+     *            the bean
+     * @param field
+     *            the field
+     * @return the value
+     */
+    protected Object get(Object bean, Field field) throws IllegalAccessException,
+            IllegalArgumentException, InvocationTargetException, IntrospectionException {
+        return new PropertyDescriptor(field.getName(), bean.getClass()).getReadMethod()
+                .invoke(bean);
+    }
+
+    /**
+     * Sets the value of a field in the supplied bean.
+     *
+     * @param bean
+     *            the bean
+     * @param field
+     *            the field
+     * @param value
+     *            the value
+     */
+    protected void set(Object bean, Field field, Object value) throws IllegalAccessException,
+            IllegalArgumentException, InvocationTargetException, IntrospectionException {
+        new PropertyDescriptor(field.getName(), bean.getClass()).getWriteMethod().invoke(bean,
+                value);
     }
 }

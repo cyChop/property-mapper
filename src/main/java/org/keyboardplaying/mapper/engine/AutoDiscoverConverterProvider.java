@@ -24,7 +24,6 @@ import java.util.Objects;
 import java.util.Properties;
 
 import org.keyboardplaying.mapper.converter.Converter;
-import org.keyboardplaying.mapper.converter.StringConverter;
 import org.keyboardplaying.mapper.exception.ConverterInitializationException;
 
 /**
@@ -41,13 +40,13 @@ import org.keyboardplaying.mapper.exception.ConverterInitializationException;
  * {@link org.keyboardplaying.mapper.converter.StringConverter}, the file is:
  *
  * <pre>
- * META - INF / services / org.keyboardplaying.mapper.converter / java.lang.String
+ * META-INF/services/org.keyboardplaying.mapper.converter/java.lang.String
  * </pre>
  *
  * and its content is:
  *
  * <pre>
- * converter = org.keyboardplaying.mapper.converter.StringConverter
+ * converter=org.keyboardplaying.mapper.converter.StringConverter
  * </pre>
  * <p/>
  * This provider instantiates the converters only when required and then return them as singletons.
