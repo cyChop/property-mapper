@@ -28,8 +28,6 @@
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <!-- Version management -->
-    <commons.beanutils.version>1.9.2</commons.beanutils.version>
     <!-- Version management - test -->
     <junit.version>4.12</junit.version>
     <jdepend.version>2.9.1</jdepend.version>
@@ -39,16 +37,6 @@
   </properties>
 
   <dependencies>
-    <!--    ___                              -->
-    <!--   / __|___ _ __  _ __  ___ _ _  ___ -->
-    <!--  | (__/ _ \ '  \| '  \/ _ \ ' \(_-< -->
-    <!--   \___\___/_|_|_|_|_|_\___/_||_/__/ -->
-    <dependency>
-      <groupId>commons-beanutils</groupId>
-      <artifactId>commons-beanutils</artifactId>
-      <version>${commons.beanutils.version}</version>
-    </dependency>
-
     <!--  _____       _    -->
     <!-- |_   _|__ __| |_  -->
     <!--   | |/ -_|_-<  _| -->
@@ -57,6 +45,7 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>jdepend</groupId>

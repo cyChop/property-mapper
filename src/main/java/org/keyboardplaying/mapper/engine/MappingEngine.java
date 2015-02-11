@@ -16,13 +16,13 @@
  */
 package org.keyboardplaying.mapper.engine;
 
+import java.beans.IntrospectionException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
@@ -70,7 +70,7 @@ public class MappingEngine extends BaseEngine {
             throws ConverterInitializationException, MappingException {
         try {
 
-            Object value = PropertyUtils.getProperty(bean, field.getName());
+            Object value = get(bean, field);
             if (value != null) {
                 map(value, result);
             }
@@ -81,7 +81,7 @@ public class MappingEngine extends BaseEngine {
             throw makeNestedMappingError(field, e);
         } catch (InvocationTargetException e) {
             throw makeNestedMappingError(field, e);
-        } catch (NoSuchMethodException e) {
+        } catch (IntrospectionException e) {
             throw makeNestedMappingError(field, e);
         }
     }
@@ -130,7 +130,7 @@ public class MappingEngine extends BaseEngine {
             throws ConverterInitializationException, MappingException {
         try {
 
-            Object value = PropertyUtils.getProperty(bean, field.getName());
+            Object value = get(bean, field);
             return value == null ? null : getConverter(field).convertToString(value);
 
         } catch (IllegalAccessException e) {
@@ -139,7 +139,7 @@ public class MappingEngine extends BaseEngine {
             throw makeFieldGettingError(field, e);
         } catch (InvocationTargetException e) {
             throw makeFieldGettingError(field, e);
-        } catch (NoSuchMethodException e) {
+        } catch (IntrospectionException e) {
             throw makeFieldGettingError(field, e);
         }
     }
