@@ -1,1 +1,1 @@
-converter=org.keyboardplaying.mapper.mock.converter.ExtendedDateConverter
+converter=org.keyboardplaying.mapper.converter.DateConverter

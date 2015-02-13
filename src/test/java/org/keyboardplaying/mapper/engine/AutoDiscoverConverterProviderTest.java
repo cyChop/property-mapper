@@ -22,6 +22,7 @@ import static org.junit.Assert.fail;
 
 import java.math.BigInteger;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.junit.Before;
@@ -35,6 +36,7 @@ import org.keyboardplaying.mapper.converter.StringConverter;
 import org.keyboardplaying.mapper.engine.AutoDiscoverConverterProvider;
 import org.keyboardplaying.mapper.exception.ConverterInitializationException;
 import org.keyboardplaying.mapper.mock.converter.DoubleConverter;
+import org.keyboardplaying.mapper.mock.converter.ExtendedDateConverter;
 
 // XXX Javadoc
 /**
@@ -107,9 +109,8 @@ public class AutoDiscoverConverterProviderTest {
     public void testGetExtensibleConverter() throws ConverterInitializationException {
         // for something not existing in original project
         assertConverterClass(DoubleConverter.class, Double.class);
-        /* TODO ensure that, when using inside another project, the local poject overrides */
         // replacing an existing converter
-        // assertConverterClass(ExtendedDateConverter.class, Date.class);
+        assertConverterClass(ExtendedDateConverter.class, Date.class);
     }
 
     @Test(expected = ConverterInitializationException.class)
