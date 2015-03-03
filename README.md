@@ -43,12 +43,11 @@ Strings.
 
 ## TODO
 
-* Documentation (annotations, defining converters, (un)mapping engine)
-* Correct ``@BooleanValues`` for singleton ``BooleanConverter``
-* Rename ``Converter``s to ``Parser``s
-* Better coverage (custom getter)
-* Make version 1.0.0-SNAPSHOT once the standards are met
-* Coverage for custom getter
+* [ ] Documentation (annotations, defining converters, (un)mapping engine)
+* [ ] Correct ``@BooleanValues`` for singleton ``BooleanConverter``
+* [ ] Rename ``Converter``s to ``Parser``s
+* [ ] Better coverage (custom getter)
+* [ ] Make version 1.0.0-SNAPSHOT once the standards are met
 
 [1]: http://img.shields.io/travis/cyChop/property-mapper/master.svg
 [2]: https://travis-ci.org/cyChop/property-mapper
