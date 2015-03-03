@@ -7,91 +7,91 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.keyboardplaying.mapper.annotation.BooleanValues;
 import org.keyboardplaying.mapper.annotation.Temporal;
-import org.keyboardplaying.mapper.converter.BooleanConverter;
-import org.keyboardplaying.mapper.converter.Converter;
-import org.keyboardplaying.mapper.converter.TemporalConverter;
-import org.keyboardplaying.mapper.exception.ConverterInitializationException;
+import org.keyboardplaying.mapper.parser.BooleanParser;
+import org.keyboardplaying.mapper.parser.Parser;
+import org.keyboardplaying.mapper.parser.TemporalParser;
+import org.keyboardplaying.mapper.exception.ParserInitializationException;
 import org.keyboardplaying.mapper.exception.MappingException;
 
 // XXX Study the opportunity of creating a MappingExceptionFactory
 /**
- * An abstract base for engine. This class includes methods for fetching {@link Converter} instances
+ * An abstract base for engine. This class includes methods for fetching {@link Parser} instances
  * when mapping or unmapping.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public abstract class BaseEngine {
 
-    /** The {@link ConverterProvider}. */
-    private ConverterProvider converterProvider;
+    /** The {@link ParserProvider}. */
+    private ParserProvider parserProvider;
 
     /**
-     * Sets the provider for fetching converters.
+     * Sets the provider for fetching parsers.
      *
-     * @param converterProvider
-     *            the converter provider
+     * @param parserProvider
+     *            the parser provider
      */
-    public void setConverterProvider(ConverterProvider converterProvider) {
-        this.converterProvider = converterProvider;
+    public void setParserProvider(ParserProvider parserProvider) {
+        this.parserProvider = parserProvider;
     }
 
     /**
-     * Returns the provider for fetching converters.
+     * Returns the provider for fetching parsers.
      * <p/>
-     * If no provider was set, the {@link AutoDiscoverConverterProvider} will be used.
+     * If no provider was set, the {@link AutoDiscoverParserProvider} will be used.
      *
-     * @return the converter provider
+     * @return the parser provider
      */
-    private ConverterProvider getConverterProvider() {
-        if (converterProvider == null) {
-            converterProvider = AutoDiscoverConverterProvider.getInstance();
+    private ParserProvider getParserProvider() {
+        if (parserProvider == null) {
+            parserProvider = AutoDiscoverParserProvider.getInstance();
         }
-        return converterProvider;
+        return parserProvider;
     }
 
     /**
-     * Returns the appropriate {@link Converter} based on the supplied field's type.
+     * Returns the appropriate {@link Parser} based on the supplied field's type.
      *
      * @param field
      *            the field to convert a value from or to
-     * @return the {@link Converter} to use
+     * @return the {@link Parser} to use
      * @throws MappingException
-     *             when no {@link Converter} can be found or annotation settings are missing (e.g.
+     *             when no {@link Parser} can be found or annotation settings are missing (e.g.
      *             {@link Temporal} on temporal fields)
-     * @throws ConverterInitializationException
-     *             if the {@link Converter} cannot be found or initialized
+     * @throws ParserInitializationException
+     *             if the {@link Parser} cannot be found or initialized
      */
     @SuppressWarnings("unchecked")
-    protected <T> Converter<? super T> getConverter(Field field) throws MappingException,
-            ConverterInitializationException {
-        Converter<? super T> converter = getConverterProvider().getConverter(
+    protected <T> Parser<? super T> getParser(Field field) throws MappingException,
+            ParserInitializationException {
+        Parser<? super T> parser = getParserProvider().getParser(
                 (Class<T>) field.getType());
 
-        if (converter == null) {
+        if (parser == null) {
 
-            throw new MappingException("No converter could be found for type " + field.getType()
+            throw new MappingException("No parser could be found for type " + field.getType()
                     + " (field " + field.getName() + " of " + field.getDeclaringClass().getName()
                     + ")");
 
-        } else if (converter instanceof TemporalConverter) {
+        } else if (parser instanceof TemporalParser) {
 
             if (field.isAnnotationPresent(Temporal.class)) {
                 Temporal temporal = field.getAnnotation(Temporal.class);
-                ((TemporalConverter<T>) converter).setFormat(temporal.value().getFormat());
+                ((TemporalParser<T>) parser).setFormat(temporal.value().getFormat());
             } else {
                 throw new MappingException("Field " + field.getName() + " of "
                         + field.getDeclaringClass().getName()
                         + " must declare the @Temporal annotation.");
             }
 
-        } else if (converter instanceof BooleanConverter
+        } else if (parser instanceof BooleanParser
                 && field.isAnnotationPresent(BooleanValues.class)) {
 
             BooleanValues annot = field.getAnnotation(BooleanValues.class);
-            ((BooleanConverter) converter).setTrueFalse(annot.whenTrue(), annot.whenFalse());
+            ((BooleanParser) parser).setTrueFalse(annot.whenTrue(), annot.whenFalse());
         }
 
-        return converter;
+        return parser;
     }
 
     /**

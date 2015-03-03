@@ -10,8 +10,8 @@ import java.util.Map;
 import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
-import org.keyboardplaying.mapper.exception.ConversionException;
-import org.keyboardplaying.mapper.exception.ConverterInitializationException;
+import org.keyboardplaying.mapper.exception.ParsingException;
+import org.keyboardplaying.mapper.exception.ParserInitializationException;
 import org.keyboardplaying.mapper.exception.MappingException;
 
 // TODO JAVADOC
@@ -22,13 +22,13 @@ import org.keyboardplaying.mapper.exception.MappingException;
  */
 public class MappingEngine extends BaseEngine {
 
-    public <T> Map<String, String> map(T bean) throws ConverterInitializationException,
+    public <T> Map<String, String> map(T bean) throws ParserInitializationException,
             MappingException {
         return map(bean, null);
     }
 
     public <T> Map<String, String> map(T bean, Map<String, String> map)
-            throws ConverterInitializationException, MappingException {
+            throws ParserInitializationException, MappingException {
         Map<String, String> result = map == null ? new HashMap<String, String>() : map;
 
         /* Control the validity of arguments. */
@@ -51,7 +51,7 @@ public class MappingEngine extends BaseEngine {
     }
 
     private <T> void performInnerMapping(T bean, Field field, Map<String, String> result)
-            throws ConverterInitializationException, MappingException {
+            throws ParserInitializationException, MappingException {
         try {
 
             Object value = get(bean, field);
@@ -71,7 +71,7 @@ public class MappingEngine extends BaseEngine {
     }
 
     private <T> void performFieldMapping(T bean, Field field, Map<String, String> map)
-            throws ConverterInitializationException, MappingException {
+            throws ParserInitializationException, MappingException {
         Metadata settings = field.getAnnotation(Metadata.class);
 
         /* Fetch the value from the bean. */
@@ -97,29 +97,29 @@ public class MappingEngine extends BaseEngine {
     }
 
     private <T> String getFieldAsString(T bean, Field field, Metadata settings)
-            throws ConverterInitializationException, MappingException {
+            throws ParserInitializationException, MappingException {
         String customGetter = settings.customGetter();
 
         String result;
         if (customGetter == null || customGetter.length() == 0) {
             result = getFieldAsString(bean, field);
         } else {
-            // a custom getter was defined, overrides the default converter
+            // a custom getter was defined, overrides the default parser
             result = getFieldUsingCustomGetter(bean, customGetter);
         }
         return result;
     }
 
     private <T> String getFieldAsString(T bean, Field field)
-            throws ConverterInitializationException, MappingException {
+            throws ParserInitializationException, MappingException {
         try {
 
             Object value = get(bean, field);
-            return value == null ? null : getConverter(field).convertToString(value);
+            return value == null ? null : getParser(field).convertToString(value);
 
         } catch (IllegalAccessException e) {
             throw makeFieldGettingError(field, e);
-        } catch (ConversionException e) {
+        } catch (ParsingException e) {
             throw makeFieldGettingError(field, e);
         } catch (InvocationTargetException e) {
             throw makeFieldGettingError(field, e);

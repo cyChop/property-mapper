@@ -12,8 +12,8 @@ import java.util.Map;
 import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
-import org.keyboardplaying.mapper.exception.ConversionException;
-import org.keyboardplaying.mapper.exception.ConverterInitializationException;
+import org.keyboardplaying.mapper.exception.ParsingException;
+import org.keyboardplaying.mapper.exception.ParserInitializationException;
 import org.keyboardplaying.mapper.exception.MappingException;
 
 /**
@@ -77,13 +77,13 @@ public class UnmappingEngine extends BaseEngine {
      * @param beanType
      *            the destination bean's type
      * @return the destination bean
-     * @throws ConverterInitializationException
-     *             when the converter could not be initialized for a field
+     * @throws ParserInitializationException
+     *             when the parser could not be initialized for a field
      * @throws MappingException
      *             when the mapping fails
      */
     public <T> T unmap(Map<String, String> metadata, Class<T> beanType)
-            throws ConverterInitializationException, MappingException {
+            throws ParserInitializationException, MappingException {
         try {
             return unmap(metadata, beanType.newInstance());
         } catch (InstantiationException e) {
@@ -103,13 +103,13 @@ public class UnmappingEngine extends BaseEngine {
      * @param bean
      *            the destination bean
      * @return the destination bean
-     * @throws ConverterInitializationException
-     *             when the converter could not be initialized for a field
+     * @throws ParserInitializationException
+     *             when the parser could not be initialized for a field
      * @throws MappingException
      *             when the mapping fails
      */
     public <T> T unmap(Map<String, String> metadata, T bean)
-            throws ConverterInitializationException, MappingException {
+            throws ParserInitializationException, MappingException {
         /* Control the validity of arguments. */
         if (bean == null) {
             throw new MappingException("The supplied bean was null.");
@@ -141,13 +141,13 @@ public class UnmappingEngine extends BaseEngine {
      *            the destination bean
      * @param field
      *            the field to set
-     * @throws ConverterInitializationException
-     *             when the converter could not be initialized for a field
+     * @throws ParserInitializationException
+     *             when the parser could not be initialized for a field
      * @throws MappingException
      *             when the mapping fails
      */
     private <T> void performInnerUnmapping(Map<String, String> metadata, T bean, Field field)
-            throws ConverterInitializationException, MappingException {
+            throws ParserInitializationException, MappingException {
         try {
 
             PropertyDescriptor descriptor = new PropertyDescriptor(field.getName(), bean.getClass());
@@ -187,13 +187,13 @@ public class UnmappingEngine extends BaseEngine {
      *            the destination bean
      * @param field
      *            the field to set
-     * @throws ConverterInitializationException
-     *             when the converter for the field could not be initialized
+     * @throws ParserInitializationException
+     *             when the parser for the field could not be initialized
      * @throws MappingException
      *             when the mapping fails
      */
     private <T> void performFieldUnmapping(Map<String, String> metadata, T bean, Field field)
-            throws ConverterInitializationException, MappingException {
+            throws ParserInitializationException, MappingException {
         Metadata settings = field.getAnnotation(Metadata.class);
         String metadataName = settings.value();
 
@@ -230,24 +230,24 @@ public class UnmappingEngine extends BaseEngine {
      *            the main settings for parsing the value from metadata
      * @param value
      *            the value which should be set
-     * @throws ConverterInitializationException
-     *             when the converter for the field could not be initialized
+     * @throws ParserInitializationException
+     *             when the parser for the field could not be initialized
      * @throws MappingException
      *             when the mapping fails
      */
     private <T> void setField(Map<String, String> metadata, T bean, Field field, Metadata settings,
-            String value) throws ConverterInitializationException, MappingException {
+            String value) throws ParserInitializationException, MappingException {
         String customSetter = settings.customSetter();
         if (customSetter == null || customSetter.length() == 0) {
             setField(bean, field, value);
         } else {
-            // a custom setter was defined, overrides the default converter
+            // a custom setter was defined, overrides the default parser
             setFieldUsingCustomSetter(bean, customSetter, value, metadata);
         }
     }
 
     /**
-     * Sets the field, using the default converter for the type of the field and the field's setter.
+     * Sets the field, using the default parser for the type of the field and the field's setter.
      * <p/>
      * This requires the bean to respect the bean notation.
      *
@@ -257,23 +257,23 @@ public class UnmappingEngine extends BaseEngine {
      *            the field to set
      * @param value
      *            the non-converted value for the field
-     * @throws ConverterInitializationException
-     *             when the converter for the field could not be initialized
+     * @throws ParserInitializationException
+     *             when the parser for the field could not be initialized
      * @throws MappingException
      *             when the mapping fails
      */
     private <T> void setField(T bean, Field field, String value)
-            throws ConverterInitializationException, MappingException {
+            throws ParserInitializationException, MappingException {
         try {
             set(bean, field, value == null ? DEFAULT_VALUES.get(field.getType()) : this
-                    .<T> getConverter(field).convertFromString(value));
+                    .<T> getParser(field).convertFromString(value));
         } catch (IllegalAccessException e) {
             throw makeFieldSettingError(field, e);
         } catch (InvocationTargetException e) {
             throw makeFieldSettingError(field, e);
         } catch (IntrospectionException e) {
             throw makeFieldSettingError(field, e);
-        } catch (ConversionException e) {
+        } catch (ParsingException e) {
             throw makeFieldSettingError(field, e);
         }
     }

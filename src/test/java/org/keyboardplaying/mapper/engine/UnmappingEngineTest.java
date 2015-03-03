@@ -11,8 +11,8 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.keyboardplaying.mapper.annotation.TemporalType;
-import org.keyboardplaying.mapper.converter.CalendarConverter;
-import org.keyboardplaying.mapper.converter.DateConverter;
+import org.keyboardplaying.mapper.parser.CalendarParser;
+import org.keyboardplaying.mapper.parser.DateParser;
 import org.keyboardplaying.mapper.exception.MapperException;
 import org.keyboardplaying.mapper.exception.MappingException;
 import org.keyboardplaying.mapper.mock.bean.TestBean;
@@ -65,11 +65,11 @@ public class UnmappingEngineTest {
         assertEquals(Long.valueOf(42), bean.getSomeLong());
         assertEquals(BigInteger.valueOf(42), bean.getSomeBig());
         // calendar comparison
-        CalendarConverter calConv = new CalendarConverter();
+        CalendarParser calConv = new CalendarParser();
         calConv.setFormat(TemporalType.DATETIME.getFormat());
         assertEquals(calConv.convertFromString(metadata.get("some_important_date")), bean.getCal());
         // date comparison
-        DateConverter dateConv = new DateConverter();
+        DateParser dateConv = new DateParser();
         dateConv.setFormat(TemporalType.DATE.getFormat());
         assertEquals(dateConv.convertFromString(metadata.get("some_even_more_important_date")),
                 bean.getDate());
