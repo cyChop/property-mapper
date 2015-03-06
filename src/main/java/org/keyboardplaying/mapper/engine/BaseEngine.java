@@ -5,6 +5,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
+import org.keyboardplaying.mapper.Defaults;
 import org.keyboardplaying.mapper.annotation.BooleanValues;
 import org.keyboardplaying.mapper.annotation.Temporal;
 import org.keyboardplaying.mapper.parser.BooleanParser;
@@ -64,8 +65,7 @@ public abstract class BaseEngine {
     @SuppressWarnings("unchecked")
     protected <T> Parser<? super T> getParser(Field field) throws MappingException,
             ParserInitializationException {
-        Parser<? super T> parser = getParserProvider().getParser(
-                (Class<T>) field.getType());
+        Parser<? super T> parser = getParserProvider().getParser((Class<T>) field.getType());
 
         if (parser == null) {
 
@@ -84,11 +84,13 @@ public abstract class BaseEngine {
                         + " must declare the @Temporal annotation.");
             }
 
-        } else if (parser instanceof BooleanParser
-                && field.isAnnotationPresent(BooleanValues.class)) {
-
-            BooleanValues annot = field.getAnnotation(BooleanValues.class);
-            ((BooleanParser) parser).setTrueFalse(annot.whenTrue(), annot.whenFalse());
+        } else if (parser instanceof BooleanParser) {
+            if (field.isAnnotationPresent(BooleanValues.class)) {
+                BooleanValues annot = field.getAnnotation(BooleanValues.class);
+                ((BooleanParser) parser).setTrueFalse(annot.whenTrue(), annot.whenFalse());
+            } else {
+                ((BooleanParser) parser).setTrueFalse(Defaults.TRUE, Defaults.FALSE);
+            }
         }
 
         return parser;

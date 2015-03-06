@@ -21,6 +21,11 @@ public final class Defaults {
     /** An alternate {@link String} representation for {@code false}. */
     public static final String BOOLEAN_NO_FR = "NON";
 
+    /** The {@link String} representation of {@code true}. */
+    public static final String TRUE = "true";
+    /** The {@link String} representation of {@code false}. */
+    public static final String FALSE = "false";
+
     /** Private constructor to avoid instantiation. */
     private Defaults() {
     }

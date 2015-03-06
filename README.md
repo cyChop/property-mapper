@@ -44,7 +44,6 @@ Strings.
 ## TODO
 
 * [ ] Documentation (annotations, defining parsers, (un)mapping engine)
-* [ ] Correct ``@BooleanValues`` for singleton ``BooleanParser``
 * [x] Rename ``Converter``s to ``Parser``s
 * [ ] Better coverage (custom getter)
 * [ ] Make version 1.0.0-SNAPSHOT once the standards are met

@@ -24,12 +24,12 @@ public @interface BooleanValues {
      *
      * @return the {@link String} representation of a {@code true} boolean.
      */
-    String whenTrue() default Defaults.BOOLEAN_YES;
+    String whenTrue() default Defaults.TRUE;
 
     /**
      * The {@link String} representation of a {@code false} boolean.
      *
      * @return the {@link String} representation of a {@code false} boolean.
      */
-    String whenFalse() default Defaults.BOOLEAN_NO;
+    String whenFalse() default Defaults.FALSE;
 }
