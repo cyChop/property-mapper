@@ -3,7 +3,6 @@ package org.keyboardplaying.mapper.parser;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.text.ParseException;
 import java.util.Calendar;
 
 import org.junit.Before;
@@ -55,7 +54,7 @@ public class DateAndTimeParserTest {
     }
 
     @Test
-    public void testConvertStringToDateTimestamp() throws ParsingException, ParseException {
+    public void testConvertStringToDateTimestamp() throws ParsingException {
         assertEquals(dateTime.getTime(), dateTimeConv.convertFromString(sDateTimestamp));
         try {
             dateTimeConv.convertFromString(sDate);
@@ -76,12 +75,12 @@ public class DateAndTimeParserTest {
     }
 
     @Test
-    public void testConvertDateTimestampToString() throws ParsingException {
+    public void testConvertDateTimestampToString() {
         assertEquals(sDateTimestamp, dateTimeConv.convertToString(dateTime.getTime()));
     }
 
     @Test
-    public void testConvertStringToDate() throws ParsingException, ParseException {
+    public void testConvertStringToDate() throws ParsingException {
         assertEquals(date.getTime(), dateConv.convertFromString(sDate));
         try {
             dateConv.convertFromString("notADate");
@@ -94,12 +93,12 @@ public class DateAndTimeParserTest {
     }
 
     @Test
-    public void testConvertDateToString() throws ParsingException {
+    public void testConvertDateToString() {
         assertEquals(sDate, dateConv.convertToString(date.getTime()));
     }
 
     @Test
-    public void testConvertStringToCalendarTimestamp() throws ParsingException, ParseException {
+    public void testConvertStringToCalendarTimestamp() throws ParsingException {
         assertEquals(dateTime, dateTimeCalConv.convertFromString(sDateTimestamp));
         try {
             dateTimeCalConv.convertFromString(sDate);
@@ -120,12 +119,12 @@ public class DateAndTimeParserTest {
     }
 
     @Test
-    public void testConvertCalendarTimestampToString() throws ParsingException {
+    public void testConvertCalendarTimestampToString() {
         assertEquals(sDateTimestamp, dateTimeCalConv.convertToString(dateTime));
     }
 
     @Test
-    public void testConvertStringToCalendar() throws ParsingException, ParseException {
+    public void testConvertStringToCalendar() throws ParsingException {
         assertEquals(date, dateCalConv.convertFromString(sDate));
         try {
             dateCalConv.convertFromString("notADate");
@@ -138,7 +137,7 @@ public class DateAndTimeParserTest {
     }
 
     @Test
-    public void testConvertCalendarToString() throws ParsingException {
+    public void testConvertCalendarToString() {
         assertEquals(sDate, dateCalConv.convertToString(date));
     }
 }

@@ -45,7 +45,7 @@ public class MappingEngineTest {
         bean.setSomeLong(42L);
         bean.setSomeBig(BigInteger.valueOf(42));
 
-        Map<String, String> expected = new HashMap<String, String>();
+        Map<String, String> expected = new HashMap<>();
         expected.put("hello_world", "Did not say hello... :(");
         expected.put("some_bool", "false");
         expected.put("some_number", "42");
@@ -72,8 +72,7 @@ public class MappingEngineTest {
         Calendar cal = Calendar.getInstance();
         cal.setTime(now);
         bean.setCal(cal);
-        expected.put("some_important_date",
-                new SimpleDateFormat(TemporalType.DATETIME.getFormat()).format(now));
+        expected.put("some_important_date", new SimpleDateFormat(TemporalType.DATETIME.getFormat()).format(now));
         assertContentEquals(expected, mappingEngine.map(bean));
     }
 
@@ -83,10 +82,9 @@ public class MappingEngineTest {
         }
 
         for (Entry<?, ?> entry : expected.entrySet()) {
-            if (!actual.containsKey(entry.getKey())
-                    || !Objects.equals(entry.getValue(), actual.get(entry.getKey()))) {
-                fail("Expected " + entry.getKey() + "=" + entry.getValue() + " but found "
-                        + entry.getKey() + "=" + actual.get(entry.getKey()));
+            if (!actual.containsKey(entry.getKey()) || !Objects.equals(entry.getValue(), actual.get(entry.getKey()))) {
+                fail("Expected " + entry.getKey() + "=" + entry.getValue() + " but found " + entry.getKey() + "="
+                        + actual.get(entry.getKey()));
             }
         }
     }

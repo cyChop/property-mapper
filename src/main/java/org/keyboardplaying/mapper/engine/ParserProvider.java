@@ -1,11 +1,10 @@
 package org.keyboardplaying.mapper.engine;
 
-import org.keyboardplaying.mapper.parser.Parser;
 import org.keyboardplaying.mapper.exception.ParserInitializationException;
+import org.keyboardplaying.mapper.parser.Parser;
 
 /**
- * Provides the correct implementation of {@link Parser} to use based on the type of the field to
- * convert.
+ * Provides the correct implementation of {@link Parser} to use based on the type of the field to convert.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */

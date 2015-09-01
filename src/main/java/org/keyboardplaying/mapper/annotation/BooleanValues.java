@@ -9,8 +9,7 @@ import java.lang.annotation.Target;
 import org.keyboardplaying.mapper.Defaults;
 
 /**
- * Defines the {@link String} representations for {@code true} and {@code false} when dealing with
- * boolean metadata.
+ * Defines the {@link String} representations for {@code true} and {@code false} when dealing with boolean metadata.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */

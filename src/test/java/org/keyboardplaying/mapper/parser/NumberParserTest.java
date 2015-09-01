@@ -32,7 +32,7 @@ public class NumberParserTest {
     }
 
     @Test
-    public void testConvertIntegerToString() throws ParsingException {
+    public void testConvertIntegerToString() {
         assertEquals("1", ic.convertToString(1));
         assertEquals("1", ic.convertToString(Integer.valueOf(1)));
     }
@@ -51,7 +51,7 @@ public class NumberParserTest {
     }
 
     @Test
-    public void testConvertLongToString() throws ParsingException {
+    public void testConvertLongToString() {
         assertEquals("1", lc.convertToString(1L));
         assertEquals("1", lc.convertToString(Long.valueOf(1)));
     }
@@ -70,7 +70,7 @@ public class NumberParserTest {
     }
 
     @Test
-    public void testConvertBigIntegerToString() throws ParsingException {
+    public void testConvertBigIntegerToString() {
         assertEquals("1", bic.convertToString(BigInteger.valueOf(1)));
     }
 }

@@ -30,7 +30,7 @@ public class BooleanParser implements Parser<Boolean> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.mapper.parser.Parser#convertFromString(java.lang.String)
      */
     @Override
@@ -41,16 +41,15 @@ public class BooleanParser implements Parser<Boolean> {
         } else if (this.whenFalse.equalsIgnoreCase(value)) {
             result = false;
         } else {
-            throw new ParsingException("Value <" + value
-                    + "> could not be parsed to boolean (authorized: " + this.whenTrue + "/"
-                    + this.whenFalse + ")");
+            throw new ParsingException("Value <" + value + "> could not be parsed to boolean (authorized: "
+                    + this.whenTrue + "/" + this.whenFalse + ")");
         }
         return result;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.mapper.parser.Parser#convertToString(java.lang.Object)
      */
     @Override

@@ -16,8 +16,7 @@ public class DateParser extends BaseTemporalParser<Date> {
      *
      * @see org.keyboardplaying.mapper.parser.Parser#convertFromString(java .lang.String)
      *
-     * @see org.keyboardplaying.mapper.parser.BaseTemporalParser#
-     * convertStringToDate(java.lang.String)
+     * @see org.keyboardplaying.mapper.parser.BaseTemporalParser# convertStringToDate(java.lang.String)
      */
     @Override
     public Date convertFromString(String value) throws ParsingException {
@@ -29,8 +28,7 @@ public class DateParser extends BaseTemporalParser<Date> {
      *
      * @see org.keyboardplaying.mapper.parser.Parser#convertToString(java.lang .Object)
      *
-     * @see org.keyboardplaying.mapper.parser.BaseTemporalParser#
-     * convertDateToString(java.util.Date)
+     * @see org.keyboardplaying.mapper.parser.BaseTemporalParser# convertDateToString(java.util.Date)
      */
     @Override
     public String convertToString(Date value) {

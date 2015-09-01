@@ -10,9 +10,9 @@ import java.util.Map;
 import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
-import org.keyboardplaying.mapper.exception.ParsingException;
-import org.keyboardplaying.mapper.exception.ParserInitializationException;
 import org.keyboardplaying.mapper.exception.MappingException;
+import org.keyboardplaying.mapper.exception.ParserInitializationException;
+import org.keyboardplaying.mapper.exception.ParsingException;
 
 // TODO JAVADOC
 /**
@@ -22,8 +22,7 @@ import org.keyboardplaying.mapper.exception.MappingException;
  */
 public class MappingEngine extends BaseEngine {
 
-    public <T> Map<String, String> map(T bean) throws ParserInitializationException,
-            MappingException {
+    public <T> Map<String, String> map(T bean) throws ParserInitializationException, MappingException {
         return map(bean, null);
     }
 
@@ -89,8 +88,7 @@ public class MappingEngine extends BaseEngine {
 
                 /* Data is absent though mandatory, raise an exception. */
                 throw new MappingException("Mandatory field " + field.getName() + " of "
-                        + field.getDeclaringClass().getName()
-                        + " is null and does not define a default value.");
+                        + field.getDeclaringClass().getName() + " is null and does not define a default value.");
             }
         }
         map.put(settings.value(), value);
@@ -110,8 +108,7 @@ public class MappingEngine extends BaseEngine {
         return result;
     }
 
-    private <T> String getFieldAsString(T bean, Field field)
-            throws ParserInitializationException, MappingException {
+    private <T> String getFieldAsString(T bean, Field field) throws ParserInitializationException, MappingException {
         try {
 
             Object value = get(bean, field);
@@ -128,8 +125,7 @@ public class MappingEngine extends BaseEngine {
         }
     }
 
-    private <T> String getFieldUsingCustomGetter(T bean, String customGetter)
-            throws MappingException {
+    private <T> String getFieldUsingCustomGetter(T bean, String customGetter) throws MappingException {
         try {
 
             Method method = bean.getClass().getMethod(customGetter);
@@ -151,17 +147,19 @@ public class MappingEngine extends BaseEngine {
     }
 
     private MappingException makeNestedMappingError(Field field, Exception cause) {
-        return new MappingException("Error while mapping nested " + field.getName() + " of "
-                + field.getDeclaringClass().getName(), cause);
+        return new MappingException(
+                "Error while mapping nested " + field.getName() + " of " + field.getDeclaringClass().getName(), cause);
     }
 
     private MappingException makeFieldGettingError(Field field, Exception cause) {
-        return new MappingException("Field " + field.getName() + " of "
-                + field.getDeclaringClass().getName() + " could not be got.", cause);
+        return new MappingException(
+                "Field " + field.getName() + " of " + field.getDeclaringClass().getName() + " could not be got.",
+                cause);
     }
 
     private MappingException makeCustomGetterError(Object bean, String customGetter, Exception cause) {
-        return new MappingException("Custom getter " + customGetter + " of "
-                + bean.getClass().getName() + " did not return a String", cause);
+        return new MappingException(
+                "Custom getter " + customGetter + " of " + bean.getClass().getName() + " did not return a String",
+                cause);
     }
 }

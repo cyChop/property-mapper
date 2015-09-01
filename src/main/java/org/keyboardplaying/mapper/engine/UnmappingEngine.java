@@ -12,9 +12,9 @@ import java.util.Map;
 import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
-import org.keyboardplaying.mapper.exception.ParsingException;
-import org.keyboardplaying.mapper.exception.ParserInitializationException;
 import org.keyboardplaying.mapper.exception.MappingException;
+import org.keyboardplaying.mapper.exception.ParserInitializationException;
+import org.keyboardplaying.mapper.exception.ParsingException;
 
 /**
  * The mapping engine for mapping a flat map to a POJO (unmapping).
@@ -29,7 +29,7 @@ public class UnmappingEngine extends BaseEngine {
     static {
         /*
          * Initialize default values for primitive types.
-         * 
+         *
          * Skip Objects: their default value is null anyway.
          */
         // do not declare a serial: it would provide a default value for a String.
@@ -69,8 +69,7 @@ public class UnmappingEngine extends BaseEngine {
     }
 
     /**
-     * Instantiates a new bean of specified type and unmaps metadata to it, based on the annotations
-     * in the bean.
+     * Instantiates a new bean of specified type and unmaps metadata to it, based on the annotations in the bean.
      *
      * @param metadata
      *            the flat metadata
@@ -108,8 +107,7 @@ public class UnmappingEngine extends BaseEngine {
      * @throws MappingException
      *             when the mapping fails
      */
-    public <T> T unmap(Map<String, String> metadata, T bean)
-            throws ParserInitializationException, MappingException {
+    public <T> T unmap(Map<String, String> metadata, T bean) throws ParserInitializationException, MappingException {
         /* Control the validity of arguments. */
         if (bean == null) {
             throw new MappingException("The supplied bean was null.");
@@ -132,8 +130,7 @@ public class UnmappingEngine extends BaseEngine {
     }
 
     /**
-     * Performs the unmapping to a field which is an inner bean (marked with the {@link Nested}
-     * annotation).
+     * Performs the unmapping to a field which is an inner bean (marked with the {@link Nested} annotation).
      *
      * @param metadata
      *            the flat metadata
@@ -155,14 +152,13 @@ public class UnmappingEngine extends BaseEngine {
             if (innerBean == null) {
                 String className = field.getAnnotation(Nested.class).className();
                 try {
-                    innerBean = unmap(
-                            metadata,
-                            className == null || className.length() == 0 ? field.getType() : Class
-                                    .forName(className));
+                    innerBean = unmap(metadata,
+                            className == null || className.length() == 0 ? field.getType() : Class.forName(className));
                 } catch (ClassNotFoundException e) {
-                    throw new MappingException("Could not find class " + className
-                            + " when instantiating bean for inner field " + field.getName()
-                            + " of class " + field.getDeclaringClass().getName(), e);
+                    throw new MappingException(
+                            "Could not find class " + className + " when instantiating bean for inner field "
+                                    + field.getName() + " of class " + field.getDeclaringClass().getName(),
+                            e);
                 }
             } else {
                 innerBean = unmap(metadata, innerBean);
@@ -205,8 +201,8 @@ public class UnmappingEngine extends BaseEngine {
         } else if (settings.mandatory()) {
 
             /* Data is absent though mandatory, raise an exception. */
-            throw new MappingException("Mandatory data " + metadataName
-                    + " is missing from metadata map (" + metadata.keySet().toString() + ").");
+            throw new MappingException("Mandatory data " + metadataName + " is missing from metadata map ("
+                    + metadata.keySet().toString() + ").");
 
         } else if (field.isAnnotationPresent(DefaultValue.class)) {
 
@@ -217,8 +213,8 @@ public class UnmappingEngine extends BaseEngine {
     }
 
     /**
-     * Sets the value of the supplied field in the supplied bean to the supplied value, in
-     * accordance with the settings provided via annotations.
+     * Sets the value of the supplied field in the supplied bean to the supplied value, in accordance with the settings
+     * provided via annotations.
      *
      * @param metadata
      *            the flat metadata
@@ -235,8 +231,8 @@ public class UnmappingEngine extends BaseEngine {
      * @throws MappingException
      *             when the mapping fails
      */
-    private <T> void setField(Map<String, String> metadata, T bean, Field field, Metadata settings,
-            String value) throws ParserInitializationException, MappingException {
+    private <T> void setField(Map<String, String> metadata, T bean, Field field, Metadata settings, String value)
+            throws ParserInitializationException, MappingException {
         String customSetter = settings.customSetter();
         if (customSetter == null || customSetter.length() == 0) {
             setField(bean, field, value);
@@ -265,8 +261,8 @@ public class UnmappingEngine extends BaseEngine {
     private <T> void setField(T bean, Field field, String value)
             throws ParserInitializationException, MappingException {
         try {
-            set(bean, field, value == null ? DEFAULT_VALUES.get(field.getType()) : this
-                    .<T> getParser(field).convertFromString(value));
+            set(bean, field, value == null ? DEFAULT_VALUES.get(field.getType())
+                    : this.<T> getParser(field).convertFromString(value));
         } catch (IllegalAccessException e) {
             throw makeFieldSettingError(field, e);
         } catch (InvocationTargetException e) {
@@ -281,9 +277,8 @@ public class UnmappingEngine extends BaseEngine {
     /**
      * Sets the field, using the supplied setter.
      * <p/>
-     * The signature for the setter should be
-     * {@code setSomething(java.lang.String, java.util.Map<String, String>)}. It will receive the
-     * value for the required metadata as the first argument, and the whole flat metadata as the
+     * The signature for the setter should be {@code setSomething(java.lang.String, java.util.Map<String, String>)}. It
+     * will receive the value for the required metadata as the first argument, and the whole flat metadata as the
      * second.
      *
      * @param bean
@@ -298,8 +293,8 @@ public class UnmappingEngine extends BaseEngine {
      * @throws MappingException
      *             when the mapping fails
      */
-    private <T> void setFieldUsingCustomSetter(T bean, String customSetter, String value,
-            Map<String, String> metadata) throws MappingException {
+    private <T> void setFieldUsingCustomSetter(T bean, String customSetter, String value, Map<String, String> metadata)
+            throws MappingException {
         try {
 
             Method method = bean.getClass().getMethod(customSetter, String.class, Map.class);
@@ -319,23 +314,24 @@ public class UnmappingEngine extends BaseEngine {
     }
 
     private MappingException makeInstanciationError(Class<?> beanType, Exception cause) {
-        return new MappingException("Could not instanciate a new bean for type "
-                + beanType.getSimpleName() + ".", cause);
+        return new MappingException("Could not instanciate a new bean for type " + beanType.getSimpleName() + ".",
+                cause);
     }
 
     private MappingException makeNestedUnmappingError(Field field, Exception cause) {
-        return new MappingException("Error while unmapping nested bean " + field.getName() + " of "
-                + field.getDeclaringClass().getName(), cause);
+        return new MappingException(
+                "Error while unmapping nested bean " + field.getName() + " of " + field.getDeclaringClass().getName(),
+                cause);
     }
 
     private MappingException makeFieldSettingError(Field field, Exception cause) {
-        return new MappingException("Field " + field.getName() + " of "
-                + field.getDeclaringClass().getName() + " could not be set.", cause);
+        return new MappingException(
+                "Field " + field.getName() + " of " + field.getDeclaringClass().getName() + " could not be set.",
+                cause);
     }
 
-    private MappingException makeCustomSetterProblemError(Object bean, String customSetter,
-            Exception cause) {
-        return new MappingException("Custom setter " + customSetter + " of "
-                + bean.getClass().getName() + " could not be called.", cause);
+    private MappingException makeCustomSetterProblemError(Object bean, String customSetter, Exception cause) {
+        return new MappingException(
+                "Custom setter " + customSetter + " of " + bean.getClass().getName() + " could not be called.", cause);
     }
 }

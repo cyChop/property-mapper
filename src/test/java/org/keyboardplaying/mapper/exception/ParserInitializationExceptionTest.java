@@ -9,8 +9,7 @@ import org.junit.Test;
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class ParserInitializationExceptionTest extends
-        MapperExceptionTest<ParserInitializationException> {
+public class ParserInitializationExceptionTest extends MapperExceptionTest<ParserInitializationException> {
 
     /** Creates a new instance. */
     public ParserInitializationExceptionTest() {
@@ -28,29 +27,25 @@ public class ParserInitializationExceptionTest extends
     @Test
     @Override
     public void testMessageConstructor() throws InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
-            SecurityException {
+            IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         super.testMessageConstructor();
     }
 
     /** Tests {@link ParserInitializationException#ParserInitializationException(Throwable)}. */
     @Test
     @Override
-    public void testCauseConstructor() throws InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
-            SecurityException {
+    public void testCauseConstructor() throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+            InvocationTargetException, NoSuchMethodException, SecurityException {
         super.testCauseConstructor();
     }
 
     /**
-     * Tests
-     * {@link ParserInitializationException#ParserInitializationException(String, Throwable)}.
+     * Tests {@link ParserInitializationException#ParserInitializationException(String, Throwable)}.
      */
     @Test
     @Override
-    public void testBothConstructor() throws InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
-            SecurityException {
+    public void testBothConstructor() throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+            InvocationTargetException, NoSuchMethodException, SecurityException {
         super.testBothConstructor();
     }
 }

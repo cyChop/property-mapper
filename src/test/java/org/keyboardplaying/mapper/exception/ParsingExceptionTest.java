@@ -27,26 +27,23 @@ public class ParsingExceptionTest extends MapperExceptionTest<ParsingException> 
     @Test
     @Override
     public void testMessageConstructor() throws InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
-            SecurityException {
+            IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         super.testMessageConstructor();
     }
 
     /** Tests {@link ParsingException#ParsingException(Throwable)}. */
     @Test
     @Override
-    public void testCauseConstructor() throws InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
-            SecurityException {
+    public void testCauseConstructor() throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+            InvocationTargetException, NoSuchMethodException, SecurityException {
         super.testCauseConstructor();
     }
 
     /** Tests {@link ParsingException#ParsingException(String, Throwable)}. */
     @Test
     @Override
-    public void testBothConstructor() throws InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
-            SecurityException {
+    public void testBothConstructor() throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+            InvocationTargetException, NoSuchMethodException, SecurityException {
         super.testBothConstructor();
     }
 }

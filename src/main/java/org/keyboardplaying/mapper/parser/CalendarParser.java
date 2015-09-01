@@ -14,16 +14,15 @@ public class CalendarParser extends BaseTemporalParser<Calendar> {
     /**
      * Converts a {@link String} representation of a date to a {@link Calendar} instance.
      * <p/>
-     * The {@link String} is expected to conform to the format specified for this
-     * {@link BaseTemporalParser}.
+     * The {@link String} is expected to conform to the format specified for this {@link BaseTemporalParser}.
      *
      * @param value
      *            the {@link String} representation of a date
      * @return a {@link Calendar} instance
      * @throws ParsingException
      *             when the supplied {@link String} could not be parsed
-     * @see {@link BaseTemporalParser#convertStringToDate(String)}
      */
+    /* @see BaseTemporalParser#convertStringToDate(String) */
     @Override
     public Calendar convertFromString(String value) throws ParsingException {
         Calendar calendar = Calendar.getInstance();
@@ -34,16 +33,13 @@ public class CalendarParser extends BaseTemporalParser<Calendar> {
     /**
      * Converts a {@link Calendar} instance to a {@link String} representation.
      * <p/>
-     * The {@link String} will conform to the format specified for this
-     * {@link BaseTemporalParser}.
+     * The {@link String} will conform to the format specified for this {@link BaseTemporalParser}.
      *
      * @param value
      *            the {@link Calendar}
      * @return a {@link String} representation of the supplied date
-     * @throws ParsingException
-     *             when the supplied {@link String} could not be parsed
-     * @see {@link BaseTemporalParser#convertDateToString(String)}
      */
+    /* @see {@link BaseTemporalParser#convertDateToString(String)} */
     @Override
     public String convertToString(Calendar value) {
         return convertDateToString(value.getTime());

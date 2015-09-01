@@ -20,19 +20,18 @@ public enum TemporalType {
      * Private constructor.
      *
      * @param format
-     *            the format to use when parsing the {@link String} representation of a time or
-     *            formatting the time to a {@link String}
+     *            the format to use when parsing the {@link String} representation of a time or formatting the time to a
+     *            {@link String}
      */
     private TemporalType(String format) {
         this.format = format;
     }
 
     /**
-     * Returns the format to use when parsing the {@link String} representation of a time or
-     * formatting the time to a {@link String}.
+     * Returns the format to use when parsing the {@link String} representation of a time or formatting the time to a
+     * {@link String}.
      *
-     * @return the format to use when parsing between time objects and their {@link String}
-     *         representation
+     * @return the format to use when parsing between time objects and their {@link String} representation
      */
     public String getFormat() {
         return format;

@@ -19,7 +19,7 @@ public class StringParserTest {
     }
 
     @Test
-    public void testConvertToString() throws ParsingException {
+    public void testConvertToString() {
         assertEquals("value", c.convertToString("value"));
     }
 }

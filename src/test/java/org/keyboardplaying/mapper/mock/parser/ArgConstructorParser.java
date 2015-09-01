@@ -14,5 +14,6 @@ public class ArgConstructorParser extends DoubleParser {
      *            an argument whatsoever
      */
     public ArgConstructorParser(String arg) {
+        super();
     }
 }

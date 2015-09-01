@@ -21,8 +21,7 @@ public class BigIntegerParser implements Parser<BigInteger> {
         try {
             return new BigInteger(value);
         } catch (IllegalArgumentException e) {
-            throw new ParsingException(
-                    "Value <" + value + "> could not be parsed to BigInteger", e);
+            throw new ParsingException("Value <" + value + "> could not be parsed to BigInteger", e);
         }
     }
 

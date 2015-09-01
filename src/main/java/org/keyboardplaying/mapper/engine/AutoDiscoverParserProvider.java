@@ -7,21 +7,18 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 
-import org.keyboardplaying.mapper.parser.Parser;
 import org.keyboardplaying.mapper.exception.ParserInitializationException;
+import org.keyboardplaying.mapper.parser.Parser;
 
 /**
- * Provides the correct implementation of {@link Parser} to use based on the type of the field to
- * convert.
+ * Provides the correct implementation of {@link Parser} to use based on the type of the field to convert.
  * <p/>
- * <h1>Adding custom parsers</h1> It is possible to add custom parsers. To do so, you need to
- * create a {@code META-INF/services/org.keyboardplaying.mapper.parser} directory in your
- * project.
+ * <h1>Adding custom parsers</h1> It is possible to add custom parsers. To do so, you need to create a
+ * {@code META-INF/services/org.keyboardplaying.mapper.parser} directory in your project.
  * <p/>
- * In this directory, you will need to add one descriptor file per parser. This file will be
- * named after the fully qualified type of field your parser handles, and contain only one line
- * which is the fully qualified class of your parser. For example, in the case of the
- * {@link org.keyboardplaying.mapper.parser.StringParser}, the file is:
+ * In this directory, you will need to add one descriptor file per parser. This file will be named after the fully
+ * qualified type of field your parser handles, and contain only one line which is the fully qualified class of your
+ * parser. For example, in the case of the {@link org.keyboardplaying.mapper.parser.StringParser}, the file is:
  *
  * <pre>
  * META - INF / services / org.keyboardplaying.mapper.parser / java.lang.String
@@ -74,8 +71,7 @@ public class AutoDiscoverParserProvider implements ParserProvider {
      *             if the {@link Parser} cannot be found or initialized
      */
     @Override
-    public <T> Parser<? super T> getParser(Class<T> klass)
-            throws ParserInitializationException {
+    public <T> Parser<? super T> getParser(Class<T> klass) throws ParserInitializationException {
         Objects.requireNonNull(klass, "A class must be provided when requiring a parser.");
 
         @SuppressWarnings("unchecked")
@@ -93,15 +89,11 @@ public class AutoDiscoverParserProvider implements ParserProvider {
                 parser = parserClass.newInstance();
                 parsers.put(parserClass, parser);
             } catch (InstantiationException e) {
-                throw new ParserInitializationException(
-                        parserClass.getName()
-                                + " could not be instanciated. Does it define a public no-arg constructor?",
-                        e);
+                throw new ParserInitializationException(parserClass.getName()
+                        + " could not be instanciated. Does it define a public no-arg constructor?", e);
             } catch (IllegalAccessException e) {
-                throw new ParserInitializationException(
-                        parserClass.getName()
-                                + " could not be instanciated. Does it define a public no-arg constructor?",
-                        e);
+                throw new ParserInitializationException(parserClass.getName()
+                        + " could not be instanciated. Does it define a public no-arg constructor?", e);
             }
         }
         return parser;
@@ -117,8 +109,7 @@ public class AutoDiscoverParserProvider implements ParserProvider {
      *             if the {@link Parser} cannot be found or initialized
      */
     @SuppressWarnings("unchecked")
-    private <T> Class<? extends Parser<? super T>> getParserClass(Class<T> klass)
-            throws ParserInitializationException {
+    private <T> Class<? extends Parser<? super T>> getParserClass(Class<T> klass) throws ParserInitializationException {
         String uri = CONVERTER_DEFINITION_PATH + klass.getName();
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -130,8 +121,7 @@ public class AutoDiscoverParserProvider implements ParserProvider {
         if (in == null) {
             in = AutoDiscoverParserProvider.class.getClassLoader().getResourceAsStream(uri);
             if (in == null) {
-                throw new ParserInitializationException(
-                        "No parser descriptor found for type " + klass.getName() + ".");
+                throw new ParserInitializationException("No parser descriptor found for type " + klass.getName() + ".");
             }
         }
 
@@ -142,26 +132,24 @@ public class AutoDiscoverParserProvider implements ParserProvider {
 
             parserClassName = properties.getProperty(CONVERTER_PROPERTY);
             if (parserClassName == null) {
-                throw new ParserInitializationException("Parser descriptor for class "
-                        + klass.getName() + " is incorrect (empty).");
+                throw new ParserInitializationException(
+                        "Parser descriptor for class " + klass.getName() + " is incorrect (empty).");
             }
         } catch (IOException e) {
             throw new ParserInitializationException(
-                    "Error occurred when trying to read parser descriptor for type "
-                            + klass.getName(), e);
+                    "Error occurred when trying to read parser descriptor for type " + klass.getName(), e);
         }
 
         try {
             Class<?> parserClass = Class.forName(parserClassName);
             if (!Parser.class.isAssignableFrom(parserClass)) {
-                throw new ParserInitializationException("Class " + parserClassName
-                        + " for parsing of type " + klass.getName() + " does not extend "
-                        + Parser.class.getName());
+                throw new ParserInitializationException("Class " + parserClassName + " for parsing of type "
+                        + klass.getName() + " does not extend " + Parser.class.getName());
             }
             return (Class<? extends Parser<? super T>>) parserClass;
         } catch (ClassNotFoundException e) {
-            throw new ParserInitializationException("Class " + parserClassName
-                    + " could not be found for parsing of type " + klass.getName() + ".");
+            throw new ParserInitializationException(
+                    "Class " + parserClassName + " could not be found for parsing of type " + klass.getName() + ".");
         }
     }
 }

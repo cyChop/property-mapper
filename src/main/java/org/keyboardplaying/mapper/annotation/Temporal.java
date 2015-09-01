@@ -9,8 +9,7 @@ import java.lang.annotation.Target;
 /**
  * This annotation is used to mark fields representing a time.
  * <p/>
- * More specifically, it defines which {@link TemporalType} should be used when mapping from and to
- * the metadata map.
+ * More specifically, it defines which {@link TemporalType} should be used when mapping from and to the metadata map.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */

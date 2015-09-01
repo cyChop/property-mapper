@@ -48,7 +48,7 @@ public class BooleanParserTest {
     }
 
     @Test
-    public void testConvertToString() throws ParsingException {
+    public void testConvertToString() {
         assertEquals(Defaults.BOOLEAN_YES, enC.convertToString(true));
         assertEquals(Defaults.BOOLEAN_NO, enC.convertToString(false));
         assertEquals(Defaults.BOOLEAN_YES_FR, frC.convertToString(true));
@@ -56,7 +56,7 @@ public class BooleanParserTest {
     }
 
     @Test
-    public void testNull() throws ParsingException {
+    public void testNull() {
         assertEquals(Defaults.BOOLEAN_NO, enC.convertToString(null));
         assertEquals(Defaults.BOOLEAN_NO_FR, frC.convertToString(null));
     }

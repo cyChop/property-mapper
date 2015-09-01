@@ -27,26 +27,23 @@ public class MappingExceptionTest extends MapperExceptionTest<MappingException> 
     @Test
     @Override
     public void testMessageConstructor() throws InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
-            SecurityException {
+            IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         super.testMessageConstructor();
     }
 
     /** Tests {@link MappingException#MappingException(Throwable)}. */
     @Test
     @Override
-    public void testCauseConstructor() throws InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
-            SecurityException {
+    public void testCauseConstructor() throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+            InvocationTargetException, NoSuchMethodException, SecurityException {
         super.testCauseConstructor();
     }
 
     /** Tests {@link MappingException#MappingException(String, Throwable)}. */
     @Test
     @Override
-    public void testBothConstructor() throws InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
-            SecurityException {
+    public void testBothConstructor() throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+            InvocationTargetException, NoSuchMethodException, SecurityException {
         super.testBothConstructor();
     }
 }

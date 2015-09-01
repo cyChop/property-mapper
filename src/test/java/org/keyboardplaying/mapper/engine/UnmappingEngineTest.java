@@ -11,12 +11,12 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.keyboardplaying.mapper.annotation.TemporalType;
-import org.keyboardplaying.mapper.parser.CalendarParser;
-import org.keyboardplaying.mapper.parser.DateParser;
 import org.keyboardplaying.mapper.exception.MapperException;
 import org.keyboardplaying.mapper.exception.MappingException;
 import org.keyboardplaying.mapper.mock.bean.TestBean;
 import org.keyboardplaying.mapper.mock.bean.TestInnerImpl;
+import org.keyboardplaying.mapper.parser.CalendarParser;
+import org.keyboardplaying.mapper.parser.DateParser;
 
 // XXX Javadoc
 /**
@@ -33,7 +33,7 @@ public class UnmappingEngineTest {
 
     @Test
     public void testMapToBean() throws MapperException {
-        Map<String, String> metadata = new HashMap<String, String>();
+        Map<String, String> metadata = new HashMap<>();
 
         /* Test @Nested & @DefaultValue */
         metadata.put("hello_world_inner", "Hello, Little Big Planet!");
@@ -71,8 +71,7 @@ public class UnmappingEngineTest {
         // date comparison
         DateParser dateConv = new DateParser();
         dateConv.setFormat(TemporalType.DATE.getFormat());
-        assertEquals(dateConv.convertFromString(metadata.get("some_even_more_important_date")),
-                bean.getDate());
+        assertEquals(dateConv.convertFromString(metadata.get("some_even_more_important_date")), bean.getDate());
         // boolean testing
         metadata.put("some_bool", "YES");
         try {

@@ -25,8 +25,7 @@ abstract class MapperExceptionTest<T extends MapperException> {
     }
 
     protected void testMessageConstructor() throws InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
-            SecurityException {
+            IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         String message = "Hello, world!";
         T exception = klass.getConstructor(String.class).newInstance(message);
         assertEquals(message, exception.getMessage());
@@ -34,8 +33,7 @@ abstract class MapperExceptionTest<T extends MapperException> {
     }
 
     protected void testCauseConstructor() throws InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
-            SecurityException {
+            IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         Throwable cause = new IllegalArgumentException("He's dead, Jim!");
         T exception = klass.getConstructor(Throwable.class).newInstance(cause);
         assertEquals(cause.toString(), exception.getMessage());
@@ -43,12 +41,10 @@ abstract class MapperExceptionTest<T extends MapperException> {
     }
 
     protected void testBothConstructor() throws InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
-            SecurityException {
+            IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         String message = "Hello, world!";
         Throwable cause = new IllegalArgumentException("He's dead, Jim!");
-        T exception = klass.getConstructor(String.class, Throwable.class).newInstance(message,
-                cause);
+        T exception = klass.getConstructor(String.class, Throwable.class).newInstance(message, cause);
         assertEquals(message, exception.getMessage());
         assertEquals(cause, exception.getCause());
     }

@@ -8,11 +8,10 @@ import java.util.Date;
 import org.keyboardplaying.mapper.exception.ParsingException;
 
 /**
- * This implementation of {@link Parser} provides some utility methods when parsing time
- * representations.
+ * This implementation of {@link Parser} provides some utility methods when parsing time representations.
  * <p/>
- * Using this implies to use {@link Date} objects at least as intermediary steps. You might wish to
- * use more direct ways if it is possible.
+ * Using this implies to use {@link Date} objects at least as intermediary steps. You might wish to use more direct ways
+ * if it is possible.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  * @param <T>
@@ -36,8 +35,7 @@ public abstract class BaseTemporalParser<T> implements TemporalParser<T> {
     /**
      * Converts a {@link String} representation of a date to a {@link Date} instance.
      * <p/>
-     * The {@link String} is expected to conform to the format specified for this
-     * {@link BaseTemporalParser}.
+     * The {@link String} is expected to conform to the format specified for this {@link BaseTemporalParser}.
      *
      * @param value
      *            the {@link String} representation of a date
@@ -49,16 +47,15 @@ public abstract class BaseTemporalParser<T> implements TemporalParser<T> {
         try {
             return format.parse(value);
         } catch (ParseException e) {
-            throw new ParsingException("Value <" + value
-                    + "> could not be parsed to date using format <" + format + ">.");
+            throw new ParsingException(
+                    "Value <" + value + "> could not be parsed to date using format <" + format + ">.");
         }
     }
 
     /**
      * Converts a {@link Date} instance to a {@link String} representation.
      * <p/>
-     * The {@link String} will conform to the format specified for this
-     * {@link BaseTemporalParser}.
+     * The {@link String} will conform to the format specified for this {@link BaseTemporalParser}.
      *
      * @param value
      *            the {@link Date}
