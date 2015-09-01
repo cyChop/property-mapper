@@ -115,6 +115,9 @@ public class AutoDiscoverParserProvider implements ParserProvider {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         if (classLoader == null) {
             classLoader = getClass().getClassLoader();
+            if (classLoader == null) {
+                throw new IllegalStateException("ClassLoader coulf not be found.");
+            }
         }
 
         InputStream in = classLoader.getResourceAsStream(uri);

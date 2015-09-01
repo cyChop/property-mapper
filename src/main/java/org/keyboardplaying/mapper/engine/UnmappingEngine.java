@@ -147,8 +147,9 @@ public class UnmappingEngine extends BaseEngine {
             throws ParserInitializationException, MappingException {
         try {
 
-            PropertyDescriptor descriptor = new PropertyDescriptor(field.getName(), bean.getClass());
-            Object innerBean = descriptor.getReadMethod().invoke(bean);
+            PropertyDescriptor descriptor = getPropertyDescriptor(bean, field);
+
+            Object innerBean = get(bean, descriptor);
             if (innerBean == null) {
                 String className = field.getAnnotation(Nested.class).className();
                 try {
@@ -163,7 +164,8 @@ public class UnmappingEngine extends BaseEngine {
             } else {
                 innerBean = unmap(metadata, innerBean);
             }
-            descriptor.getWriteMethod().invoke(bean, innerBean);
+
+            set(bean, descriptor, innerBean);
 
         } catch (IllegalAccessException e) {
             throw makeNestedUnmappingError(field, e);

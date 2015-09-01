@@ -4,6 +4,7 @@ import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import org.keyboardplaying.mapper.Defaults;
 import org.keyboardplaying.mapper.annotation.BooleanValues;
@@ -94,6 +95,21 @@ public abstract class BaseEngine {
     }
 
     /**
+     * Returns a {@link PropertyDescriptor} for the supplied field.
+     *
+     * @param bean
+     *            the bean to get a descriptor for
+     * @param field
+     *            the field to get a descriptor for
+     * @return the {@link PropertyDescriptor}
+     * @throws IntrospectionException
+     *             if an exception occurs during introspection.
+     */
+    protected <T> PropertyDescriptor getPropertyDescriptor(T bean, Field field) throws IntrospectionException {
+        return new PropertyDescriptor(field.getName(), bean.getClass());
+    }
+
+    /**
      * Gets the value of a field in the supplied bean.
      *
      * @param bean
@@ -104,7 +120,25 @@ public abstract class BaseEngine {
      */
     protected Object get(Object bean, Field field)
             throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IntrospectionException {
-        return new PropertyDescriptor(field.getName(), bean.getClass()).getReadMethod().invoke(bean);
+        return get(bean, getPropertyDescriptor(bean, field));
+    }
+
+    /**
+     * Gets the value of a field in the supplied bean.
+     *
+     * @param bean
+     *            the bean
+     * @param descriptor
+     *            the field's descriptor
+     * @return the value
+     */
+    protected Object get(Object bean, PropertyDescriptor descriptor)
+            throws IllegalAccessException, InvocationTargetException {
+        Method readMethod = descriptor.getReadMethod();
+        if (readMethod == null) {
+            throw new IllegalAccessException("Field " + descriptor.getName() + " does not possess a read method.");
+        }
+        return readMethod.invoke(bean);
     }
 
     /**
@@ -119,6 +153,25 @@ public abstract class BaseEngine {
      */
     protected void set(Object bean, Field field, Object value)
             throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IntrospectionException {
-        new PropertyDescriptor(field.getName(), bean.getClass()).getWriteMethod().invoke(bean, value);
+        set(bean, getPropertyDescriptor(bean, field), value);
+    }
+
+    /**
+     * Sets the value of a field in the supplied bean.
+     *
+     * @param bean
+     *            the bean
+     * @param descriptor
+     *            the field's descriptor
+     * @param value
+     *            the value
+     */
+    protected void set(Object bean, PropertyDescriptor descriptor, Object value)
+            throws IllegalAccessException, InvocationTargetException {
+        Method writeMethod = descriptor.getWriteMethod();
+        if (writeMethod == null) {
+            throw new IllegalAccessException("Field " + descriptor.getName() + " does not possess a write method.");
+        }
+        writeMethod.invoke(bean, value);
     }
 }
