@@ -1,8 +1,9 @@
 # Property mapper
 
-[![Build Status][1]][2]
-[![Coverage Status][3]][4]
-[![License][5]][6]
+[![Build Status][travis-shield]][travis-link]
+[![Coverage status][coveralls-shield]][coveralls-link]
+[![Coverity status][coverity-shield]][coverity-link]
+[![License][license-shield]][license-link]
 
 ## History
 
@@ -29,7 +30,7 @@ standards.
 The test coverage suggests it works, and I would be happy to bring some support would you be to use
 it.**
 >
-> **When presenting this PoC to fellow developers, I was asked if [Dozer][7] would be a better match
+> **When presenting this PoC to fellow developers, I was asked if [Dozer] would be a better match
 for my needs. I propose you check on it as it is a much more mature framework than mine, but would
 you be to turn back to me, I would gladly take the opportunity of making it grow.**
 
@@ -48,10 +49,12 @@ Strings.
 * [ ] Better coverage (custom getter)
 * [ ] Make version 1.0.0-SNAPSHOT once the standards are met
 
-[1]: http://img.shields.io/travis/cyChop/property-mapper/master.svg
-[2]: https://travis-ci.org/cyChop/property-mapper
-[3]: http://img.shields.io/coveralls/cyChop/property-mapper/master.svg
-[4]: https://coveralls.io/r/cyChop/property-mapper?branch=master
-[5]: https://img.shields.io/badge/license-New%20BSD-blue.svg
-[6]: http://opensource.org/licenses/BSD-3-Clause
-[7]: http://dozer.sourceforge.net/
+[travis-shield]: http://img.shields.io/travis/cyChop/property-mapper/master.svg
+[travis-link]: https://travis-ci.org/cyChop/property-mapper
+[coveralls-shield]: http://img.shields.io/coveralls/cyChop/property-mapper/master.svg
+[coveralls-link]: https://coveralls.io/r/cyChop/property-mapper?branch=master
+[coverity-shield]: https://img.shields.io/coverity/scan/6214.svg
+[coverity-link]: https://scan.coverity.com/projects/cychop-property-mapper
+[license-shield]: https://img.shields.io/badge/license-BSD_3_Clause-blue.svg
+[license-link]: http://opensource.org/licenses/BSD-3-Clause
+[dozer]: http://dozer.sourceforge.net/
