@@ -7,3 +7,19 @@ jdk:
 
 after_success:
   - mvn cobertura:cobertura coveralls:report
+
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "ifRt6xnHiBcwCBe7sJX+kUep8Vk4NAVlBcuCCPmFafZ8iHNKSvwqr8ajIIRuMEVHp1CyLUv5paPuGMAE+ivVEPLyHvhwbFQd5e89up7iXtaCgiXKfluNeTqiGIpqEsJ6vwvUaaKLFk4mZyvSo8MfOGmKq8wadOOjFFFE7L44Ibs="
+
+addons:
+  coverity_scan:
+    project:
+      name: "cyChop/property-mapper"
+      description: "Build submitted via Travis CI"
+    notification_email: cyrille.chopelet@mines-nancy.org
+    build_command_prepend: "mvn clean"
+    build_command:   "mvn -DskipTests=true compile"
+    branch_pattern: coverity_scan
