@@ -55,6 +55,6 @@ Strings.
 [coveralls-link]: https://coveralls.io/r/cyChop/property-mapper?branch=master
 [coverity-shield]: https://img.shields.io/coverity/scan/6214.svg
 [coverity-link]: https://scan.coverity.com/projects/cychop-property-mapper
-[license-shield]: https://img.shields.io/badge/license-BSD_3_Clause-blue.svg
+[license-shield]: https://img.shields.io/badge/license-BSD_3--Clause-blue.svg
 [license-link]: http://opensource.org/licenses/BSD-3-Clause
 [dozer]: http://dozer.sourceforge.net/
