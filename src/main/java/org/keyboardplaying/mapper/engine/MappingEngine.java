@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Metadata;
@@ -16,23 +17,43 @@ import org.keyboardplaying.mapper.exception.ParsingException;
 
 // TODO JAVADOC
 /**
- * The mapping engine for mapping a POJO to a flat map (mapping).
+ * The mapping engine for mapping an annotated POJO to a flat {@link Map} (mapping).
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public class MappingEngine extends BaseEngine {
 
+    /**
+     * Converts the annotated bean to {@link Map}.
+     *
+     * @param bean
+     *            the annotated bean
+     * @return the {@link Map} containing the mapped properties
+     * @throws NullPointerException
+     *             if the supplied bean is {@code null}
+     */
     public <T> Map<String, String> map(T bean) throws ParserInitializationException, MappingException {
-        return map(bean, null);
+        return map(bean, new HashMap<String, String>());
     }
 
+    /**
+     * Converts the annotated bean to {@link Map}.
+     *
+     * @param bean
+     *            the annotated bean
+     * @param map
+     *            the destination map
+     * @return the {@link Map} containing the mapped properties
+     * @throws NullPointerException
+     *             if either parameter is {@code null}
+     */
     public <T> Map<String, String> map(T bean, Map<String, String> map)
             throws ParserInitializationException, MappingException {
-        Map<String, String> result = map == null ? new HashMap<String, String>() : map;
+        Objects.requireNonNull(map, "The destination map must not be null.");
 
         /* Control the validity of arguments. */
         if (bean == null) {
-            throw new MappingException("The supplied bean was null.");
+            throw new NullPointerException("The supplied bean was null.");
         }
 
         /* Go and parse. */
@@ -40,13 +61,13 @@ public class MappingEngine extends BaseEngine {
 
         for (Field field : fields) {
             if (field.isAnnotationPresent(Nested.class)) {
-                performInnerMapping(bean, field, result);
+                performInnerMapping(bean, field, map);
             } else if (field.isAnnotationPresent(Metadata.class)) {
-                performFieldMapping(bean, field, result);
+                performFieldMapping(bean, field, map);
             }
         }
 
-        return result;
+        return map;
     }
 
     private <T> void performInnerMapping(T bean, Field field, Map<String, String> result)

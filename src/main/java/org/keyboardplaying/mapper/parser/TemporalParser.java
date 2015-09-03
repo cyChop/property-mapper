@@ -7,6 +7,8 @@ package org.keyboardplaying.mapper.parser;
  * {@link org.keyboardplaying.mapper.annotation.Temporal} annotation.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @param <T>
+ *            the type of time objects this {@link Parser} converts from and to
  */
 public interface TemporalParser<T> extends Parser<T> {
 

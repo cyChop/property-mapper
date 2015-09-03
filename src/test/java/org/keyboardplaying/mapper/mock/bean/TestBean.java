@@ -12,8 +12,9 @@ import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.annotation.Temporal;
 import org.keyboardplaying.mapper.annotation.TemporalType;
 
-// XXX Javadoc
 /**
+ * Test bean.
+ *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public class TestBean {
@@ -52,90 +53,209 @@ public class TestBean {
     @Metadata(value = "somebody_s_name", customSetter = "setContact")
     private String contact;
 
+    /** Creates a new instance. */
     public TestBean() {
         super();
     }
 
+    /**
+     * Returns the hello for this instance.
+     *
+     * @return the hello
+     */
     public String getHello() {
         return hello;
     }
 
+    /**
+     * Sets the hello for this instance.
+     *
+     * @param hello
+     *            the new hello
+     */
     public void setHello(String hello) {
         this.hello = hello;
     }
 
+    /**
+     * Returns the someBool for this instance.
+     *
+     * @return the someBool
+     */
     public boolean isSomeBool() {
         return someBool;
     }
 
+    /**
+     * Sets the someBool for this instance.
+     *
+     * @param someBool
+     *            the new someBool
+     */
     public void setSomeBool(boolean someBool) {
         this.someBool = someBool;
     }
 
+    /**
+     * Returns the someInt for this instance.
+     *
+     * @return the someInt
+     */
     public int getSomeInt() {
         return someInt;
     }
 
+    /**
+     * Sets the someInt for this instance.
+     *
+     * @param someInt
+     *            the new someInt
+     */
     public void setSomeInt(int someInt) {
         this.someInt = someInt;
     }
 
+    /**
+     * Returns the someLong for this instance.
+     *
+     * @return the someLong
+     */
     public Long getSomeLong() {
         return someLong;
     }
 
+    /**
+     * Sets the someLong for this instance.
+     *
+     * @param someLong
+     *            the new someLong
+     */
     public void setSomeLong(Long someLong) {
         this.someLong = someLong;
     }
 
+    /**
+     * Returns the someBig for this instance.
+     *
+     * @return the someBig
+     */
     public BigInteger getSomeBig() {
         return someBig;
     }
 
+    /**
+     * Sets the someBig for this instance.
+     *
+     * @param someBig
+     *            the new someBig
+     */
     public void setSomeBig(BigInteger someBig) {
         this.someBig = someBig;
     }
 
+    /**
+     * Returns the date for this instance.
+     *
+     * @return the date
+     */
     public Date getDate() {
         return date;
     }
 
+    /**
+     * Sets the date for this instance.
+     *
+     * @param date
+     *            the new date
+     */
     public void setDate(Date date) {
         this.date = date;
     }
 
+    /**
+     * Returns the cal for this instance.
+     *
+     * @return the cal
+     */
     public Calendar getCal() {
         return cal;
     }
 
+    /**
+     * Sets the cal for this instance.
+     *
+     * @param cal
+     *            the new cal
+     */
     public void setCal(Calendar cal) {
         this.cal = cal;
     }
 
+    /**
+     * Returns the innerImpl for this instance.
+     *
+     * @return the innerImpl
+     */
     public TestInnerImpl getInnerImpl() {
         return innerImpl;
     }
 
+    /**
+     * Sets the innerImpl for this instance.
+     *
+     * @param innerImpl
+     *            the new innerImpl
+     */
     public void setInnerImpl(TestInnerImpl innerImpl) {
         this.innerImpl = innerImpl;
     }
 
+    /**
+     * Returns the innerItf for this instance.
+     *
+     * @return the innerItf
+     */
     public TestInnerBean getInnerItf() {
         return innerItf;
     }
 
+    /**
+     * Sets the innerItf for this instance.
+     *
+     * @param innerItf
+     *            the new innerItf
+     */
     public void setInnerItf(TestInnerBean innerItf) {
         this.innerItf = innerItf;
     }
 
+    /**
+     * Returns the contact for this instance.
+     *
+     * @return the contact
+     */
     public String getContact() {
         return contact;
     }
 
+    /**
+     * Sets the contact for this instance.
+     *
+     * @param contact
+     *            the new contact
+     */
     public void setContact(String contact) {
         this.contact = contact;
     }
 
+    /**
+     * Sets the contact for this instance.
+     *
+     * @param name
+     *            the contact's name
+     * @param metadata
+     *            the metadata map to allow access to custom data
+     */
     public void setContact(String name, Map<String, String> metadata) {
         this.contact = String.format("%s (%s)", name, metadata.get("somebody_s_phone"));
     }
