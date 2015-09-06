@@ -79,14 +79,10 @@ public class MappingEngine extends BaseEngine {
                 map(value, result);
             }
 
-        } catch (IllegalArgumentException e) {
-            throw makeNestedMappingError(field, e);
-        } catch (IllegalAccessException e) {
-            throw makeNestedMappingError(field, e);
-        } catch (InvocationTargetException e) {
-            throw makeNestedMappingError(field, e);
-        } catch (IntrospectionException e) {
-            throw makeNestedMappingError(field, e);
+        } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException
+                | IntrospectionException e) {
+            throw new MappingException(
+                    "Error while mapping nested " + field.getName() + " of " + field.getDeclaringClass().getName(), e);
         }
     }
 
@@ -135,14 +131,10 @@ public class MappingEngine extends BaseEngine {
             Object value = get(bean, field);
             return value == null ? null : getParser(field).convertToString(value);
 
-        } catch (IllegalAccessException e) {
-            throw makeFieldGettingError(field, e);
-        } catch (ParsingException e) {
-            throw makeFieldGettingError(field, e);
-        } catch (InvocationTargetException e) {
-            throw makeFieldGettingError(field, e);
-        } catch (IntrospectionException e) {
-            throw makeFieldGettingError(field, e);
+        } catch (IllegalAccessException | ParsingException | InvocationTargetException | IntrospectionException e) {
+            throw new MappingException(
+                    "Field " + field.getName() + " of " + field.getDeclaringClass().getName() + " could not be got.",
+                    e);
         }
     }
 
@@ -152,35 +144,11 @@ public class MappingEngine extends BaseEngine {
             Method method = bean.getClass().getMethod(customGetter);
             return (String) method.invoke(bean);
 
-        } catch (IllegalArgumentException e) {
-            throw makeCustomGetterError(bean, customGetter, e);
-        } catch (IllegalAccessException e) {
-            throw makeCustomGetterError(bean, customGetter, e);
-        } catch (InvocationTargetException e) {
-            throw makeCustomGetterError(bean, customGetter, e);
-        } catch (SecurityException e) {
-            throw makeCustomGetterError(bean, customGetter, e);
-        } catch (NoSuchMethodException e) {
-            throw makeCustomGetterError(bean, customGetter, e);
-        } catch (ClassCastException e) {
-            throw makeCustomGetterError(bean, customGetter, e);
+        } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException | SecurityException
+                | NoSuchMethodException | ClassCastException e) {
+            throw new MappingException(
+                    "Custom getter " + customGetter + " of " + bean.getClass().getName() + " did not return a String",
+                    e);
         }
-    }
-
-    private MappingException makeNestedMappingError(Field field, Exception cause) {
-        return new MappingException(
-                "Error while mapping nested " + field.getName() + " of " + field.getDeclaringClass().getName(), cause);
-    }
-
-    private MappingException makeFieldGettingError(Field field, Exception cause) {
-        return new MappingException(
-                "Field " + field.getName() + " of " + field.getDeclaringClass().getName() + " could not be got.",
-                cause);
-    }
-
-    private MappingException makeCustomGetterError(Object bean, String customGetter, Exception cause) {
-        return new MappingException(
-                "Custom getter " + customGetter + " of " + bean.getClass().getName() + " did not return a String",
-                cause);
     }
 }
