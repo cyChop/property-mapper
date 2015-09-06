@@ -1,76 +1,45 @@
 package org.keyboardplaying.mapper.parser;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
-import java.math.BigInteger;
 
 import org.junit.Test;
 import org.keyboardplaying.mapper.exception.ParsingException;
 
-// XXX Javadoc
 /**
+ * Abstract class providing implementation for tests commons to {@link TemporalParser} implementations.
+ *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class NumberParserTest {
+@SuppressWarnings("javadoc")
+public abstract class NumberParserTest<T extends Number> {
 
-    private IntegerParser ic = new IntegerParser();
-    private LongParser lc = new LongParser();
-    private BigIntegerParser bic = new BigIntegerParser();
+    private Parser<T> parser;
 
-    @Test
-    public void testConvertStringToInteger() throws ParsingException {
-        assertEquals(Integer.valueOf(1), ic.convertFromString("1"));
-        try {
-            ic.convertFromString("notANumber");
-            fail();
-        } catch (ParsingException e) {
-            // do nothing, this is expected
-        } catch (Exception e) {
-            fail();
-        }
+    /**
+     * Creates a new instance.
+     *
+     * @param parser
+     *            the parser to test
+     */
+    protected NumberParserTest(Parser<T> parser) {
+        this.parser = parser;
     }
 
-    @Test
-    public void testConvertIntegerToString() {
-        assertEquals("1", ic.convertToString(1));
-        assertEquals("1", ic.convertToString(Integer.valueOf(1)));
+    protected abstract T getValue(int number);
+
+    /** Tests the conversion of a {@link String} to a {@link Number}. */
+    @Test(expected = ParsingException.class)
+    public void testConvertStringToNumber() throws ParsingException {
+        // Correct String
+        assertEquals(getValue(42), parser.convertFromString("42"));
+
+        // Incorrect String
+        parser.convertFromString("notANumber");
     }
 
+    /** Tests the conversion of a {@link Number} to a {@link String}. */
     @Test
-    public void testConvertStringToLong() throws ParsingException {
-        assertEquals(Long.valueOf(1), lc.convertFromString("1"));
-        try {
-            lc.convertFromString("notANumber");
-            fail();
-        } catch (ParsingException e) {
-            // do nothing, this is expected
-        } catch (Exception e) {
-            fail();
-        }
-    }
-
-    @Test
-    public void testConvertLongToString() {
-        assertEquals("1", lc.convertToString(1L));
-        assertEquals("1", lc.convertToString(Long.valueOf(1)));
-    }
-
-    @Test
-    public void testConvertStringToBigInteger() throws ParsingException {
-        assertEquals(BigInteger.valueOf(1), bic.convertFromString("1"));
-        try {
-            bic.convertFromString("notANumber");
-            fail();
-        } catch (ParsingException e) {
-            // do nothing, this is expected
-        } catch (Exception e) {
-            fail();
-        }
-    }
-
-    @Test
-    public void testConvertBigIntegerToString() {
-        assertEquals("1", bic.convertToString(BigInteger.valueOf(1)));
+    public void testConvertNumberToString() throws ParsingException {
+        assertEquals("1337", parser.convertToString(getValue(1337)));
     }
 }

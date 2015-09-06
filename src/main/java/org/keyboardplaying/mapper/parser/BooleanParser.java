@@ -54,6 +54,6 @@ public class BooleanParser implements Parser<Boolean> {
      */
     @Override
     public String convertToString(Boolean bool) {
-        return bool != null && bool.booleanValue() ? this.whenTrue : this.whenFalse;
+        return bool.booleanValue() ? this.whenTrue : this.whenFalse;
     }
 }

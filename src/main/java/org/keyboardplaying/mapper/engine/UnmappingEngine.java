@@ -85,10 +85,9 @@ public class UnmappingEngine extends BaseEngine {
             throws ParserInitializationException, MappingException {
         try {
             return unmap(metadata, beanType.newInstance());
-        } catch (InstantiationException e) {
-            throw makeInstanciationError(beanType, e);
-        } catch (IllegalAccessException e) {
-            throw makeInstanciationError(beanType, e);
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new MappingException("Could not instanciate a new bean for type " + beanType.getSimpleName() + ".",
+                    e);
         }
     }
 
@@ -167,12 +166,9 @@ public class UnmappingEngine extends BaseEngine {
 
             set(bean, descriptor, innerBean);
 
-        } catch (IllegalAccessException e) {
-            throw makeNestedUnmappingError(field, e);
-        } catch (InvocationTargetException e) {
-            throw makeNestedUnmappingError(field, e);
-        } catch (IntrospectionException e) {
-            throw makeNestedUnmappingError(field, e);
+        } catch (IllegalAccessException | InvocationTargetException | IntrospectionException e) {
+            throw new MappingException("Error while unmapping nested bean " + field.getName() + " of "
+                    + field.getDeclaringClass().getName(), e);
         }
     }
 
@@ -265,14 +261,10 @@ public class UnmappingEngine extends BaseEngine {
         try {
             set(bean, field, value == null ? DEFAULT_VALUES.get(field.getType())
                     : this.<T> getParser(field).convertFromString(value));
-        } catch (IllegalAccessException e) {
-            throw makeFieldSettingError(field, e);
-        } catch (InvocationTargetException e) {
-            throw makeFieldSettingError(field, e);
-        } catch (IntrospectionException e) {
-            throw makeFieldSettingError(field, e);
-        } catch (ParsingException e) {
-            throw makeFieldSettingError(field, e);
+        } catch (IllegalAccessException | InvocationTargetException | IntrospectionException | ParsingException e) {
+            throw new MappingException(
+                    "Field " + field.getName() + " of " + field.getDeclaringClass().getName() + " could not be set.",
+                    e);
         }
     }
 
@@ -302,38 +294,10 @@ public class UnmappingEngine extends BaseEngine {
             Method method = bean.getClass().getMethod(customSetter, String.class, Map.class);
             method.invoke(bean, value, metadata);
 
-        } catch (IllegalArgumentException e) {
-            throw makeCustomSetterProblemError(bean, customSetter, e);
-        } catch (IllegalAccessException e) {
-            throw makeCustomSetterProblemError(bean, customSetter, e);
-        } catch (InvocationTargetException e) {
-            throw makeCustomSetterProblemError(bean, customSetter, e);
-        } catch (SecurityException e) {
-            throw makeCustomSetterProblemError(bean, customSetter, e);
-        } catch (NoSuchMethodException e) {
-            throw makeCustomSetterProblemError(bean, customSetter, e);
+        } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException | SecurityException
+                | NoSuchMethodException e) {
+            throw new MappingException(
+                    "Custom setter " + customSetter + " of " + bean.getClass().getName() + " could not be called.", e);
         }
-    }
-
-    private MappingException makeInstanciationError(Class<?> beanType, Exception cause) {
-        return new MappingException("Could not instanciate a new bean for type " + beanType.getSimpleName() + ".",
-                cause);
-    }
-
-    private MappingException makeNestedUnmappingError(Field field, Exception cause) {
-        return new MappingException(
-                "Error while unmapping nested bean " + field.getName() + " of " + field.getDeclaringClass().getName(),
-                cause);
-    }
-
-    private MappingException makeFieldSettingError(Field field, Exception cause) {
-        return new MappingException(
-                "Field " + field.getName() + " of " + field.getDeclaringClass().getName() + " could not be set.",
-                cause);
-    }
-
-    private MappingException makeCustomSetterProblemError(Object bean, String customSetter, Exception cause) {
-        return new MappingException(
-                "Custom setter " + customSetter + " of " + bean.getClass().getName() + " could not be called.", cause);
     }
 }

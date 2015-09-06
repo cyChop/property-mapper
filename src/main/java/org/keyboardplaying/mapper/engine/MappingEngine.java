@@ -29,6 +29,10 @@ public class MappingEngine extends BaseEngine {
      * @param bean
      *            the annotated bean
      * @return the {@link Map} containing the mapped properties
+     * @throws ParserInitializationException
+     *             if a Parser could not be initialized
+     * @throws MappingException
+     *             if the mapping fails
      * @throws NullPointerException
      *             if the supplied bean is {@code null}
      */
@@ -44,6 +48,10 @@ public class MappingEngine extends BaseEngine {
      * @param map
      *            the destination map
      * @return the {@link Map} containing the mapped properties
+     * @throws ParserInitializationException
+     *             if a Parser could not be initialized
+     * @throws MappingException
+     *             if the mapping fails
      * @throws NullPointerException
      *             if either parameter is {@code null}
      */
