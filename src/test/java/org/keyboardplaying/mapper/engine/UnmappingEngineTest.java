@@ -18,19 +18,23 @@ import org.keyboardplaying.mapper.mock.bean.TestInnerImpl;
 import org.keyboardplaying.mapper.parser.CalendarParser;
 import org.keyboardplaying.mapper.parser.DateParser;
 
-// XXX Javadoc
 /**
+ * Tests for the {@link UnmappingEngine}.
+ *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
+@SuppressWarnings("javadoc")
 public class UnmappingEngineTest {
 
     private UnmappingEngine mappingEngine = new UnmappingEngine();
 
+    /** Tests the unmapping of an empty data map. */
     @Test(expected = MappingException.class)
     public void testMapWithMissingMandatory() throws MapperException {
         mappingEngine.unmap(new HashMap<String, String>(), TestBean.class);
     }
 
+    /** Tests the unmapping of a data map. */
     @Test
     public void testMapToBean() throws MapperException {
         Map<String, String> metadata = new HashMap<>();

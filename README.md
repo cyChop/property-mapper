@@ -42,13 +42,6 @@ The POJO's fields are to be annotated with the keys of the values to retrieve in
 map, so the (un)mapping engine could perform its task autonomously, converting the fields from or to
 Strings.
 
-## TODO
-
-* [ ] Documentation (annotations, defining parsers, (un)mapping engine)
-* [x] Rename ``Converter``s to ``Parser``s
-* [ ] Better coverage (custom getter)
-* [ ] Make version 1.0.0-SNAPSHOT once the standards are met
-
 [travis-shield]: http://img.shields.io/travis/cyChop/property-mapper/master.svg
 [travis-link]: https://travis-ci.org/cyChop/property-mapper
 [coveralls-shield]: http://img.shields.io/coveralls/cyChop/property-mapper/master.svg

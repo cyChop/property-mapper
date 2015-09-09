@@ -20,29 +20,35 @@ import org.keyboardplaying.mapper.mock.bean.TestBean;
 import org.keyboardplaying.mapper.mock.bean.TestInnerImpl;
 
 // TODO test custom getter
-// XXX Javadoc
 /**
+ * Tests for the {@link MappingEngine}.
+ *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
+@SuppressWarnings("javadoc")
 public class MappingEngineTest {
 
     private MappingEngine mappingEngine = new MappingEngine();
 
+    /** Tests mapping a {@code null} bean. */
     @Test(expected = NullPointerException.class)
     public void testMapWithNullBean() throws ParserInitializationException, MappingException {
         mappingEngine.map(null);
     }
 
+    /** Tests the mapping of a {@code null} bean while specifying the map. */
     @Test(expected = NullPointerException.class)
     public void testMapWithNullBean2() throws ParserInitializationException, MappingException {
         mappingEngine.map(null, new HashMap<String, String>());
     }
 
+    /** Tests the mapping of a bean to a {@code null} map. */
     @Test(expected = NullPointerException.class)
     public void testMapWithNullMap() throws ParserInitializationException, MappingException {
         mappingEngine.map(new TestBean(), null);
     }
 
+    /** Tests the mapping of a bean to a map. */
     @Test
     public void testMapToBean() throws MapperException {
 
