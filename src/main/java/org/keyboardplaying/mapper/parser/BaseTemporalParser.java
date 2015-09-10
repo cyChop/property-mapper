@@ -8,14 +8,14 @@ import java.util.Date;
 import org.keyboardplaying.mapper.exception.ParsingException;
 
 /**
- * This implementation of {@link Parser} provides some utility methods when parsing time representations.
+ * This implementation of {@link SimpleParser} provides some utility methods when parsing time representations.
  * <p/>
  * Using this implies to use {@link Date} objects at least as intermediary steps. You might wish to use more direct ways
  * if it is possible.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  * @param <T>
- *            the type of time objects this {@link Parser} converts from and to
+ *            the type of time objects this {@link SimpleParser} converts from and to
  */
 public abstract class BaseTemporalParser<T> implements TemporalParser<T> {
 

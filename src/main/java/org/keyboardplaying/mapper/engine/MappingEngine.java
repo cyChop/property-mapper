@@ -3,7 +3,6 @@ package org.keyboardplaying.mapper.engine;
 import java.beans.IntrospectionException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -14,8 +13,8 @@ import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.exception.MappingException;
 import org.keyboardplaying.mapper.exception.ParserInitializationException;
 import org.keyboardplaying.mapper.exception.ParsingException;
+import org.keyboardplaying.mapper.parser.ElaborateParser;
 
-// TODO JAVADOC
 /**
  * The mapping engine for mapping an annotated POJO to a flat {@link Map} (mapping).
  *
@@ -30,7 +29,7 @@ public class MappingEngine extends BaseEngine {
      *            the annotated bean
      * @return the {@link Map} containing the mapped properties
      * @throws ParserInitializationException
-     *             if a Parser could not be initialized
+     *             if a SimpleParser could not be initialized
      * @throws MappingException
      *             if the mapping fails
      * @throws NullPointerException
@@ -49,7 +48,7 @@ public class MappingEngine extends BaseEngine {
      *            the destination map
      * @return the {@link Map} containing the mapped properties
      * @throws ParserInitializationException
-     *             if a Parser could not be initialized
+     *             if a SimpleParser could not be initialized
      * @throws MappingException
      *             if the mapping fails
      * @throws NullPointerException
@@ -94,43 +93,51 @@ public class MappingEngine extends BaseEngine {
         }
     }
 
-    private <T> void performFieldMapping(T bean, Field field, Map<String, String> map)
+    private <T, F> void performFieldMapping(T bean, Field field, Map<String, String> map)
             throws ParserInitializationException, MappingException {
         Metadata settings = field.getAnnotation(Metadata.class);
 
-        /* Fetch the value from the bean. */
-        String value = getFieldAsString(bean, field, settings);
-        if (value == null) {
+        try {
+            F fieldValue = get(bean, field);
 
-            /* Field is null. */
+            if (fieldValue == null) {
 
-            if (field.isAnnotationPresent(DefaultValue.class)) {
+                /* Field is null. */
+                if (field.isAnnotationPresent(DefaultValue.class)) {
 
-                /* Use the default value instead. */
-                value = field.getAnnotation(DefaultValue.class).value();
+                    /* Use the default value instead. */
+                    setValue(map, settings, field.getAnnotation(DefaultValue.class).value());
 
-            } else if (settings.mandatory()) {
+                } else if (settings.mandatory()) {
 
-                /* Data is absent though mandatory, raise an exception. */
-                throw new MappingException("Mandatory field " + field.getName() + " of "
-                        + field.getDeclaringClass().getName() + " is null and does not define a default value.");
+                    /* Data is absent though mandatory, raise an exception. */
+                    throw new MappingException("Mandatory field " + field.getName() + " of "
+                            + field.getDeclaringClass().getName() + " is null and does not define a default value.");
+                } else {
+                    serializeField(bean, field, settings, map);
+                }
+
+            } else {
+                serializeField(bean, field, settings, map);
             }
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | IntrospectionException e) {
+            throw new MappingException("Field " + field.getName() + " of " + field.getDeclaringClass().getName()
+                    + " could not be serialized.", e);
         }
-        map.put(settings.value(), value);
     }
 
-    private <T> String getFieldAsString(T bean, Field field, Metadata settings)
+    private <F, T> void serializeField(T bean, Field field, Metadata settings, Map<String, String> map)
             throws ParserInitializationException, MappingException {
-        String customGetter = settings.customGetter();
-
-        String result;
-        if (customGetter == null || customGetter.length() == 0) {
-            result = getFieldAsString(bean, field);
+        @SuppressWarnings("unchecked")
+        Class<? extends ElaborateParser<F>> elaborate = (Class<? extends ElaborateParser<F>>) settings.elaborate();
+        if (elaborate.equals(ElaborateParser.None.class)) {
+            // simple parse and store
+            setValue(map, settings, field == null ? null : getFieldAsString(bean, field));
         } else {
             // a custom getter was defined, overrides the default parser
-            result = getFieldUsingCustomGetter(bean, customGetter);
+            serializeField(bean, field, map, elaborate);
         }
-        return result;
     }
 
     private <T> String getFieldAsString(T bean, Field field) throws ParserInitializationException, MappingException {
@@ -146,17 +153,19 @@ public class MappingEngine extends BaseEngine {
         }
     }
 
-    private <T> String getFieldUsingCustomGetter(T bean, String customGetter) throws MappingException {
+    @SuppressWarnings("unchecked")
+    private <T, F> void serializeField(T bean, Field field, Map<String, String> map,
+            Class<? extends ElaborateParser<F>> parser) throws MappingException {
         try {
-
-            Method method = bean.getClass().getMethod(customGetter);
-            return (String) method.invoke(bean);
-
-        } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException | SecurityException
-                | NoSuchMethodException | ClassCastException e) {
-            throw new MappingException(
-                    "Custom getter " + customGetter + " of " + bean.getClass().getName() + " did not return a String",
-                    e);
+            parser.newInstance().toMap((F) get(bean, field), map);
+        } catch (ParsingException | InstantiationException | IllegalAccessException | IllegalArgumentException
+                | InvocationTargetException | IntrospectionException e) {
+            throw new MappingException("Field " + field.getName() + " of " + field.getDeclaringClass().getName()
+                    + " could not be serialized using parser " + parser.getClass().getSimpleName() + ".", e);
         }
+    }
+
+    private void setValue(Map<String, String> map, Metadata settings, String value) {
+        map.put(settings.value(), value);
     }
 }

@@ -62,6 +62,7 @@ public class MappingEngineTest {
         expected.put("some_bool", "false");
         expected.put("some_number", "42");
         expected.put("somebody_s_name", null);
+        expected.put("somebody_s_phone", null);
         expected.put("some_important_date", null);
         expected.put("some_even_more_important_date", null);
         assertContentEquals(expected, mappingEngine.map(bean));

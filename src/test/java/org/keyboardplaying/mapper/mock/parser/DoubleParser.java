@@ -1,18 +1,18 @@
 package org.keyboardplaying.mapper.mock.parser;
 
-import org.keyboardplaying.mapper.parser.Parser;
+import org.keyboardplaying.mapper.parser.SimpleParser;
 import org.keyboardplaying.mapper.exception.ParsingException;
 
 // XXX Javadoc
 /**
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class DoubleParser implements Parser<Double> {
+public class DoubleParser implements SimpleParser<Double> {
 
     /*
      * (non-Javadoc)
      *
-     * @see org.keyboardplaying.mapper.parser.Parser#convertFromString(java .lang.String)
+     * @see org.keyboardplaying.mapper.parser.SimpleParser#convertFromString(java .lang.String)
      */
     @Override
     public Double convertFromString(String value) throws ParsingException {
@@ -22,7 +22,7 @@ public class DoubleParser implements Parser<Double> {
     /*
      * (non-Javadoc)
      *
-     * @see org.keyboardplaying.mapper.parser.Parser#convertToString(java.lang .Object)
+     * @see org.keyboardplaying.mapper.parser.SimpleParser#convertToString(java.lang .Object)
      */
     @Override
     public String convertToString(Double value) throws ParsingException {

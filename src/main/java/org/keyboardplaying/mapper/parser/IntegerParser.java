@@ -3,16 +3,16 @@ package org.keyboardplaying.mapper.parser;
 import org.keyboardplaying.mapper.exception.ParsingException;
 
 /**
- * Implementation of {@link Parser} for {@code Integer} to {@code String} parsing.
+ * Implementation of {@link SimpleParser} for {@code Integer} to {@code String} parsing.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class IntegerParser implements Parser<Integer> {
+public class IntegerParser implements SimpleParser<Integer> {
 
     /*
      * (non-Javadoc)
      *
-     * @see org.keyboardplaying.mapper.parser.Parser#convertFromString(java .lang.String)
+     * @see org.keyboardplaying.mapper.parser.SimpleParser#convertFromString(java .lang.String)
      */
     @Override
     public Integer convertFromString(String value) throws ParsingException {
@@ -26,7 +26,7 @@ public class IntegerParser implements Parser<Integer> {
     /*
      * (non-Javadoc)
      *
-     * @see org.keyboardplaying.mapper.parser.Parser#convertToString(java.lang .Object)
+     * @see org.keyboardplaying.mapper.parser.SimpleParser#convertToString(java.lang .Object)
      */
     @Override
     public String convertToString(Integer value) {

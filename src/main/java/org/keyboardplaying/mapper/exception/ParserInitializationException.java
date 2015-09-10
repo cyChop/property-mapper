@@ -1,7 +1,7 @@
 package org.keyboardplaying.mapper.exception;
 
 /**
- * An exception to throw when a Parser could not be found or initialized.
+ * An exception to throw when a SimpleParser could not be found or initialized.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */

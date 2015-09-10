@@ -5,7 +5,7 @@ import java.util.Calendar;
 import org.keyboardplaying.mapper.exception.ParsingException;
 
 /**
- * Implementation of {@link Parser} for {@code Calendar} to {@code String} parsing.
+ * Implementation of {@link SimpleParser} for {@code Calendar} to {@code String} parsing.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */

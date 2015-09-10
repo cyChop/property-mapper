@@ -4,7 +4,6 @@ import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +14,7 @@ import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.exception.MappingException;
 import org.keyboardplaying.mapper.exception.ParserInitializationException;
 import org.keyboardplaying.mapper.exception.ParsingException;
+import org.keyboardplaying.mapper.parser.ElaborateParser;
 
 /**
  * The mapping engine for mapping a flat map to a POJO (unmapping).
@@ -189,12 +189,24 @@ public class UnmappingEngine extends BaseEngine {
     private <T> void performFieldUnmapping(Map<String, String> metadata, T bean, Field field)
             throws ParserInitializationException, MappingException {
         Metadata settings = field.getAnnotation(Metadata.class);
+
+        Class<? extends ElaborateParser<?>> elaborate = settings.elaborate();
         String metadataName = settings.value();
 
-        if (metadata.containsKey(metadataName)) {
+        if (!ElaborateParser.None.class.equals(elaborate)) {
+
+            // a custom setter was defined, overrides the default parser
+            setElaborateField(bean, field, elaborate, metadata);
+
+        } else if (metadataName == "") {
+
+            throw new MappingException("No key nor elaborate parser was provided for field " + field.getName()
+                    + " of bean " + bean.getClass().getSimpleName());
+
+        } else if (metadata.containsKey(metadataName)) {
 
             /* Set the value using the value provided with the metadata. */
-            setField(metadata, bean, field, settings, metadata.get(metadataName));
+            setField(bean, field, metadata.get(metadataName));
 
         } else if (settings.mandatory()) {
 
@@ -208,36 +220,6 @@ public class UnmappingEngine extends BaseEngine {
             setField(bean, field, field.getAnnotation(DefaultValue.class).value());
         }
         /* Otherwise, leave field as is. */
-    }
-
-    /**
-     * Sets the value of the supplied field in the supplied bean to the supplied value, in accordance with the settings
-     * provided via annotations.
-     *
-     * @param metadata
-     *            the flat metadata
-     * @param bean
-     *            the destination bean
-     * @param field
-     *            the field to set
-     * @param settings
-     *            the main settings for parsing the value from metadata
-     * @param value
-     *            the value which should be set
-     * @throws ParserInitializationException
-     *             when the parser for the field could not be initialized
-     * @throws MappingException
-     *             when the mapping fails
-     */
-    private <T> void setField(Map<String, String> metadata, T bean, Field field, Metadata settings, String value)
-            throws ParserInitializationException, MappingException {
-        String customSetter = settings.customSetter();
-        if (customSetter == null || customSetter.length() == 0) {
-            setField(bean, field, value);
-        } else {
-            // a custom setter was defined, overrides the default parser
-            setFieldUsingCustomSetter(bean, customSetter, value, metadata);
-        }
     }
 
     /**
@@ -277,27 +259,26 @@ public class UnmappingEngine extends BaseEngine {
      *
      * @param bean
      *            the destination bean
-     * @param customSetter
-     *            the setter to use
-     * @param value
-     *            the non-converted value for the field
+     * @param field
+     *            the field to set
+     * @param parser
+     *            the {@link ElaborateParser} to use
      * @param metadata
      *            the flat metadata
-     *
      * @throws MappingException
      *             when the mapping fails
      */
-    private <T> void setFieldUsingCustomSetter(T bean, String customSetter, String value, Map<String, String> metadata)
-            throws MappingException {
+    private <T> void setElaborateField(T bean, Field field, Class<? extends ElaborateParser<?>> parser,
+            Map<String, String> metadata) throws MappingException {
         try {
-
-            Method method = bean.getClass().getMethod(customSetter, String.class, Map.class);
-            method.invoke(bean, value, metadata);
-
-        } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException | SecurityException
-                | NoSuchMethodException e) {
+            Object value = parser.newInstance().fromMap(metadata);
+            set(bean, field, value == null ? DEFAULT_VALUES.get(field.getType()) : value);
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | IntrospectionException | ParsingException e) {
             throw new MappingException(
-                    "Custom setter " + customSetter + " of " + bean.getClass().getName() + " could not be called.", e);
+                    "Serialization through parser " + parser.getSimpleName() + " could not be performed for field "
+                            + field.getName() + " of bean " + bean.getClass().getSimpleName(),
+                    e);
         }
     }
 }

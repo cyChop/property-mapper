@@ -8,10 +8,10 @@ import java.util.Objects;
 import java.util.Properties;
 
 import org.keyboardplaying.mapper.exception.ParserInitializationException;
-import org.keyboardplaying.mapper.parser.Parser;
+import org.keyboardplaying.mapper.parser.SimpleParser;
 
 /**
- * Provides the correct implementation of {@link Parser} to use based on the type of the field to convert.
+ * Provides the correct implementation of {@link SimpleParser} to use based on the type of the field to convert.
  * <p/>
  * <h1>Adding custom parsers</h1> It is possible to add custom parsers. To do so, you need to create a
  * {@code META-INF/services/org.keyboardplaying.mapper.parser} directory in your project.
@@ -44,9 +44,9 @@ public class AutoDiscoverParserProvider implements ParserProvider {
     private static AutoDiscoverParserProvider instance = new AutoDiscoverParserProvider();
 
     /** A list of parser types to use based on the field type. */
-    private Map<Class<?>, Class<? extends Parser<?>>> parserDefinitions = new HashMap<>();
+    private Map<Class<?>, Class<? extends SimpleParser<?>>> parserDefinitions = new HashMap<>();
     /** A list of all previously loaded parsers based on their type. */
-    private Map<Class<? extends Parser<?>>, Parser<?>> parsers = new HashMap<>();
+    private Map<Class<? extends SimpleParser<?>>, SimpleParser<?>> parsers = new HashMap<>();
 
     /**
      * Returns the single instance of this class.
@@ -62,20 +62,20 @@ public class AutoDiscoverParserProvider implements ParserProvider {
     }
 
     /**
-     * Fetches the appropriate {@link Parser} for the supplied class.
+     * Fetches the appropriate {@link SimpleParser} for the supplied class.
      *
      * @param klass
      *            the class to convert from or to
-     * @return the {@link Parser} to use for parsing
+     * @return the {@link SimpleParser} to use for parsing
      * @throws ParserInitializationException
-     *             if the {@link Parser} cannot be found or initialized
+     *             if the {@link SimpleParser} cannot be found or initialized
      */
     @Override
-    public <T> Parser<? super T> getParser(Class<T> klass) throws ParserInitializationException {
+    public <T> SimpleParser<? super T> getParser(Class<T> klass) throws ParserInitializationException {
         Objects.requireNonNull(klass, "A class must be provided when requiring a parser.");
 
         @SuppressWarnings("unchecked")
-        Class<? extends Parser<? super T>> parserClass = (Class<? extends Parser<? super T>>) parserDefinitions
+        Class<? extends SimpleParser<? super T>> parserClass = (Class<? extends SimpleParser<? super T>>) parserDefinitions
                 .get(klass);
         if (parserClass == null) {
             parserClass = getParserClass(klass);
@@ -83,7 +83,7 @@ public class AutoDiscoverParserProvider implements ParserProvider {
         }
 
         @SuppressWarnings("unchecked")
-        Parser<? super T> parser = (Parser<? super T>) parsers.get(parserClass);
+        SimpleParser<? super T> parser = (SimpleParser<? super T>) parsers.get(parserClass);
         if (parser == null) {
             try {
                 parser = parserClass.newInstance();
@@ -106,10 +106,10 @@ public class AutoDiscoverParserProvider implements ParserProvider {
      *            the class to look a parser for
      * @return the class for the parser to use
      * @throws ParserInitializationException
-     *             if the {@link Parser} cannot be found or initialized
+     *             if the {@link SimpleParser} cannot be found or initialized
      */
     @SuppressWarnings("unchecked")
-    private <T> Class<? extends Parser<? super T>> getParserClass(Class<T> klass) throws ParserInitializationException {
+    private <T> Class<? extends SimpleParser<? super T>> getParserClass(Class<T> klass) throws ParserInitializationException {
         String uri = CONVERTER_DEFINITION_PATH + klass.getName();
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -136,7 +136,7 @@ public class AutoDiscoverParserProvider implements ParserProvider {
             parserClassName = properties.getProperty(CONVERTER_PROPERTY);
             if (parserClassName == null) {
                 throw new ParserInitializationException(
-                        "Parser descriptor for class " + klass.getName() + " is incorrect (empty).");
+                        "SimpleParser descriptor for class " + klass.getName() + " is incorrect (empty).");
             }
         } catch (IOException e) {
             throw new ParserInitializationException(
@@ -145,11 +145,11 @@ public class AutoDiscoverParserProvider implements ParserProvider {
 
         try {
             Class<?> parserClass = Class.forName(parserClassName);
-            if (!Parser.class.isAssignableFrom(parserClass)) {
+            if (!SimpleParser.class.isAssignableFrom(parserClass)) {
                 throw new ParserInitializationException("Class " + parserClassName + " for parsing of type "
-                        + klass.getName() + " does not extend " + Parser.class.getName());
+                        + klass.getName() + " does not extend " + SimpleParser.class.getName());
             }
-            return (Class<? extends Parser<? super T>>) parserClass;
+            return (Class<? extends SimpleParser<? super T>>) parserClass;
         } catch (ClassNotFoundException e) {
             throw new ParserInitializationException(
                     "Class " + parserClassName + " could not be found for parsing of type " + klass.getName() + ".");

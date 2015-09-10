@@ -12,12 +12,12 @@ import org.keyboardplaying.mapper.annotation.Temporal;
 import org.keyboardplaying.mapper.exception.MappingException;
 import org.keyboardplaying.mapper.exception.ParserInitializationException;
 import org.keyboardplaying.mapper.parser.BooleanParser;
-import org.keyboardplaying.mapper.parser.Parser;
+import org.keyboardplaying.mapper.parser.SimpleParser;
 import org.keyboardplaying.mapper.parser.TemporalParser;
 
 // XXX Study the opportunity of creating a MappingExceptionFactory
 /**
- * An abstract base for engine. This class includes methods for fetching {@link Parser} instances when mapping or
+ * An abstract base for engine. This class includes methods for fetching {@link SimpleParser} instances when mapping or
  * unmapping.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
@@ -52,20 +52,21 @@ public abstract class BaseEngine {
     }
 
     /**
-     * Returns the appropriate {@link Parser} based on the supplied field's type.
+     * Returns the appropriate {@link SimpleParser} based on the supplied field's type.
      *
      * @param field
      *            the field to convert a value from or to
-     * @return the {@link Parser} to use
+     * @return the {@link SimpleParser} to use
      * @throws MappingException
-     *             when no {@link Parser} can be found or annotation settings are missing (e.g. {@link Temporal} on
-     *             temporal fields)
+     *             when no {@link SimpleParser} can be found or annotation settings are missing (e.g. {@link Temporal}
+     *             on temporal fields)
      * @throws ParserInitializationException
-     *             if the {@link Parser} cannot be found or initialized
+     *             if the {@link SimpleParser} cannot be found or initialized
      */
     @SuppressWarnings("unchecked")
-    protected <T> Parser<? super T> getParser(Field field) throws MappingException, ParserInitializationException {
-        Parser<? super T> parser = getParserProvider().getParser((Class<T>) field.getType());
+    protected <T> SimpleParser<? super T> getParser(Field field)
+            throws MappingException, ParserInitializationException {
+        SimpleParser<? super T> parser = getParserProvider().getParser((Class<T>) field.getType());
 
         if (parser == null) {
 
@@ -118,7 +119,7 @@ public abstract class BaseEngine {
      *            the field
      * @return the value
      */
-    protected Object get(Object bean, Field field)
+    protected <T> T get(Object bean, Field field)
             throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IntrospectionException {
         return get(bean, getPropertyDescriptor(bean, field));
     }
@@ -132,13 +133,14 @@ public abstract class BaseEngine {
      *            the field's descriptor
      * @return the value
      */
-    protected Object get(Object bean, PropertyDescriptor descriptor)
+    @SuppressWarnings("unchecked")
+    protected <T> T get(Object bean, PropertyDescriptor descriptor)
             throws IllegalAccessException, InvocationTargetException {
         Method readMethod = descriptor.getReadMethod();
         if (readMethod == null) {
             throw new IllegalAccessException("Field " + descriptor.getName() + " does not possess a read method.");
         }
-        return readMethod.invoke(bean);
+        return (T) readMethod.invoke(bean);
     }
 
     /**

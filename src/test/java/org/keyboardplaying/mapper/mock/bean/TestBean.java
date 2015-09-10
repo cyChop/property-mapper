@@ -11,6 +11,7 @@ import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.annotation.Temporal;
 import org.keyboardplaying.mapper.annotation.TemporalType;
+import org.keyboardplaying.mapper.parser.ContactParser;
 
 /**
  * Test bean.
@@ -50,7 +51,7 @@ public class TestBean {
     @Nested(className = "org.keyboardplaying.mapper.mock.bean.TestInnerImpl")
     private TestInnerBean innerItf;
 
-    @Metadata(value = "somebody_s_name", customSetter = "setContact")
+    @Metadata(elaborate = ContactParser.class)
     private String contact;
 
     /** Creates a new instance. */

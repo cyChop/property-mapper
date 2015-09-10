@@ -57,7 +57,7 @@ public class AutoDiscoverParserProviderTest {
     }
 
     /**
-     * Tests the fetching of a Parser without a descriptor file.
+     * Tests the fetching of a SimpleParser without a descriptor file.
      * <p/>
      * The tested type is {@code char}. A descriptor exists for {@link java.lang.Character}.
      */
@@ -66,7 +66,7 @@ public class AutoDiscoverParserProviderTest {
         provider.getParser(char.class);
     }
 
-    /** Tests the fetching of a Parser when the descriptor file is empty. */
+    /** Tests the fetching of a SimpleParser when the descriptor file is empty. */
     @Test(expected = ParserInitializationException.class)
     public void testGetParserWithEmptyDescriptor() throws ParserInitializationException {
         provider.getParser(Short.class);
@@ -84,7 +84,7 @@ public class AutoDiscoverParserProviderTest {
         fail("A ParserInitializationException was expected.");
     }
 
-    /** Tests the fetching of a Parser when the constructor is private. */
+    /** Tests the fetching of a SimpleParser when the constructor is private. */
     @Test(expected = IllegalAccessException.class)
     public void testGetParserWithPrivateConstructor() throws Throwable {
         try {
@@ -96,26 +96,26 @@ public class AutoDiscoverParserProviderTest {
         fail("A ParserInitializationException was expected.");
     }
 
-    /** Tests the fetching of a Parser defined within using project. */
+    /** Tests the fetching of a SimpleParser defined within using project. */
     @Test
     public void testGetExtensibleParser() throws ParserInitializationException {
         assertParserClass(DoubleParser.class, Double.class);
     }
 
-    /** Tests the fetching of a Parser for a class whose descriptor overrides one defined by default. */
+    /** Tests the fetching of a SimpleParser for a class whose descriptor overrides one defined by default. */
     @Test
     public void testDescriptorOverriding() throws ParserInitializationException {
         assertParserClass(ExtendedDateParser.class, Date.class);
     }
 
-    /** Tests the fetching of a Parser when the class in the descriptor is not a parser. */
+    /** Tests the fetching of a SimpleParser when the class in the descriptor is not a parser. */
     @Test(expected = ParserInitializationException.class)
     public void testGetNonParserDescriptor() throws ParserInitializationException {
-        // descriptor file does not link to a Parser
+        // descriptor file does not link to a SimpleParser
         provider.getParser(Character.class);
     }
 
-    /** Tests the fetching of a Parser when the class in descriptor does not exist. */
+    /** Tests the fetching of a SimpleParser when the class in descriptor does not exist. */
     @Test(expected = ParserInitializationException.class)
     public void testGetNonExistingParserDescriptor() throws ParserInitializationException {
         // descriptor file links to a non-existent class

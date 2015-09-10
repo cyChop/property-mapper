@@ -4,11 +4,11 @@ import org.keyboardplaying.mapper.Defaults;
 import org.keyboardplaying.mapper.exception.ParsingException;
 
 /**
- * Implementation of {@link Parser} for {@code Boolean} to {@code String} parsing.
+ * Implementation of {@link SimpleParser} for {@code Boolean} to {@code String} parsing.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class BooleanParser implements Parser<Boolean> {
+public class BooleanParser implements SimpleParser<Boolean> {
 
     /** The {@link String} representation of {@code true}. */
     private String whenTrue = Defaults.BOOLEAN_YES;
@@ -31,7 +31,7 @@ public class BooleanParser implements Parser<Boolean> {
     /*
      * (non-Javadoc)
      *
-     * @see org.keyboardplaying.mapper.parser.Parser#convertFromString(java.lang.String)
+     * @see org.keyboardplaying.mapper.parser.SimpleParser#convertFromString(java.lang.String)
      */
     @Override
     public Boolean convertFromString(String value) throws ParsingException {
@@ -50,7 +50,7 @@ public class BooleanParser implements Parser<Boolean> {
     /*
      * (non-Javadoc)
      *
-     * @see org.keyboardplaying.mapper.parser.Parser#convertToString(java.lang.Object)
+     * @see org.keyboardplaying.mapper.parser.SimpleParser#convertToString(java.lang.Object)
      */
     @Override
     public String convertToString(Boolean bool) {

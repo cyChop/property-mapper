@@ -10,16 +10,16 @@ import org.keyboardplaying.mapper.exception.ParsingException;
  * is {@code true}.
  * <p/>
  * <strong>Notice:</strong> This interface does not require for implementations to be null-safe. It is up to the
- * developer to ensure non-nullity when calling a {@link Parser}.
+ * developer to ensure non-nullity when calling a {@link SimpleParser}.
  * <p/>
  * <strong>Notice:</strong> Please note that all implementations of this interface should provide a {@code public}
- * no-arg constructor, so that the {@link ParserProvider} is able to instantiate any {@link Parser}.
+ * no-arg constructor, so that the {@link ParserProvider} is able to instantiate any {@link SimpleParser}.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  * @param <T>
  *            the type of object being parsed from and to {@code String}
  */
-public interface Parser<T> {
+public interface SimpleParser<T> {
 
     /**
      * Parses a {@code String} to an object.
