@@ -1,10 +1,11 @@
 package org.keyboardplaying.mapper.mock.parser;
 
-import org.keyboardplaying.mapper.parser.SimpleParser;
 import org.keyboardplaying.mapper.exception.ParsingException;
+import org.keyboardplaying.mapper.parser.SimpleParser;
 
-// XXX Javadoc
 /**
+ * Implementation of {@link SimpleParser} for {@code Double} to {@code String} parsing.
+ *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 public class DoubleParser implements SimpleParser<Double> {

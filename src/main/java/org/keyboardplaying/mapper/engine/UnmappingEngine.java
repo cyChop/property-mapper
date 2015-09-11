@@ -198,7 +198,7 @@ public class UnmappingEngine extends BaseEngine {
             // a custom setter was defined, overrides the default parser
             setElaborateField(bean, field, elaborate, metadata);
 
-        } else if (metadataName == "") {
+        } else if ("".equals(metadataName)) {
 
             throw new MappingException("No key nor elaborate parser was provided for field " + field.getName()
                     + " of bean " + bean.getClass().getSimpleName());

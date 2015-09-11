@@ -15,7 +15,6 @@ import org.keyboardplaying.mapper.parser.BooleanParser;
 import org.keyboardplaying.mapper.parser.SimpleParser;
 import org.keyboardplaying.mapper.parser.TemporalParser;
 
-// XXX Study the opportunity of creating a MappingExceptionFactory
 /**
  * An abstract base for engine. This class includes methods for fetching {@link SimpleParser} instances when mapping or
  * unmapping.
