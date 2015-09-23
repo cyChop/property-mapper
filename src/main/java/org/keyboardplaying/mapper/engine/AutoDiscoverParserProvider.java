@@ -112,20 +112,9 @@ public class AutoDiscoverParserProvider implements ParserProvider {
     private <T> Class<? extends SimpleParser<? super T>> getParserClass(Class<T> klass) throws ParserInitializationException {
         String uri = CONVERTER_DEFINITION_PATH + klass.getName();
 
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        if (classLoader == null) {
-            classLoader = getClass().getClassLoader();
-            if (classLoader == null) {
-                throw new IllegalStateException("ClassLoader coulf not be found.");
-            }
-        }
-
-        InputStream in = classLoader.getResourceAsStream(uri);
+        InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(uri);
         if (in == null) {
-            in = AutoDiscoverParserProvider.class.getClassLoader().getResourceAsStream(uri);
-            if (in == null) {
-                throw new ParserInitializationException("No parser descriptor found for type " + klass.getName() + ".");
-            }
+            throw new ParserInitializationException("No parser descriptor found for type " + klass.getName() + ".");
         }
 
         String parserClassName;
