@@ -1,11 +1,26 @@
-# Property mapper
+= Property mapper
+Cyrille Chopelet <cyrille.chopelet@mines-nancy.org>
 
-[![Build Status][travis-shield]][travis-link]
-[![Coverage status][coveralls-shield]][coveralls-link]
-[![Coverity status][coverity-shield]][coverity-link]
-[![License][license-shield]][license-link]
+// Set your repository informations here.
+:github-user: cyChop
+:github-repo: property-mapper
+:coverity-name: cychop-{property-mapper}
+:coverity-scan: 6214
+:license-name: BSD 3-Clause
+:license-shield: {BSD_3--Clause}
+:license-url: ttp://opensource.org/licenses/BSD-3-Clause
 
-## History
+// The badges. Should not require any change.
+:url-shields: http://img.shields.io/
+image:{url-shields}travis/{github-user}/{github-repo}/master.svg[Build status, link="https://travis-ci.org/{github-user}/{github-repo}"]
+image:{url-shields}coveralls/{github-user}/{github-repo}/master.svg[Test coverage, link="https://coveralls.io/r/{github-user}/{github-repo}?branch=master"]
+image:{url-shields}coverity/scan/{coverity-scan}.svg[Coverity status, link="https://scan.coverity.com/projects/{coverity-name}"]
+image:{url-shields}badge/license-{license-shield}-blue.svg[License: {license-name}, link="{license-url}"]
+
+// Now, the main documentation.
+:url-dozer: http://dozer.sourceforge.net/
+
+== History
 
 Sometime at work, I was confronted with a broker used to map key-value ``String`` pairs from and to
 Java objects. This broker was a pain (for maintenance, and lacking scalibility) and we intended to
@@ -24,30 +39,20 @@ This solution was not retained (my superior prefered the mappings done explicitl
 finer control on it, but I kept this project nonetheless and tried to bring it up to correct coding
 standards.
 
-## Warning
+== Warning
 
-> **This project was designed as a proof-of-concept and was never used in a production environment.
+WARNING: **This project was designed as a proof-of-concept and was never used in a production environment.
 The test coverage suggests it works, and I would be happy to bring some support would you be to use
-it.**
->
-> **When presenting this PoC to fellow developers, I was asked if [Dozer] would be a better match
+it.** +
+ +
+**When presenting this PoC to fellow developers, I was asked if {url-dozer}[Dozer] would be a better match
 for my needs. I propose you check on it as it is a much more mature framework than mine, but would
 you be to turn back to me, I would gladly take the opportunity of making it grow.**
 
-## Goal
+== Goal
 
-This was designed to allow back and forth mapping between a ``Map<String, String>`` and a POJO.
+This was designed to allow back and forth mapping between a `Map<String, String>` and a POJO.
 
 The POJO's fields are to be annotated with the keys of the values to retrieve in or store to the
 map, so the (un)mapping engine could perform its task autonomously, converting the fields from or to
 Strings.
-
-[travis-shield]: http://img.shields.io/travis/cyChop/property-mapper/master.svg
-[travis-link]: https://travis-ci.org/cyChop/property-mapper
-[coveralls-shield]: http://img.shields.io/coveralls/cyChop/property-mapper/master.svg
-[coveralls-link]: https://coveralls.io/r/cyChop/property-mapper?branch=master
-[coverity-shield]: https://img.shields.io/coverity/scan/6214.svg
-[coverity-link]: https://scan.coverity.com/projects/cychop-property-mapper
-[license-shield]: https://img.shields.io/badge/license-BSD_3--Clause-blue.svg
-[license-link]: http://opensource.org/licenses/BSD-3-Clause
-[dozer]: http://dozer.sourceforge.net/
