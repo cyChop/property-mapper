@@ -7,8 +7,8 @@ Cyrille Chopelet <cyrille.chopelet@mines-nancy.org>
 :coverity-name: cychop-{property-mapper}
 :coverity-scan: 6214
 :license-name: BSD 3-Clause
-:license-shield: BSD_3--Clause
-:license-url: ttp://opensource.org/licenses/BSD-3-Clause
+:license-shield: New_BSD
+:license-url: http://opensource.org/licenses/BSD-3-Clause
 
 // The badges. Should not require any change.
 :url-shields: http://img.shields.io/
