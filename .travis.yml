@@ -2,25 +2,18 @@ language: java
 
 sudo: false
 
+env:
+  global:
+    - JACOCO_VERSION=0.7.4.201502262128
+
 jdk:
   - oraclejdk7
 
-# Coverage report on Coveralls
+before_script:
+  - "mvn clean install -Dmaven.test.skip=true"
+
+script
+  - "mvn org.jacoco:jacoco-maven-plugin:$JACOCO_VERSION:prepare-agent install"
+
 after_success:
-  - mvn cobertura:cobertura coveralls:report
-
-# Coverity scan
-# Execute only for builds on branch coverity_scan
-env:
-  global:
-   - secure: "ifRt6xnHiBcwCBe7sJX+kUep8Vk4NAVlBcuCCPmFafZ8iHNKSvwqr8ajIIRuMEVHp1CyLUv5paPuGMAE+ivVEPLyHvhwbFQd5e89up7iXtaCgiXKfluNeTqiGIpqEsJ6vwvUaaKLFk4mZyvSo8MfOGmKq8wadOOjFFFE7L44Ibs="
-
-addons:
-  coverity_scan:
-    project:
-      name: "cyChop/property-mapper"
-      description: "Build submitted via Travis CI"
-    notification_email: cyrille.chopelet@mines-nancy.org
-    build_command_prepend: "mvn clean"
-    build_command:   "mvn package"
-    branch_pattern:  coverity_scan
+  - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_BRANCH == quality ]] && mvn sonar:sonar"

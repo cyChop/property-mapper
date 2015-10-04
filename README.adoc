@@ -4,8 +4,8 @@ Cyrille Chopelet <cyrille.chopelet@mines-nancy.org>
 // Set your repository informations here.
 :github-user: cyChop
 :github-repo: property-mapper
-:coverity-name: cychop-{property-mapper}
-:coverity-scan: 6214
+:pom-groupid: org.keyboardplaying
+:pom-artifactid: property-mapper
 :license-name: BSD 3-Clause
 :license-shield: New_BSD
 :license-url: http://opensource.org/licenses/BSD-3-Clause
@@ -13,8 +13,8 @@ Cyrille Chopelet <cyrille.chopelet@mines-nancy.org>
 // The badges. Should not require any change.
 :url-shields: http://img.shields.io/
 image:{url-shields}travis/{github-user}/{github-repo}/master.svg[Build status, link="https://travis-ci.org/{github-user}/{github-repo}"]
-image:{url-shields}coveralls/{github-user}/{github-repo}/master.svg[Test coverage, link="https://coveralls.io/r/{github-user}/{github-repo}?branch=master"]
-image:{url-shields}coverity/scan/{coverity-scan}.svg[Coverity status, link="https://scan.coverity.com/projects/{coverity-name}"]
+image:{url-shields}sonar/http/{url-sonar}/{pom-groupid}:{pom-artifactid}/coverage.svg[Test coverage, link="http://{url-sonar}"]
+image:{url-shields}sonar/http/{url-sonar}/{pom-groupid}:{pom-artifactid}/tech_debt.svg[Technical debt, link="http://{url-sonar}"]
 image:{url-shields}badge/license-{license-shield}-blue.svg[License: {license-name}, link="{license-url}"]
 
 // Now, the main documentation.
