@@ -12,6 +12,7 @@ Cyrille Chopelet <cyrille.chopelet@mines-nancy.org>
 
 // The badges. Should not require any change.
 :url-shields: http://img.shields.io/
+:url-sonar: sonar.keyboardplaying.org
 image:{url-shields}travis/{github-user}/{github-repo}/master.svg[Build status, link="https://travis-ci.org/{github-user}/{github-repo}"]
 image:{url-shields}sonar/http/{url-sonar}/{pom-groupid}:{pom-artifactid}/coverage.svg[Test coverage, link="http://{url-sonar}"]
 image:{url-shields}sonar/http/{url-sonar}/{pom-groupid}:{pom-artifactid}/tech_debt.svg[Technical debt, link="http://{url-sonar}"]
