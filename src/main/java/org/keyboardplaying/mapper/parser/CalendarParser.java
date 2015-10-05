@@ -39,7 +39,7 @@ public class CalendarParser extends BaseTemporalParser<Calendar> {
      *            the {@link Calendar}
      * @return a {@link String} representation of the supplied date
      */
-    /* @see {@link BaseTemporalParser#convertDateToString(String)} */
+    /* @see BaseTemporalParser#convertDateToString(String) */
     @Override
     public String convertToString(Calendar value) {
         return convertDateToString(value.getTime());

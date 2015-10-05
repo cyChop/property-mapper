@@ -4,8 +4,6 @@ import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.keyboardplaying.mapper.annotation.DefaultValue;
@@ -23,50 +21,7 @@ import org.keyboardplaying.mapper.parser.ElaborateParser;
  */
 public class UnmappingEngine extends BaseEngine {
 
-    /** A map containing the default values of objects based on their types. */
-    private static final Map<Class<?>, Object> DEFAULT_VALUES;
-
-    static {
-        /*
-         * Initialize default values for primitive types.
-         *
-         * Skip Objects: their default value is null anyway.
-         */
-        // do not declare a serial: it would provide a default value for a String.
-        @SuppressWarnings("serial")
-        Map<Class<?>, Object> defaultValues = new HashMap<Class<?>, Object>() {
-            /* Default primitive values (called through reflection). */
-            @SuppressWarnings("unused")
-            private boolean b;
-            @SuppressWarnings("unused")
-            private byte by;
-            @SuppressWarnings("unused")
-            private char c;
-            @SuppressWarnings("unused")
-            private double d;
-            @SuppressWarnings("unused")
-            private float f;
-            @SuppressWarnings("unused")
-            private int i;
-            @SuppressWarnings("unused")
-            private long l;
-            @SuppressWarnings("unused")
-            private short s;
-
-            {
-                try {
-                    for (final Field field : getClass().getDeclaredFields()) {
-                        put(field.getType(), field.get(this));
-                    }
-                } catch (IllegalAccessException e) {
-                    // this will never occur, or the application will not work properly
-                    throw new IllegalStateException(e);
-                }
-            }
-        };
-
-        DEFAULT_VALUES = Collections.unmodifiableMap(defaultValues);
-    }
+    private static final DefaultValueProvider DEFAULT_VALUES = new DefaultValueProvider();
 
     /**
      * Instantiates a new bean of specified type and unmaps metadata to it, based on the annotations in the bean.
@@ -241,7 +196,7 @@ public class UnmappingEngine extends BaseEngine {
     private <T> void setField(T bean, Field field, String value)
             throws ParserInitializationException, MappingException {
         try {
-            set(bean, field, value == null ? DEFAULT_VALUES.get(field.getType())
+            set(bean, field, value == null ? DEFAULT_VALUES.getDefaultValue(field.getType())
                     : this.<T> getParser(field).convertFromString(value));
         } catch (IllegalAccessException | InvocationTargetException | IntrospectionException | ParsingException e) {
             throw new MappingException(
@@ -272,7 +227,7 @@ public class UnmappingEngine extends BaseEngine {
             Map<String, String> metadata) throws MappingException {
         try {
             Object value = parser.newInstance().fromMap(metadata);
-            set(bean, field, value == null ? DEFAULT_VALUES.get(field.getType()) : value);
+            set(bean, field, value == null ? DEFAULT_VALUES.getDefaultValue(field.getType()) : value);
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
                 | IntrospectionException | ParsingException e) {
             throw new MappingException(

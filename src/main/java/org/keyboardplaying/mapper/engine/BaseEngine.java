@@ -153,7 +153,7 @@ public abstract class BaseEngine {
      *            the value
      */
     protected void set(Object bean, Field field, Object value)
-            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IntrospectionException {
+            throws IllegalAccessException, InvocationTargetException, IntrospectionException {
         set(bean, getPropertyDescriptor(bean, field), value);
     }
 

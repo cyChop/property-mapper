@@ -48,6 +48,10 @@ public class AutoDiscoverParserProvider implements ParserProvider {
     /** A list of all previously loaded parsers based on their type. */
     private Map<Class<? extends SimpleParser<?>>, SimpleParser<?>> parsers = new HashMap<>();
 
+    /* Private constructor. */
+    private AutoDiscoverParserProvider() {
+    }
+
     /**
      * Returns the single instance of this class.
      *
@@ -55,10 +59,6 @@ public class AutoDiscoverParserProvider implements ParserProvider {
      */
     public static AutoDiscoverParserProvider getInstance() {
         return instance;
-    }
-
-    /* Private constructor. */
-    private AutoDiscoverParserProvider() {
     }
 
     /**
@@ -108,17 +108,36 @@ public class AutoDiscoverParserProvider implements ParserProvider {
      * @throws ParserInitializationException
      *             if the {@link SimpleParser} cannot be found or initialized
      */
-    @SuppressWarnings("unchecked")
-    private <T> Class<? extends SimpleParser<? super T>> getParserClass(Class<T> klass) throws ParserInitializationException {
+    private <T> Class<? extends SimpleParser<? super T>> getParserClass(Class<T> klass)
+            throws ParserInitializationException {
+        String parserClassName = getParserClassName(klass);
+
+        try {
+            return getActualParserClass(parserClassName);
+        } catch (ParserInitializationException e) {
+            throw new ParserInitializationException(
+                    "Failed to initialize parser " + parserClassName + " for type " + klass.getName() + ".", e);
+        }
+    }
+
+    /**
+     * Reads the parser's class name from the mapper's configuration.
+     *
+     * @param klass
+     *            the class of the field to parse
+     * @return the parser's class name
+     * @throws ParserInitializationException
+     *             if the mapper file could not be read
+     */
+    private <T> String getParserClassName(Class<T> klass) throws ParserInitializationException {
         String uri = CONVERTER_DEFINITION_PATH + klass.getName();
 
-        InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(uri);
-        if (in == null) {
-            throw new ParserInitializationException("No parser descriptor found for type " + klass.getName() + ".");
-        }
-
         String parserClassName;
-        try (InputStream src = in) {
+        try (InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(uri)) {
+            if (in == null) {
+                throw new ParserInitializationException("No parser descriptor found for type " + klass.getName() + ".");
+            }
+
             Properties properties = new Properties();
             properties.load(in);
 
@@ -128,20 +147,33 @@ public class AutoDiscoverParserProvider implements ParserProvider {
                         "SimpleParser descriptor for class " + klass.getName() + " is incorrect (empty).");
             }
         } catch (IOException e) {
-            throw new ParserInitializationException(
-                    "Error occurred when trying to read parser descriptor for type " + klass.getName(), e);
+            throw new ParserInitializationException("Error occurred when trying to read parser descriptor for type "
+                    + klass.getName() + ", mapper file could not be read.", e);
         }
+        return parserClassName;
+    }
 
+    /**
+     * Loads the parser class from the supplied name and ensures it is a parser.
+     *
+     * @param parserClassName
+     *            the class name for the parser
+     * @return the parser class
+     * @throws ParserInitializationException
+     *             if the parser class could not be found or does not extend {@link SimpleParser}
+     */
+    @SuppressWarnings("unchecked")
+    private <T> Class<? extends SimpleParser<? super T>> getActualParserClass(String parserClassName)
+            throws ParserInitializationException {
         try {
             Class<?> parserClass = Class.forName(parserClassName);
             if (!SimpleParser.class.isAssignableFrom(parserClass)) {
-                throw new ParserInitializationException("Class " + parserClassName + " for parsing of type "
-                        + klass.getName() + " does not extend " + SimpleParser.class.getName());
+                throw new ParserInitializationException(
+                        "Class " + parserClassName + " does not extend " + SimpleParser.class.getName());
             }
             return (Class<? extends SimpleParser<? super T>>) parserClass;
         } catch (ClassNotFoundException e) {
-            throw new ParserInitializationException(
-                    "Class " + parserClassName + " could not be found for parsing of type " + klass.getName() + ".");
+            throw new ParserInitializationException("Class " + parserClassName + " could not be found.");
         }
     }
 }
