@@ -19,5 +19,5 @@ public interface ParserProvider {
      * @throws ParserInitializationException
      *             if the {@link SimpleParser} cannot be found or initialized
      */
-    <T> SimpleParser<? super T> getParser(Class<T> klass) throws ParserInitializationException;
+    <T> SimpleParser<T> getParser(Class<T> klass) throws ParserInitializationException;
 }

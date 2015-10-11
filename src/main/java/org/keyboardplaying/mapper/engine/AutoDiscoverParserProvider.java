@@ -71,19 +71,18 @@ public class AutoDiscoverParserProvider implements ParserProvider {
      *             if the {@link SimpleParser} cannot be found or initialized
      */
     @Override
-    public <T> SimpleParser<? super T> getParser(Class<T> klass) throws ParserInitializationException {
+    public <T> SimpleParser<T> getParser(Class<T> klass) throws ParserInitializationException {
         Objects.requireNonNull(klass, "A class must be provided when requiring a parser.");
 
         @SuppressWarnings("unchecked")
-        Class<? extends SimpleParser<? super T>> parserClass = (Class<? extends SimpleParser<? super T>>) parserDefinitions
-                .get(klass);
+        Class<? extends SimpleParser<T>> parserClass = (Class<? extends SimpleParser<T>>) parserDefinitions.get(klass);
         if (parserClass == null) {
             parserClass = getParserClass(klass);
             parserDefinitions.put(klass, parserClass);
         }
 
         @SuppressWarnings("unchecked")
-        SimpleParser<? super T> parser = (SimpleParser<? super T>) parsers.get(parserClass);
+        SimpleParser<T> parser = (SimpleParser<T>) parsers.get(parserClass);
         if (parser == null) {
             try {
                 parser = parserClass.newInstance();
@@ -108,8 +107,7 @@ public class AutoDiscoverParserProvider implements ParserProvider {
      * @throws ParserInitializationException
      *             if the {@link SimpleParser} cannot be found or initialized
      */
-    private <T> Class<? extends SimpleParser<? super T>> getParserClass(Class<T> klass)
-            throws ParserInitializationException {
+    private <T> Class<? extends SimpleParser<T>> getParserClass(Class<T> klass) throws ParserInitializationException {
         String parserClassName = getParserClassName(klass);
 
         try {
@@ -163,7 +161,7 @@ public class AutoDiscoverParserProvider implements ParserProvider {
      *             if the parser class could not be found or does not extend {@link SimpleParser}
      */
     @SuppressWarnings("unchecked")
-    private <T> Class<? extends SimpleParser<? super T>> getActualParserClass(String parserClassName)
+    private <T> Class<? extends SimpleParser<T>> getActualParserClass(String parserClassName)
             throws ParserInitializationException {
         try {
             Class<?> parserClass = Class.forName(parserClassName);
@@ -171,7 +169,7 @@ public class AutoDiscoverParserProvider implements ParserProvider {
                 throw new ParserInitializationException(
                         "Class " + parserClassName + " does not extend " + SimpleParser.class.getName());
             }
-            return (Class<? extends SimpleParser<? super T>>) parserClass;
+            return (Class<? extends SimpleParser<T>>) parserClass;
         } catch (ClassNotFoundException e) {
             throw new ParserInitializationException("Class " + parserClassName + " could not be found.", e);
         }

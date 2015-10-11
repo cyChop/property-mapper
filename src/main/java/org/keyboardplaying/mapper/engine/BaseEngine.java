@@ -63,9 +63,8 @@ public abstract class BaseEngine {
      *             if the {@link SimpleParser} cannot be found or initialized
      */
     @SuppressWarnings("unchecked")
-    protected <T> SimpleParser<? super T> getParser(Field field)
-            throws MappingException, ParserInitializationException {
-        SimpleParser<? super T> parser = getParserProvider().getParser((Class<T>) field.getType());
+    protected <T> SimpleParser<T> getParser(Field field) throws MappingException, ParserInitializationException {
+        SimpleParser<T> parser = getParserProvider().getParser((Class<T>) field.getType());
 
         if (parser == null) {
 
