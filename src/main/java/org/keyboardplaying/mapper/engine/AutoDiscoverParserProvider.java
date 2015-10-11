@@ -173,7 +173,7 @@ public class AutoDiscoverParserProvider implements ParserProvider {
             }
             return (Class<? extends SimpleParser<? super T>>) parserClass;
         } catch (ClassNotFoundException e) {
-            throw new ParserInitializationException("Class " + parserClassName + " could not be found.");
+            throw new ParserInitializationException("Class " + parserClassName + " could not be found.", e);
         }
     }
 }

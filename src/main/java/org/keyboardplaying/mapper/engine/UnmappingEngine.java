@@ -36,10 +36,10 @@ public class UnmappingEngine extends BaseEngine {
      * @throws MappingException
      *             when the mapping fails
      */
-    public <T> T unmap(Map<String, String> metadata, Class<T> beanType)
+    public <T> T unmapToClass(Map<String, String> metadata, Class<T> beanType)
             throws ParserInitializationException, MappingException {
         try {
-            return unmap(metadata, beanType.newInstance());
+            return unmapToBean(metadata, beanType.newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
             throw new MappingException("Could not instanciate a new bean for type " + beanType.getSimpleName() + ".",
                     e);
@@ -61,7 +61,7 @@ public class UnmappingEngine extends BaseEngine {
      * @throws MappingException
      *             when the mapping fails
      */
-    public <T> T unmap(Map<String, String> metadata, T bean) throws ParserInitializationException, MappingException {
+    public <T> T unmapToBean(Map<String, String> metadata, T bean) throws ParserInitializationException, MappingException {
         /* Control the validity of arguments. */
         if (bean == null) {
             throw new MappingException("The supplied bean was null.");
@@ -105,18 +105,10 @@ public class UnmappingEngine extends BaseEngine {
 
             Object innerBean = get(bean, descriptor);
             if (innerBean == null) {
-                String className = field.getAnnotation(Nested.class).className();
-                try {
-                    innerBean = unmap(metadata,
-                            className == null || className.length() == 0 ? field.getType() : Class.forName(className));
-                } catch (ClassNotFoundException e) {
-                    throw new MappingException(
-                            "Could not find class " + className + " when instantiating bean for inner field "
-                                    + field.getName() + " of class " + field.getDeclaringClass().getName(),
-                            e);
-                }
+                innerBean = intantiateBeanAndUnmap(metadata, field);
             } else {
-                innerBean = unmap(metadata, innerBean);
+                // unmap to bean
+                innerBean = unmapToBean(metadata, innerBean);
             }
 
             set(bean, descriptor, innerBean);
@@ -124,6 +116,19 @@ public class UnmappingEngine extends BaseEngine {
         } catch (IllegalAccessException | InvocationTargetException | IntrospectionException e) {
             throw new MappingException("Error while unmapping nested bean " + field.getName() + " of "
                     + field.getDeclaringClass().getName(), e);
+        }
+    }
+
+    private Object intantiateBeanAndUnmap(Map<String, String> metadata, Field field)
+            throws ParserInitializationException, MappingException {
+        String className = field.getAnnotation(Nested.class).className();
+        try {
+            // unmap to class
+            return unmapToClass(metadata,
+                    className == null || className.length() == 0 ? field.getType() : Class.forName(className));
+        } catch (ClassNotFoundException e) {
+            throw new MappingException("Could not find class " + className + " when instantiating bean for inner field "
+                    + field.getName() + " of class " + field.getDeclaringClass().getName(), e);
         }
     }
 
