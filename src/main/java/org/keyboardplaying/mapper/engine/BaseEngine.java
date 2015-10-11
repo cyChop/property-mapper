@@ -57,8 +57,8 @@ public abstract class BaseEngine {
      *            the field to convert a value from or to
      * @return the {@link SimpleParser} to use
      * @throws MappingException
-     *             when no {@link SimpleParser} can be found or annotation settings are missing (e.g. {@link Temporal}
-     *             on temporal fields)
+     *             if no {@link SimpleParser} can be found or annotation settings are missing (e.g. {@link Temporal} on
+     *             temporal fields)
      * @throws ParserInitializationException
      *             if the {@link SimpleParser} cannot be found or initialized
      */

@@ -41,7 +41,7 @@ public abstract class BaseTemporalParser<T> implements TemporalParser<T> {
      *            the {@link String} representation of a date
      * @return a {@link Date} instance
      * @throws ParsingException
-     *             when the supplied {@link String} could not be parsed
+     *             if the supplied {@link String} could not be parsed
      */
     protected Date convertStringToDate(String value) throws ParsingException {
         try {
@@ -61,7 +61,7 @@ public abstract class BaseTemporalParser<T> implements TemporalParser<T> {
      *            the {@link Date}
      * @return a {@link String} representation of the supplied date
      * @throws ParsingException
-     *             when the supplied {@link String} could not be parsed
+     *             if the supplied {@link String} could not be parsed
      */
     protected String convertDateToString(Date value) {
         return format.format(value);

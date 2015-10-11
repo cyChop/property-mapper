@@ -20,7 +20,7 @@ public class CalendarParser extends BaseTemporalParser<Calendar> {
      *            the {@link String} representation of a date
      * @return a {@link Calendar} instance
      * @throws ParsingException
-     *             when the supplied {@link String} could not be parsed
+     *             if the supplied {@link String} could not be parsed
      */
     /* @see BaseTemporalParser#convertStringToDate(String) */
     @Override
