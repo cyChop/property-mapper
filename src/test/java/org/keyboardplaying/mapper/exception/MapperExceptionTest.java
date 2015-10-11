@@ -1,8 +1,5 @@
 package org.keyboardplaying.mapper.exception;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
 import java.lang.reflect.InvocationTargetException;
 
 /**
@@ -10,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-abstract class MapperExceptionTest<T extends MapperException> {
+abstract class MapperExceptionTest<T extends MapperException> extends ExceptionTest {
 
     private Class<T> klass;
 
@@ -20,24 +17,21 @@ abstract class MapperExceptionTest<T extends MapperException> {
 
     protected void testNoArgConstructor() throws InstantiationException, IllegalAccessException {
         T exception = klass.newInstance();
-        assertNull(exception.getMessage());
-        assertNull(exception.getCause());
+        assertNoMessageNorCause(exception);
     }
 
     protected void testMessageConstructor() throws InstantiationException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         String message = "Hello, world!";
         T exception = klass.getConstructor(String.class).newInstance(message);
-        assertEquals(message, exception.getMessage());
-        assertNull(exception.getCause());
+        assertMessageOnly(message, exception);
     }
 
     protected void testCauseConstructor() throws InstantiationException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         Throwable cause = new IllegalArgumentException("He's dead, Jim!");
         T exception = klass.getConstructor(Throwable.class).newInstance(cause);
-        assertEquals(cause.toString(), exception.getMessage());
-        assertEquals(cause, exception.getCause());
+        assertCauseOnly(cause, exception);
     }
 
     protected void testBothConstructor() throws InstantiationException, IllegalAccessException,
@@ -45,7 +39,6 @@ abstract class MapperExceptionTest<T extends MapperException> {
         String message = "Hello, world!";
         Throwable cause = new IllegalArgumentException("He's dead, Jim!");
         T exception = klass.getConstructor(String.class, Throwable.class).newInstance(message, cause);
-        assertEquals(message, exception.getMessage());
-        assertEquals(cause, exception.getCause());
+        assertMessageAndCause(message, cause, exception);
     }
 }

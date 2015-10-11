@@ -15,7 +15,6 @@ import org.junit.Test;
 import org.keyboardplaying.mapper.annotation.TemporalType;
 import org.keyboardplaying.mapper.exception.MapperException;
 import org.keyboardplaying.mapper.exception.MappingException;
-import org.keyboardplaying.mapper.exception.ParserInitializationException;
 import org.keyboardplaying.mapper.mock.bean.TestBean;
 import org.keyboardplaying.mapper.mock.bean.TestInnerImpl;
 
@@ -32,19 +31,19 @@ public class MappingEngineTest {
 
     /** Tests mapping a {@code null} bean. */
     @Test(expected = NullPointerException.class)
-    public void testMapWithNullBean() throws ParserInitializationException, MappingException {
+    public void testMapWithNullBean() throws MapperException {
         mappingEngine.map(null);
     }
 
     /** Tests the mapping of a {@code null} bean while specifying the map. */
     @Test(expected = NullPointerException.class)
-    public void testMapWithNullBean2() throws ParserInitializationException, MappingException {
+    public void testMapWithNullBean2() throws MapperException {
         mappingEngine.map(null, new HashMap<String, String>());
     }
 
     /** Tests the mapping of a bean to a {@code null} map. */
     @Test(expected = NullPointerException.class)
-    public void testMapWithNullMap() throws ParserInitializationException, MappingException {
+    public void testMapWithNullMap() throws MapperException {
         mappingEngine.map(new TestBean(), null);
     }
 

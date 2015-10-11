@@ -1,33 +1,40 @@
 package org.keyboardplaying.mapper.exception;
 
+import java.lang.reflect.Field;
+
 /**
- * An exception to throw when a metadata could not be converted to the destination format.
+ * A {@link MappingException} prepending the error message with field information.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class ParsingException extends MapperException {
+public class FieldMappingException extends MappingException {
 
     /** Generated serial version UID. */
-    private static final long serialVersionUID = -6238899437024439394L;
+    private static final long serialVersionUID = -7958092515600140512L;
 
     /**
-     * Constructs a new exception with {@code null} as its detail message. The cause is not initialized, and may
+     * Constructs a new exception with field information as its detail message. The cause is not initialized, and may
      * subsequently be initialized by a call to {@link #initCause(Throwable)}.
+     *
+     * @param field
+     *            the field concerned with the error
      */
-    public ParsingException() {
-        super();
+    public FieldMappingException(Field field) {
+        this(field, "");
     }
 
     /**
      * Constructs a new exception with the specified detail message. The cause is not initialized, and may subsequently
      * be initialized by a call to {@link #initCause(Throwable)}.
      *
+     * @param field
+     *            the field concerned with the error
      * @param message
      *            the detail message. The detail message is saved for later retrieval by the {@link #getMessage()}
      *            method.
      */
-    public ParsingException(String message) {
-        super(message);
+    public FieldMappingException(Field field, String message) {
+        super(makeMessage(field, message));
     }
 
     /**
@@ -35,12 +42,14 @@ public class ParsingException extends MapperException {
      * {@code (cause==null ? null : cause.toString())} (which typically contains the class and detail message of cause).
      * This constructor is useful for exceptions that are little more than wrappers for other throwables.
      *
+     * @param field
+     *            the field concerned with the error
      * @param cause
      *            the cause (which is saved for later retrieval by the {@link #getCause()} method). (A null value is
      *            permitted, and indicates that the cause is nonexistent or unknown.)
      */
-    public ParsingException(Throwable cause) {
-        super(cause);
+    public FieldMappingException(Field field, Throwable cause) {
+        this(field, cause.getMessage(), cause);
     }
 
     /**
@@ -50,6 +59,8 @@ public class ParsingException extends MapperException {
      * message.
      *
      *
+     * @param field
+     *            the field concerned with the error
      * @param message
      *            the detail message. The detail message is saved for later retrieval by the {@link #getMessage()}
      *            method.
@@ -57,7 +68,11 @@ public class ParsingException extends MapperException {
      *            the cause (which is saved for later retrieval by the {@link #getCause()} method). (A null value is
      *            permitted, and indicates that the cause is nonexistent or unknown.)
      */
-    public ParsingException(String message, Throwable cause) {
-        super(message, cause);
+    public FieldMappingException(Field field, String message, Throwable cause) {
+        super(makeMessage(field, message), cause);
+    }
+
+    private static String makeMessage(Field field, String message) {
+        return String.format("[%s.%s] %s", field.getDeclaringClass().getName(), field.getName(), message);
     }
 }

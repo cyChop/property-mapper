@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 import org.keyboardplaying.mapper.Defaults;
 import org.keyboardplaying.mapper.annotation.BooleanValues;
 import org.keyboardplaying.mapper.annotation.Temporal;
+import org.keyboardplaying.mapper.exception.FieldMappingException;
 import org.keyboardplaying.mapper.exception.MappingException;
 import org.keyboardplaying.mapper.exception.ParserInitializationException;
 import org.keyboardplaying.mapper.parser.BooleanParser;
@@ -77,8 +78,7 @@ public abstract class BaseEngine {
                 Temporal temporal = field.getAnnotation(Temporal.class);
                 ((TemporalParser<T>) parser).setFormat(temporal.value().getFormat());
             } else {
-                throw new MappingException("Field " + field.getName() + " of " + field.getDeclaringClass().getName()
-                        + " must declare the @Temporal annotation.");
+                throw new FieldMappingException(field, "This field must declare the @Temporal annotation.");
             }
 
         } else if (parser instanceof BooleanParser) {

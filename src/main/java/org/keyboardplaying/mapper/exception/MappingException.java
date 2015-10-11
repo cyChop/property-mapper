@@ -45,7 +45,7 @@ public class MappingException extends MapperException {
 
     /**
      * Constructs a new exception with the specified detail message and cause.
-     *
+     * <p/>
      * Note that the detail message associated with cause is not automatically incorporated in this exception's detail
      * message.
      *

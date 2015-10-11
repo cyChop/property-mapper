@@ -10,6 +10,8 @@ import java.util.Objects;
 import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
+import org.keyboardplaying.mapper.exception.FieldMappingException;
+import org.keyboardplaying.mapper.exception.MapperException;
 import org.keyboardplaying.mapper.exception.MappingException;
 import org.keyboardplaying.mapper.exception.ParserInitializationException;
 import org.keyboardplaying.mapper.exception.ParsingException;
@@ -28,14 +30,12 @@ public class MappingEngine extends BaseEngine {
      * @param bean
      *            the annotated bean
      * @return the {@link Map} containing the mapped properties
-     * @throws ParserInitializationException
-     *             if a SimpleParser could not be initialized
-     * @throws MappingException
-     *             if the mapping fails
+     * @throws MapperException
+     *             if a SimpleParser could not be initialized or the mapping fails
      * @throws NullPointerException
      *             if the supplied bean is {@code null}
      */
-    public <T> Map<String, String> map(T bean) throws ParserInitializationException, MappingException {
+    public <T> Map<String, String> map(T bean) throws MapperException {
         return map(bean, new HashMap<String, String>());
     }
 
@@ -47,15 +47,12 @@ public class MappingEngine extends BaseEngine {
      * @param map
      *            the destination map
      * @return the {@link Map} containing the mapped properties
-     * @throws ParserInitializationException
-     *             if a SimpleParser could not be initialized
-     * @throws MappingException
-     *             if the mapping fails
+     * @throws MapperException
+     *             if a SimpleParser could not be initialized or the mapping fails
      * @throws NullPointerException
      *             if either parameter is {@code null}
      */
-    public <T> Map<String, String> map(T bean, Map<String, String> map)
-            throws ParserInitializationException, MappingException {
+    public <T> Map<String, String> map(T bean, Map<String, String> map) throws MapperException {
         Objects.requireNonNull(map, "The destination map must not be null.");
 
         /* Control the validity of arguments. */
@@ -77,8 +74,7 @@ public class MappingEngine extends BaseEngine {
         return map;
     }
 
-    private <T> void performInnerMapping(T bean, Field field, Map<String, String> result)
-            throws ParserInitializationException, MappingException {
+    private <T> void performInnerMapping(T bean, Field field, Map<String, String> result) throws MapperException {
         try {
 
             Object value = get(bean, field);
@@ -122,8 +118,7 @@ public class MappingEngine extends BaseEngine {
             }
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
                 | IntrospectionException e) {
-            throw new MappingException("Field " + field.getName() + " of " + field.getDeclaringClass().getName()
-                    + " could not be serialized.", e);
+            throw new FieldMappingException(field, "Field could not be serialized.", e);
         }
     }
 
@@ -147,9 +142,7 @@ public class MappingEngine extends BaseEngine {
             return value == null ? null : getParser(field).convertToString(value);
 
         } catch (IllegalAccessException | ParsingException | InvocationTargetException | IntrospectionException e) {
-            throw new MappingException(
-                    "Field " + field.getName() + " of " + field.getDeclaringClass().getName() + " could not be got.",
-                    e);
+            throw new FieldMappingException(field, "Field could not be read.", e);
         }
     }
 
@@ -160,8 +153,8 @@ public class MappingEngine extends BaseEngine {
             parser.newInstance().toMap((F) get(bean, field), map);
         } catch (ParsingException | InstantiationException | IllegalAccessException | IllegalArgumentException
                 | InvocationTargetException | IntrospectionException e) {
-            throw new MappingException("Field " + field.getName() + " of " + field.getDeclaringClass().getName()
-                    + " could not be serialized using parser " + parser.getClass().getSimpleName() + ".", e);
+            throw new FieldMappingException(field,
+                    "Field could not be serialized using parser " + parser.getClass().getSimpleName() + ".", e);
         }
     }
 
