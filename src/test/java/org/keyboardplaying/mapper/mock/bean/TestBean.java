@@ -28,13 +28,13 @@ public class TestBean {
     @BooleanValues(whenTrue = "true", whenFalse = "false")
     private boolean someBool;
 
-    @Metadata("some_number")
+    @Metadata("some_int")
     private int someInt;
 
-    @Metadata("some_number")
+    @Metadata("some_long")
     private Long someLong;
 
-    @Metadata("some_number")
+    @Metadata("some_bigint")
     private BigInteger someBig;
 
     @Metadata("some_even_more_important_date")

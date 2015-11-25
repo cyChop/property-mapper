@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 
 import org.junit.Test;
+import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.annotation.TemporalType;
 import org.keyboardplaying.mapper.exception.MapperException;
 import org.keyboardplaying.mapper.exception.MappingException;
@@ -47,45 +48,85 @@ public class MappingEngineTest {
         mappingEngine.map(new TestBean(), null);
     }
 
+    /** Tests the mapping of a bean with a {@link Nested} field. */
+    @Test
+    public void testMapNested() throws MapperException {
+        /* Prepare */
+        // bean
+        TestInnerImpl innerBean = new TestInnerImpl();
+        innerBean.setHello("hello");
+        TestBean bean = new TestBean();
+        bean.setInnerImpl(innerBean);
+        // expected map
+        Map<String, String> expected = makeEmptyExpectedMap();
+        expected.put("hello_world_inner", "hello");
+
+        /* Execute */
+        Map<String, String> map = mappingEngine.map(bean);
+
+        /* Assert */
+        assertContentEquals(expected, map);
+    }
+
+    // TODO test @DefaultValue, field not set
+    // TODO test @DefaultValue, field set
+
+    /** Tests the mapping of a bean with a mandatory field left blank. */
+    @Test(expected = MappingException.class)
+    public void testMapWithMandatoryFieldNotSet() throws MapperException {
+        /* Prepare */
+        TestBean bean = new TestBean();
+        bean.setInnerImpl(new TestInnerImpl());
+
+        /* Execute */
+        mappingEngine.map(bean);
+    }
+
+    // TODO test @DefaultValue overwriting map
+    // TODO test metadata overwriting map
+    // TODO test custom getter
+
     /** Tests the mapping of a bean to a map. */
     @Test
     public void testMapToBean() throws MapperException {
-
-        TestBean bean = new TestBean();
-        bean.setSomeInt(42);
-        bean.setSomeLong(42L);
-        bean.setSomeBig(BigInteger.valueOf(42));
-
-        Map<String, String> expected = new HashMap<>();
-        expected.put("hello_world", "Did not say hello... :(");
-        expected.put("some_bool", "false");
-        expected.put("some_number", "42");
-        expected.put("somebody_s_name", null);
-        expected.put("somebody_s_phone", null);
-        expected.put("some_important_date", null);
-        expected.put("some_even_more_important_date", null);
-        assertContentEquals(expected, mappingEngine.map(bean));
-
-        bean.setInnerImpl(new TestInnerImpl());
-        try {
-            mappingEngine.map(bean);
-            fail();
-        } catch (MappingException e) {
-            // mandatory without value nor default
-        } catch (Exception e) {
-            fail();
-        }
-
-        bean.getInnerImpl().setHello("hello");
-        expected.put("hello_world_inner", "hello");
-        assertContentEquals(expected, mappingEngine.map(bean));
-
+        /* Prepare */
         Date now = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(now);
+        // bean
+        TestBean bean = new TestBean();
+        bean.setSomeBool(true);
+        bean.setSomeInt(42);
+        bean.setSomeLong(4815162342L);
+        bean.setSomeBig(BigInteger.valueOf(1337));
         bean.setCal(cal);
+        // expected map
+        Map<String, String> expected = makeEmptyExpectedMap();
+        expected.put("some_bool", "true");
+        expected.put("some_int", "42");
+        expected.put("some_long", "4815162342");
+        expected.put("some_bigint", "1337");
         expected.put("some_important_date", new SimpleDateFormat(TemporalType.DATETIME.getFormat()).format(now));
-        assertContentEquals(expected, mappingEngine.map(bean));
+
+        /* Execute */
+        Map<String, String> map = mappingEngine.map(bean);
+
+        /* Assert */
+        assertContentEquals(expected, map);
+    }
+
+    private Map<String, String> makeEmptyExpectedMap() {
+        Map<String, String> expected = new HashMap<>();
+        expected.put("hello_world", "Did not say hello... :(");
+        expected.put("some_bool", "false");
+        expected.put("some_int", "0");
+        expected.put("some_long", null);
+        expected.put("some_bigint", null);
+        expected.put("somebody_s_name", null);
+        expected.put("somebody_s_phone", null);
+        expected.put("some_even_more_important_date", null);
+        expected.put("some_important_date", null);
+        return expected;
     }
 
     private static void assertContentEquals(Map<?, ?> expected, Map<?, ?> actual) {

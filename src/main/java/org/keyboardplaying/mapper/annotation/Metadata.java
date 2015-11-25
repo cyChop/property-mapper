@@ -41,5 +41,5 @@ public @interface Metadata {
      *
      * @return the {@link ElaborateParser}
      */
-    Class<? extends ElaborateParser<?>>elaborate() default ElaborateParser.None.class;
+    Class<? extends ElaborateParser<?>> elaborate() default ElaborateParser.None.class;
 }

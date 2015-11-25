@@ -16,6 +16,7 @@ import java.lang.annotation.Target;
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
+// FIXME differentiate the default value and default datum
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

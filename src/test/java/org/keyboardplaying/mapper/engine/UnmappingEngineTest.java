@@ -1,15 +1,15 @@
 package org.keyboardplaying.mapper.engine;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
+import org.keyboardplaying.mapper.annotation.DefaultValue;
+import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.annotation.TemporalType;
 import org.keyboardplaying.mapper.exception.MapperException;
 import org.keyboardplaying.mapper.exception.MappingException;
@@ -30,44 +30,148 @@ public class UnmappingEngineTest {
 
     /** Tests the unmapping of an empty data map. */
     @Test(expected = MappingException.class)
-    public void testMapWithMissingMandatory() throws MapperException {
+    public void testUnmapWithMissingMandatory() throws MapperException {
         mappingEngine.unmapToClass(new HashMap<String, String>(), TestBean.class);
     }
 
-    /** Tests the unmapping of a data map. */
+    /** Tests the {@link Nested} annotation. */
     @Test
-    public void testMapToBean() throws MapperException {
-        Map<String, String> metadata = new HashMap<>();
+    public void testUnmapNested() throws MapperException {
+        /* Prepare */
+        Map<String, String> metadata = makeMinimalMetadata();
 
-        /* Test @Nested & @DefaultValue */
-        metadata.put("hello_world_inner", "Hello, Little Big Planet!");
+        /* Execute */
         TestBean bean = mappingEngine.unmapToClass(metadata, TestBean.class);
-        // default value
-        assertEquals("Did not say hello... :(", bean.getHello());
-        // autowired nested
+
+        /* Assert */
+        // autowired nested (on a class)
         assertEquals("Hello, Little Big Planet!", bean.getInnerImpl().getHello());
-        // declared nested
+        // declared nested (on an interface)
+        // TODO test the case of an interface without specification for the implementation
         assertEquals(TestInnerImpl.class, bean.getInnerItf().getClass());
         assertEquals("Hello, Little Big Planet!", bean.getInnerItf().getHello());
+    }
 
-        /* Test overwriting an existing bean. */
-        // overwrite with default value
-        bean.setHello("Honey, I'm home! Oh, forgot... I'm not married.");
-        bean = mappingEngine.unmapToBean(metadata, bean);
+    /** Tests the {@link DefaultValue} annotation when no value is set. */
+    @Test
+    public void testUnmapDefaultValueNotSet() throws MapperException {
+        /* Prepare */
+        Map<String, String> metadata = makeMinimalMetadata();
+
+        /* Execute */
+        TestBean bean = mappingEngine.unmapToClass(metadata, TestBean.class);
+
+        /* Assert */
         assertEquals("Did not say hello... :(", bean.getHello());
-        // overwrite with metadata
-        metadata.put("hello_world", "Hello, World.");
-        bean = mappingEngine.unmapToBean(metadata, bean);
-        assertEquals("Hello, World.", bean.getHello());
+    }
 
-        /* Test various data types. */
-        metadata.put("some_number", "42");
+    /** Tests the {@link DefaultValue} annotation when a value is set. */
+    @Test
+    public void testUnmapDefaultValueSet() throws MapperException {
+        /* Prepare */
+        Map<String, String> metadata = makeMinimalMetadata();
+        metadata.put("hello_world", "Hello, World!");
+
+        /* Execute */
+        TestBean bean = mappingEngine.unmapToClass(metadata, TestBean.class);
+
+        /* Assert */
+        assertEquals("Hello, World!", bean.getHello());
+    }
+
+    /** Tests the unmapping (using the default value) to a previously set bean. */
+    @Test
+    public void testUnmapToExistingBeanDefaut() throws MapperException {
+        /* Prepare */
+        Map<String, String> metadata = makeMinimalMetadata();
+        TestBean bean = new TestBean();
+        bean.setHello("Honey, I'm home! Oh, forgot... I'm not married.");
+
+        /* Execute */
+        bean = mappingEngine.unmapToClass(metadata, TestBean.class);
+
+        /* Assert */
+        assertEquals("Did not say hello... :(", bean.getHello());
+    }
+
+    /** Tests the unmapping to a previously set bean. */
+    @Test
+    public void testUnmapToExistingBeanMetadata() throws MapperException {
+        /* Prepare */
+        Map<String, String> metadata = makeMinimalMetadata();
+        metadata.put("hello_world", "Hello, World!");
+        TestBean bean = new TestBean();
+        bean.setHello("Honey, I'm home! Oh, forgot... I'm not married.");
+
+        /* Execute */
+        bean = mappingEngine.unmapToBean(metadata, bean);
+
+        /* Assert */
+        assertEquals("Hello, World!", bean.getHello());
+    }
+
+    /** Tests the unmapping is null-proof. */
+    @Test
+    public void testUnmapWithNullData() throws MapperException {
+        /* Prepare */
+        Map<String, String> metadata = makeMinimalMetadata();
+        // test against primitive and object
+        metadata.put("hello_world", null);
+        metadata.put("some_number", null);
+
+        /* Execute */
+        TestBean bean = mappingEngine.unmapToClass(metadata, TestBean.class);
+
+        /* Assert */
+        assertEquals(null, bean.getHello());
+        assertEquals(0, bean.getSomeInt());
+    }
+
+    /** Tests the unmapping using a custom setter. */
+    @Test
+    public void testUnmapToCustomSetter() throws MapperException {
+        /* Prepare */
+        Map<String, String> metadata = makeMinimalMetadata();
+        metadata.put("somebody_s_name", "John DOE");
+        metadata.put("somebody_s_phone", "4815162342");
+
+        /* Execute */
+        TestBean bean = mappingEngine.unmapToClass(metadata, TestBean.class);
+
+        /* Assert */
+        assertEquals("John DOE (4815162342)", bean.getContact());
+    }
+
+    /** Tests the unmapping of a boolean in an incorrect format. */
+    @Test(expected = MappingException.class)
+    public void testUnmapIncorrectBoolean() throws MapperException {
+        /* Prepare */
+        Map<String, String> metadata = makeMinimalMetadata();
+        metadata.put("some_bool", "YES");
+
+        /* Execute */
+        mappingEngine.unmapToClass(metadata, TestBean.class);
+    }
+
+    /** Tests the unmapping of a data map with several types of metadata. */
+    @Test
+    public void testUnmapToBean() throws MapperException {
+        /* Prepare */
+        Map<String, String> metadata = makeMinimalMetadata();
+        metadata.put("some_int", "42");
+        metadata.put("some_long", "4815162342");
+        metadata.put("some_bigint", "1337");
         metadata.put("some_important_date", "1985/10/24-21:20:00");
         metadata.put("some_even_more_important_date", "2012/06/29");
-        bean = mappingEngine.unmapToBean(metadata, bean);
+        metadata.put("some_bool", "true");
+
+        /* Execute */
+        TestBean bean = mappingEngine.unmapToClass(metadata, TestBean.class);
+
+        /* Assert */
         assertEquals(42, bean.getSomeInt());
-        assertEquals(Long.valueOf(42), bean.getSomeLong());
-        assertEquals(BigInteger.valueOf(42), bean.getSomeBig());
+        assertEquals(Long.valueOf(4815162342L), bean.getSomeLong());
+        assertEquals(BigInteger.valueOf(1337), bean.getSomeBig());
         // calendar comparison
         CalendarParser calConv = new CalendarParser();
         calConv.setFormat(TemporalType.DATETIME.getFormat());
@@ -77,32 +181,12 @@ public class UnmappingEngineTest {
         dateConv.setFormat(TemporalType.DATE.getFormat());
         assertEquals(dateConv.convertFromString(metadata.get("some_even_more_important_date")), bean.getDate());
         // boolean testing
-        metadata.put("some_bool", "YES");
-        try {
-            bean = mappingEngine.unmapToClass(metadata, TestBean.class);
-            // fail();
-        } catch (MappingException e) {
-            // the boolean is not in the expected format
-        } catch (Exception e) {
-            fail();
-        }
-        assertFalse(bean.isSomeBool());
-        metadata.put("some_bool", "true");
-        bean = mappingEngine.unmapToClass(metadata, TestBean.class);
         assertTrue(bean.isSomeBool());
+    }
 
-        /* Test custom setter. */
-        metadata.put("somebody_s_name", "John DOE");
-        metadata.put("somebody_s_phone", "4815162342");
-        bean = mappingEngine.unmapToClass(metadata, TestBean.class);
-        assertEquals("John DOE (4815162342)", bean.getContact());
-
-        /* Ensure null-proof. */
-        // test Object and primitive types
-        metadata.put("hello_world", null);
-        metadata.put("some_number", null);
-        bean = mappingEngine.unmapToBean(metadata, bean);
-        assertEquals(null, bean.getHello());
-        assertEquals(0, bean.getSomeInt());
+    private Map<String, String> makeMinimalMetadata() {
+        Map<String, String> metadata = new HashMap<>();
+        metadata.put("hello_world_inner", "Hello, Little Big Planet!");
+        return metadata;
     }
 }
