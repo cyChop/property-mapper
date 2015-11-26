@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 
 import org.junit.Test;
+import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.annotation.TemporalType;
 import org.keyboardplaying.mapper.exception.MapperException;
@@ -19,7 +20,6 @@ import org.keyboardplaying.mapper.exception.MappingException;
 import org.keyboardplaying.mapper.mock.bean.TestBean;
 import org.keyboardplaying.mapper.mock.bean.TestInnerImpl;
 
-// TODO test custom getter
 /**
  * Tests for the {@link MappingEngine}.
  *
@@ -68,8 +68,41 @@ public class MappingEngineTest {
         assertContentEquals(expected, map);
     }
 
-    // TODO test @DefaultValue, field not set
-    // TODO test @DefaultValue, field set
+    /** Tests the {@link DefaultValue} annotation when no value is set. */
+    @Test
+    public void testDefaultValueNotSet() throws MapperException {
+        /* Prepare */
+        // bean
+        TestBean bean = new TestBean();
+        // expected map
+        Map<String, String> expected = makeEmptyExpectedMap();
+
+        /* Execute */
+        Map<String, String> map = mappingEngine.map(bean);
+
+        /* Assert */
+        assertContentEquals(expected, map);
+
+    }
+
+    /** Tests the {@link DefaultValue} annotation when a value is set. */
+    @Test
+    public void testDefaultValueSet() throws MapperException {
+        /* Prepare */
+        // bean
+        TestBean bean = new TestBean();
+        bean.setHello("Hello, gorgeous!");
+        // expected map
+        Map<String, String> expected = makeEmptyExpectedMap();
+        expected.put("hello_world", "Hello, gorgeous!");
+
+        /* Execute */
+        Map<String, String> map = mappingEngine.map(bean);
+
+        /* Assert */
+        assertContentEquals(expected, map);
+
+    }
 
     /** Tests the mapping of a bean with a mandatory field left blank. */
     @Test(expected = MappingException.class)
@@ -82,8 +115,58 @@ public class MappingEngineTest {
         mappingEngine.map(bean);
     }
 
-    // TODO test @DefaultValue overwriting map
-    // TODO test metadata overwriting map
+    /**
+     * Tests overwriting a map with the default value for a field.
+     * <p/>
+     * Also ensures that existing metadata is overwritten only for fields present in class.
+     */
+    @Test
+    public void testOverwriteDefaultValueNotSet() throws MapperException {
+        /* Prepare */
+        // bean
+        TestBean bean = new TestBean();
+        // expected map
+        Map<String, String> expected = makeEmptyExpectedMap();
+        expected.put("some_alien_meta", "This should not be erased.");
+        // overwritten map
+        Map<String, String> map = new HashMap<>();
+        map.put("hello_world", "That's me!");
+        map.put("some_alien_meta", "This should not be erased.");
+
+        /* Execute */
+        map = mappingEngine.map(bean, map);
+
+        /* Assert */
+        assertContentEquals(expected, map);
+    }
+
+    /**
+     * Tests overwriting a map with the value for a field.
+     * <p/>
+     * Also ensures that existing metadata is overwritten only for fields present in class.
+     */
+    @Test
+    public void testOverwriteDefaultValueSet() throws MapperException {
+        /* Prepare */
+        // bean
+        TestBean bean = new TestBean();
+        bean.setHello("That's my cue.");
+        // expected map
+        Map<String, String> expected = makeEmptyExpectedMap();
+        expected.put("hello_world", "That's my cue.");
+        expected.put("some_alien_meta", "This should not be erased.");
+        // overwritten map
+        Map<String, String> map = new HashMap<>();
+        map.put("hello_world", "That's me!");
+        map.put("some_alien_meta", "This should not be erased.");
+
+        /* Execute */
+        map = mappingEngine.map(bean, map);
+
+        /* Assert */
+        assertContentEquals(expected, map);
+    }
+
     // TODO test custom getter
 
     /** Tests the mapping of a bean to a map. */

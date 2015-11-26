@@ -13,6 +13,7 @@ import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.annotation.TemporalType;
 import org.keyboardplaying.mapper.exception.MapperException;
 import org.keyboardplaying.mapper.exception.MappingException;
+import org.keyboardplaying.mapper.mock.bean.IncorrectNestedBean;
 import org.keyboardplaying.mapper.mock.bean.TestBean;
 import org.keyboardplaying.mapper.mock.bean.TestInnerImpl;
 import org.keyboardplaying.mapper.parser.CalendarParser;
@@ -47,9 +48,21 @@ public class UnmappingEngineTest {
         // autowired nested (on a class)
         assertEquals("Hello, Little Big Planet!", bean.getInnerImpl().getHello());
         // declared nested (on an interface)
-        // TODO test the case of an interface without specification for the implementation
         assertEquals(TestInnerImpl.class, bean.getInnerItf().getClass());
         assertEquals("Hello, Little Big Planet!", bean.getInnerItf().getHello());
+    }
+
+    /**
+     * Ensures the unmapping fails when the {@link Nested}-annotated field is not instantiable and has no implementation
+     * specification.
+     */
+    @Test(expected = MappingException.class)
+    public void testUnmapUnspecifiedNested() throws MapperException {
+        /* Prepare */
+        Map<String, String> metadata = makeMinimalMetadata();
+
+        /* Execute */
+        mappingEngine.unmapToClass(metadata, IncorrectNestedBean.class);
     }
 
     /** Tests the {@link DefaultValue} annotation when no value is set. */
