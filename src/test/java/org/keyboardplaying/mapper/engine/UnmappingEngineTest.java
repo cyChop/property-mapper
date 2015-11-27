@@ -7,6 +7,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Nested;
@@ -16,6 +17,7 @@ import org.keyboardplaying.mapper.exception.MappingException;
 import org.keyboardplaying.mapper.mock.bean.IncorrectNestedBean;
 import org.keyboardplaying.mapper.mock.bean.TestBean;
 import org.keyboardplaying.mapper.mock.bean.TestInnerImpl;
+import org.keyboardplaying.mapper.mock.bean.TestSubBean;
 import org.keyboardplaying.mapper.parser.CalendarParser;
 import org.keyboardplaying.mapper.parser.DateParser;
 
@@ -195,6 +197,24 @@ public class UnmappingEngineTest {
         assertEquals(dateConv.convertFromString(metadata.get("some_even_more_important_date")), bean.getDate());
         // boolean testing
         assertTrue(bean.isSomeBool());
+    }
+
+    /** Tests the unmapping in case of an inherited field. */
+    @Test
+    @Ignore
+    public void testUnmapSubclassedBean() throws MapperException {
+        /* Prepare */
+        Map<String, String> metadata = makeMinimalMetadata();
+        metadata.put("hello_world_sub", "I'll take a sub-teryaki, please.");
+
+        /* Execute */
+        TestSubBean bean = mappingEngine.unmapToClass(metadata, TestSubBean.class);
+
+        /* Assert */
+        // declared fields
+        assertEquals("I'll take a sub-teryaki, please!", bean.getHelloSub());
+        // inherited fields
+        assertEquals("Didn't say hello... :(", bean.getHello());
     }
 
     private Map<String, String> makeMinimalMetadata() {

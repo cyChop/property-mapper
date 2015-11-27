@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Nested;
@@ -19,6 +20,7 @@ import org.keyboardplaying.mapper.exception.MapperException;
 import org.keyboardplaying.mapper.exception.MappingException;
 import org.keyboardplaying.mapper.mock.bean.TestBean;
 import org.keyboardplaying.mapper.mock.bean.TestInnerImpl;
+import org.keyboardplaying.mapper.mock.bean.TestSubBean;
 
 /**
  * Tests for the {@link MappingEngine}.
@@ -190,6 +192,24 @@ public class MappingEngineTest {
         expected.put("some_long", "4815162342");
         expected.put("some_bigint", "1337");
         expected.put("some_important_date", new SimpleDateFormat(TemporalType.DATETIME.getFormat()).format(now));
+
+        /* Execute */
+        Map<String, String> map = mappingEngine.map(bean);
+
+        /* Assert */
+        assertContentEquals(expected, map);
+    }
+
+    @Test
+    @Ignore
+    public void testMapSubclassedBean() throws MapperException {
+        /* Prepare */
+        // bean
+        TestSubBean bean = new TestSubBean();
+        bean.setHelloSub("Please give me a sub-teryaki...");
+        // expected map
+        Map<String, String> expected = makeEmptyExpectedMap();
+        expected.put("hello_world_sub", "Please give me a sub-teryaki...");
 
         /* Execute */
         Map<String, String> map = mappingEngine.map(bean);
