@@ -5,6 +5,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+import java.util.Objects;
 
 import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Metadata;
@@ -39,8 +40,8 @@ public class UnmappingEngine extends BaseEngine {
         try {
             return unmapToBean(metadata, beanType.newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            throw new MappingException("Could not instanciate a new bean for type " + beanType.getSimpleName() + ".",
-                    e);
+            throw new MappingException("Could not instanciate a new bean for type " + beanType.getSimpleName()
+                    + ". Did you provide a public no-argument constructor?", e);
         }
     }
 
@@ -59,14 +60,18 @@ public class UnmappingEngine extends BaseEngine {
      */
     public <T> T unmapToBean(Map<String, String> metadata, T bean) throws MapperException {
         /* Control the validity of arguments. */
-        if (bean == null) {
-            throw new MappingException("The supplied bean was null.");
-        } else if (metadata == null) {
-            throw new MappingException("The supplied metadata was null.");
-        }
+        Objects.requireNonNull(bean, "The supplied bean was null.");
+        Objects.requireNonNull(metadata, "The supplied metadata was null.");
 
         /* Now perform the unmapping. */
-        final Field[] fields = bean.getClass().getDeclaredFields();
+        performUnmapping(metadata, bean, bean.getClass());
+
+        return bean;
+    }
+
+    private <T> void performUnmapping(Map<String, String> metadata, T bean, Class<?> klass)
+            throws MapperException, ParserInitializationException, MappingException {
+        final Field[] fields = klass.getDeclaredFields();
 
         for (Field field : fields) {
             if (field.isAnnotationPresent(Nested.class)) {
@@ -76,7 +81,12 @@ public class UnmappingEngine extends BaseEngine {
             }
         }
 
-        return bean;
+        /* Take care of inherited fields. */
+        // TODO #9 also examine interfaces
+        Class<?> superklass = klass.getSuperclass();
+        if (!superklass.equals(Object.class)) {
+            performUnmapping(metadata, bean, superklass);
+        }
     }
 
     /**

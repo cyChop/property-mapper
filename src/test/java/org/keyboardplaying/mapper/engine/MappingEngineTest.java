@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Nested;
@@ -201,7 +200,6 @@ public class MappingEngineTest {
     }
 
     @Test
-    @Ignore
     public void testMapSubclassedBean() throws MapperException {
         /* Prepare */
         // bean

@@ -7,7 +7,6 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Nested;
@@ -201,7 +200,6 @@ public class UnmappingEngineTest {
 
     /** Tests the unmapping in case of an inherited field. */
     @Test
-    @Ignore
     public void testUnmapSubclassedBean() throws MapperException {
         /* Prepare */
         Map<String, String> metadata = makeMinimalMetadata();
@@ -212,9 +210,9 @@ public class UnmappingEngineTest {
 
         /* Assert */
         // declared fields
-        assertEquals("I'll take a sub-teryaki, please!", bean.getHelloSub());
+        assertEquals("I'll take a sub-teryaki, please.", bean.getHelloSub());
         // inherited fields
-        assertEquals("Didn't say hello... :(", bean.getHello());
+        assertEquals("Did not say hello... :(", bean.getHello());
     }
 
     private Map<String, String> makeMinimalMetadata() {

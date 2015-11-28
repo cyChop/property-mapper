@@ -56,12 +56,17 @@ public class MappingEngine extends BaseEngine {
         Objects.requireNonNull(map, "The destination map must not be null.");
 
         /* Control the validity of arguments. */
-        if (bean == null) {
-            throw new NullPointerException("The supplied bean was null.");
-        }
+        Objects.requireNonNull(bean, "The supplied bean was null.");
 
         /* Go and parse. */
-        final Field[] fields = bean.getClass().getDeclaredFields();
+        performMapping(bean, map, bean.getClass());
+
+        return map;
+    }
+
+    private <T> void performMapping(T bean, Map<String, String> map, Class<?> klass)
+            throws MapperException, ParserInitializationException, MappingException {
+        final Field[] fields = klass.getDeclaredFields();
 
         for (Field field : fields) {
             if (field.isAnnotationPresent(Nested.class)) {
@@ -71,7 +76,12 @@ public class MappingEngine extends BaseEngine {
             }
         }
 
-        return map;
+        /* Take care of inherited fields. */
+        // TODO #9 also examine interfaces
+        final Class<?> superklass = klass.getSuperclass();
+        if (!superklass.equals(Object.class)) {
+            performMapping(bean, map, superklass);
+        }
     }
 
     private <T> void performInnerMapping(T bean, Field field, Map<String, String> result) throws MapperException {
