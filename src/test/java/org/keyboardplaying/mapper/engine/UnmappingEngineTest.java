@@ -12,9 +12,9 @@ import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.annotation.Temporal.TemporalType;
 import org.keyboardplaying.mapper.exception.MapperException;
 import org.keyboardplaying.mapper.exception.MappingException;
-import org.keyboardplaying.mapper.mock.bean.IncorrectNestedBean;
 import org.keyboardplaying.mapper.mock.bean.TestBean;
 import org.keyboardplaying.mapper.mock.bean.TestDefaultedBean;
+import org.keyboardplaying.mapper.mock.bean.TestInnerBean;
 import org.keyboardplaying.mapper.mock.bean.TestInnerImpl;
 import org.keyboardplaying.mapper.mock.bean.TestSubBean;
 import org.keyboardplaying.mapper.parser.CalendarParser;
@@ -53,6 +53,19 @@ public class UnmappingEngineTest {
      */
     @Test(expected = MappingException.class)
     public void testUnmapUnspecifiedNested() throws MapperException {
+        /* Prepare */
+        Map<String, String> metadata = makeMinimalMetadata();
+
+        /* Execute */
+        mappingEngine.unmapToClass(metadata, UnspecifiedNestedBean.class);
+    }
+
+    /**
+     * Ensures the unmapping fails when the {@link Nested}-annotated field is specified to an implementation which does
+     * not exist.
+     */
+    @Test(expected = MappingException.class)
+    public void testUnmapUnexistingNested() throws MapperException {
         /* Prepare */
         Map<String, String> metadata = makeMinimalMetadata();
 
@@ -114,7 +127,7 @@ public class UnmappingEngineTest {
 
     /** Tests the unmapping (using the default value) to a previously set bean. */
     @Test
-    public void testUnmapToExistingBeanDefaut() throws MapperException {
+    public void testUnmapToExistingBeanDefault() throws MapperException {
         /* Prepare */
         Map<String, String> metadata = makeMinimalMetadata();
         TestBean bean = new TestBean();
@@ -134,6 +147,9 @@ public class UnmappingEngineTest {
         Map<String, String> metadata = makeMinimalMetadata();
         metadata.put("hello_world", "Hello, World!");
         TestBean bean = new TestBean();
+        TestInnerImpl inner = new TestInnerImpl();
+        inner.setHello("Yup, that's me!");
+        bean.setInnerImpl(inner);
         bean.setHello("Honey, I'm home! Oh, forgot... I'm not married.");
 
         /* Execute */
@@ -141,6 +157,7 @@ public class UnmappingEngineTest {
 
         /* Assert */
         assertEquals("Hello, World!", bean.getHello());
+        assertEquals("Hello, Little Big Planet!", bean.getInnerImpl().getHello());
     }
 
     /** Tests the unmapping is null-proof. */
@@ -238,5 +255,65 @@ public class UnmappingEngineTest {
         Map<String, String> metadata = new HashMap<>();
         metadata.put("hello_world_inner", "Hello, Little Big Planet!");
         return metadata;
+    }
+
+    /**
+     * Test bean.
+     *
+     * @author Cyrille Chopelet (http://keyboardplaying.org)
+     */
+    public static class UnspecifiedNestedBean {
+
+        @Nested
+        private TestInnerBean inner;
+
+        /**
+         * Returns the inner for this instance.
+         *
+         * @return the inner
+         */
+        public TestInnerBean getInner() {
+            return inner;
+        }
+
+        /**
+         * Sets the inner for this instance.
+         *
+         * @param inner
+         *            the new inner
+         */
+        public void setInner(TestInnerBean inner) {
+            this.inner = inner;
+        }
+    }
+
+    /**
+     * Test bean.
+     *
+     * @author Cyrille Chopelet (http://keyboardplaying.org)
+     */
+    public static class IncorrectNestedBean {
+
+        @Nested(className = "fr.paris.jawad.IDidntKnow")
+        private TestInnerBean inner;
+
+        /**
+         * Returns the inner for this instance.
+         *
+         * @return the inner
+         */
+        public TestInnerBean getInner() {
+            return inner;
+        }
+
+        /**
+         * Sets the inner for this instance.
+         *
+         * @param inner
+         *            the new inner
+         */
+        public void setInner(TestInnerBean inner) {
+            this.inner = inner;
+        }
     }
 }
