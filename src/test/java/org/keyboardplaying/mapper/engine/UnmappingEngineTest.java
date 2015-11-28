@@ -10,7 +10,7 @@ import java.util.Map;
 import org.junit.Test;
 import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Nested;
-import org.keyboardplaying.mapper.annotation.TemporalType;
+import org.keyboardplaying.mapper.annotation.Temporal.TemporalType;
 import org.keyboardplaying.mapper.exception.MapperException;
 import org.keyboardplaying.mapper.exception.MappingException;
 import org.keyboardplaying.mapper.mock.bean.IncorrectNestedBean;

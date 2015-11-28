@@ -3,7 +3,7 @@ package org.keyboardplaying.mapper.parser;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.keyboardplaying.mapper.annotation.TemporalType;
+import org.keyboardplaying.mapper.annotation.Temporal.TemporalType;
 
 /**
  * {@link TemporalParserTest} implementation for {@link DateParser} for datetimes.
