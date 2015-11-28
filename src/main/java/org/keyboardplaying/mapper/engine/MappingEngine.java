@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import org.keyboardplaying.mapper.annotation.DefaultValue;
+import org.keyboardplaying.mapper.Defaults;
 import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.exception.FieldMappingException;
@@ -109,10 +109,15 @@ public class MappingEngine extends BaseEngine {
             if (fieldValue == null) {
 
                 /* Field is null. */
-                if (field.isAnnotationPresent(DefaultValue.class)) {
+                if (!settings.defaultMetadata().equals(Defaults.EMPTY)) {
 
                     /* Use the default value instead. */
-                    setValue(map, settings, field.getAnnotation(DefaultValue.class).value());
+                    setValue(map, settings, settings.defaultMetadata());
+
+                } else if (settings.blankDefaultMetadata()) {
+
+                    /* Use the default value instead. */
+                    setValue(map, settings, Defaults.EMPTY);
 
                 } else if (settings.mandatory()) {
 

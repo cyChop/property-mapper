@@ -12,12 +12,12 @@ import java.util.Map.Entry;
 import java.util.Objects;
 
 import org.junit.Test;
-import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.annotation.Temporal.TemporalType;
 import org.keyboardplaying.mapper.exception.MapperException;
 import org.keyboardplaying.mapper.exception.MappingException;
 import org.keyboardplaying.mapper.mock.bean.TestBean;
+import org.keyboardplaying.mapper.mock.bean.TestDefaultedBean;
 import org.keyboardplaying.mapper.mock.bean.TestInnerImpl;
 import org.keyboardplaying.mapper.mock.bean.TestSubBean;
 
@@ -69,24 +69,32 @@ public class MappingEngineTest {
         assertContentEquals(expected, map);
     }
 
-    /** Tests the {@link DefaultValue} annotation when no value is set. */
+    /** Tests the default value when no value is set. */
     @Test
     public void testDefaultValueNotSet() throws MapperException {
         /* Prepare */
-        // bean
-        TestBean bean = new TestBean();
+        // beans
+        TestBean bean1 = new TestBean();
+        TestDefaultedBean bean2 = new TestDefaultedBean();
+        bean2.setNotNullString("I'm not null!");
         // expected map
-        Map<String, String> expected = makeEmptyExpectedMap();
+        Map<String, String> expected1 = makeEmptyExpectedMap();
+        Map<String, String> expected2 = new HashMap<>();
+        expected2.put("the_answer", null);
+        expected2.put("not_null_string", "I'm not null!");
+        expected2.put("the_doctor", "Doctor Who?");
+        expected2.put("the_companion", "");
 
         /* Execute */
-        Map<String, String> map = mappingEngine.map(bean);
+        Map<String, String> map1 = mappingEngine.map(bean1);
+        Map<String, String> map2 = mappingEngine.map(bean2);
 
         /* Assert */
-        assertContentEquals(expected, map);
-
+        assertContentEquals(expected1, map1);
+        assertContentEquals(expected2, map2);
     }
 
-    /** Tests the {@link DefaultValue} annotation when a value is set. */
+    /** Tests the default value when a value is set. */
     @Test
     public void testDefaultValueSet() throws MapperException {
         /* Prepare */
@@ -102,7 +110,6 @@ public class MappingEngineTest {
 
         /* Assert */
         assertContentEquals(expected, map);
-
     }
 
     /** Tests the mapping of a bean with a mandatory field left blank. */
@@ -111,6 +118,16 @@ public class MappingEngineTest {
         /* Prepare */
         TestBean bean = new TestBean();
         bean.setInnerImpl(new TestInnerImpl());
+
+        /* Execute */
+        mappingEngine.map(bean);
+    }
+
+    /** Tests the mapping of a bean with a mandatory field with a default value but no default metadata left blank. */
+    @Test(expected = MappingException.class)
+    public void testMapWithMandatoryFieldWithDefaultValueNotSet() throws MapperException {
+        /* Prepare */
+        TestDefaultedBean bean = new TestDefaultedBean();
 
         /* Execute */
         mappingEngine.map(bean);
@@ -218,7 +235,7 @@ public class MappingEngineTest {
 
     private Map<String, String> makeEmptyExpectedMap() {
         Map<String, String> expected = new HashMap<>();
-        expected.put("hello_world", "Did not say hello... :(");
+        expected.put("hello_world", "Didn't send hello... :(");
         expected.put("some_bool", "false");
         expected.put("some_int", "0");
         expected.put("some_long", null);

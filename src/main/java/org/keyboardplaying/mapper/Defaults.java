@@ -7,6 +7,9 @@ package org.keyboardplaying.mapper;
  */
 public final class Defaults {
 
+    /** An empty String. */
+    public static final String EMPTY = "";
+
     /** The default date format. */
     public static final String FORMAT_DATE = "yyyy/MM/dd";
     /** The default timestamp format. */

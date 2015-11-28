@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.Map;
 
 import org.keyboardplaying.mapper.annotation.BooleanValues;
-import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.annotation.Temporal;
@@ -20,8 +19,7 @@ import org.keyboardplaying.mapper.parser.ContactParser;
  */
 public class TestBean {
 
-    @Metadata("hello_world")
-    @DefaultValue("Did not say hello... :(")
+    @Metadata(value = "hello_world", defaultValue = "Didn't receive hello... :(", defaultMetadata = "Didn't send hello... :(")
     private String hello;
 
     @Metadata("some_bool")

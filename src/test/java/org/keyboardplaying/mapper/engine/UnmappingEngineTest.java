@@ -8,13 +8,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.keyboardplaying.mapper.annotation.DefaultValue;
 import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.annotation.Temporal.TemporalType;
 import org.keyboardplaying.mapper.exception.MapperException;
 import org.keyboardplaying.mapper.exception.MappingException;
 import org.keyboardplaying.mapper.mock.bean.IncorrectNestedBean;
 import org.keyboardplaying.mapper.mock.bean.TestBean;
+import org.keyboardplaying.mapper.mock.bean.TestDefaultedBean;
 import org.keyboardplaying.mapper.mock.bean.TestInnerImpl;
 import org.keyboardplaying.mapper.mock.bean.TestSubBean;
 import org.keyboardplaying.mapper.parser.CalendarParser;
@@ -29,12 +29,6 @@ import org.keyboardplaying.mapper.parser.DateParser;
 public class UnmappingEngineTest {
 
     private UnmappingEngine mappingEngine = new UnmappingEngine();
-
-    /** Tests the unmapping of an empty data map. */
-    @Test(expected = MappingException.class)
-    public void testUnmapWithMissingMandatory() throws MapperException {
-        mappingEngine.unmapToClass(new HashMap<String, String>(), TestBean.class);
-    }
 
     /** Tests the {@link Nested} annotation. */
     @Test
@@ -66,20 +60,45 @@ public class UnmappingEngineTest {
         mappingEngine.unmapToClass(metadata, IncorrectNestedBean.class);
     }
 
-    /** Tests the {@link DefaultValue} annotation when no value is set. */
+    /** Tests the default value when no value is set. */
     @Test
     public void testUnmapDefaultValueNotSet() throws MapperException {
         /* Prepare */
-        Map<String, String> metadata = makeMinimalMetadata();
+        Map<String, String> metadata1 = makeMinimalMetadata();
+        Map<String, String> metadata2 = new HashMap<>();
+        metadata2.put("the_doctor", "David Tennant");
 
         /* Execute */
-        TestBean bean = mappingEngine.unmapToClass(metadata, TestBean.class);
+        TestBean bean1 = mappingEngine.unmapToClass(metadata1, TestBean.class);
+        TestDefaultedBean bean2 = mappingEngine.unmapToClass(metadata2, TestDefaultedBean.class);
 
         /* Assert */
-        assertEquals("Did not say hello... :(", bean.getHello());
+        assertEquals("Didn't receive hello... :(", bean1.getHello());
+        assertEquals(Integer.valueOf(42), bean2.getTheAnswer());
+        assertEquals("", bean2.getNotNullString());
     }
 
-    /** Tests the {@link DefaultValue} annotation when a value is set. */
+    /** Tests the unmapping of a bean with mandatory metadata left blank. */
+    @Test(expected = MappingException.class)
+    public void testUnmapWithMandatoryMetadataNotSet() throws MapperException {
+        /* Prepare */
+        Map<String, String> metadata = new HashMap<>();
+
+        /* Execute */
+        mappingEngine.unmapToClass(metadata, TestBean.class);
+    }
+
+    /** Tests the unmapping of a bean with a mandatory metadata with a default metadata but no default value. */
+    @Test(expected = MappingException.class)
+    public void testUnmapMandatoryFieldWithDefaultValueNotSet() throws MapperException {
+        /* Prepare */
+        Map<String, String> metadata = new HashMap<>();
+
+        /* Execute */
+        mappingEngine.unmapToClass(metadata, TestDefaultedBean.class);
+    }
+
+    /** Tests the default value when a value is set. */
     @Test
     public void testUnmapDefaultValueSet() throws MapperException {
         /* Prepare */
@@ -105,7 +124,7 @@ public class UnmappingEngineTest {
         bean = mappingEngine.unmapToClass(metadata, TestBean.class);
 
         /* Assert */
-        assertEquals("Did not say hello... :(", bean.getHello());
+        assertEquals("Didn't receive hello... :(", bean.getHello());
     }
 
     /** Tests the unmapping to a previously set bean. */
@@ -212,7 +231,7 @@ public class UnmappingEngineTest {
         // declared fields
         assertEquals("I'll take a sub-teryaki, please.", bean.getHelloSub());
         // inherited fields
-        assertEquals("Did not say hello... :(", bean.getHello());
+        assertEquals("Didn't receive hello... :(", bean.getHello());
     }
 
     private Map<String, String> makeMinimalMetadata() {

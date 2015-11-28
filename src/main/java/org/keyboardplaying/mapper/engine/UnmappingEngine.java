@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Objects;
 
-import org.keyboardplaying.mapper.annotation.DefaultValue;
+import org.keyboardplaying.mapper.Defaults;
 import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.exception.MapperException;
@@ -160,7 +160,7 @@ public class UnmappingEngine extends BaseEngine {
             // a custom setter was defined, overrides the default parser
             setElaborateField(bean, field, elaborate, metadata);
 
-        } else if ("".equals(metadataName)) {
+        } else if (Defaults.EMPTY.equals(metadataName)) {
 
             throw new MappingException("No key nor elaborate parser was provided for field " + field.getName()
                     + " of bean " + bean.getClass().getSimpleName());
@@ -170,16 +170,21 @@ public class UnmappingEngine extends BaseEngine {
             /* Set the value using the value provided with the metadata. */
             setField(bean, field, metadata.get(metadataName));
 
+        } else if (!settings.defaultValue().equals(Defaults.EMPTY)) {
+
+            /* Set the value using the provided default value. */
+            setField(bean, field, settings.defaultValue());
+
+        } else if (settings.blankDefaultValue()) {
+
+            /* Set the field using a blank value. */
+            setField(bean, field, Defaults.EMPTY);
+
         } else if (settings.mandatory()) {
 
             /* Data is absent though mandatory, raise an exception. */
             throw new MappingException("Mandatory data " + metadataName + " is missing from metadata map ("
                     + metadata.keySet().toString() + ").");
-
-        } else if (field.isAnnotationPresent(DefaultValue.class)) {
-
-            /* Set the value using the provided default value. */
-            setField(bean, field, field.getAnnotation(DefaultValue.class).value());
         }
         /* Otherwise, leave field as is. */
     }
