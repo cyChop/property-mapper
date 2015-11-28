@@ -25,7 +25,7 @@ image:{url-shields}github/license/{github-user}/{github-repo}.svg[License: {lice
 
 == History
 
-Sometime at work, I was confronted with a broker used to map key-value ``String`` pairs from and to
+Sometime at work, I was confronted with a broker used to map key-value `String` pairs from and to
 Java objects. This broker was a pain (for maintenance, and lacking scalibility) and we intended to
 write it from scratch for a long time.
 
@@ -59,3 +59,8 @@ This was designed to allow back and forth mapping between a `Map<String, String>
 The POJO's fields are to be annotated with the keys of the values to retrieve in or store to the
 map, so the (un)mapping engine could perform its task autonomously, converting the fields from or to
 Strings.
+
+== Some vocabulary
+
+* *map*: convert a POJO to a `Map<String, String>`
+* *unmap*: convert a `Map<String, String>` to a POJO

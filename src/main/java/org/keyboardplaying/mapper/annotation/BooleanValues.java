@@ -19,16 +19,22 @@ import org.keyboardplaying.mapper.Defaults;
 public @interface BooleanValues {
 
     /**
-     * The {@link String} representation of a {@code true} boolean.
+     * The {@link String} representations of a {@code true} boolean.
+     * <p/>
+     * When unmapping, everyone of these values will be mapped to {@code true}. When mapping, the first value will be
+     * the reference.
      *
      * @return the {@link String} representation of a {@code true} boolean.
      */
-    String whenTrue() default Defaults.TRUE;
+    String[] whenTrue() default { Defaults.TRUE };
 
     /**
-     * The {@link String} representation of a {@code false} boolean.
+     * The {@link String} representations of a {@code false} boolean.
+     * <p/>
+     * When unmapping, everyone of these values will be mapped to {@code false}. When mapping, the first value will be
+     * the reference.
      *
      * @return the {@link String} representation of a {@code false} boolean.
      */
-    String whenFalse() default Defaults.FALSE;
+    String[] whenFalse() default { Defaults.FALSE };
 }

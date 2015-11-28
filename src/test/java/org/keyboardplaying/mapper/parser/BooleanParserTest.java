@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.keyboardplaying.mapper.Defaults;
 import org.keyboardplaying.mapper.exception.ParsingException;
@@ -18,9 +19,26 @@ public class BooleanParserTest {
 
     private BooleanParser enC = new BooleanParser();
     private BooleanParser frC = new BooleanParser();
+    private BooleanParser biC = new BooleanParser();
 
-    {
-        frC.setTrueFalse(Defaults.BOOLEAN_YES_FR, Defaults.BOOLEAN_NO_FR);
+    /** Initializes the languages of the French parser. */
+    @Before
+    public void init() {
+        frC.setTrueFalse(new String[] { Defaults.BOOLEAN_YES_FR }, new String[] { Defaults.BOOLEAN_NO_FR });
+        biC.setTrueFalse(new String[] { Defaults.BOOLEAN_YES, Defaults.BOOLEAN_YES_FR },
+                new String[] { Defaults.BOOLEAN_NO, Defaults.BOOLEAN_NO_FR });
+    }
+
+    /** Ensures {@link BooleanParser#setTrueFalse(String[], String[])} fails if one of the array is null. */
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetNullArray() {
+        enC.setTrueFalse(null, null);
+    }
+
+    /** Ensures {@link BooleanParser#setTrueFalse(String[], String[])} fails if one of the array is empty. */
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetEmptyArray() {
+        enC.setTrueFalse(new String[0], new String[0]);
     }
 
     /** Tests the conversion from an English Yes/No String. */
@@ -49,6 +67,15 @@ public class BooleanParserTest {
         frC.convertFromString(Defaults.BOOLEAN_YES);
     }
 
+    /** Tests the conversion to String when the parser has several possibilities. */
+    @Test
+    public void testConvertBilingualFromString() throws ParsingException {
+        assertTrue(biC.convertFromString(Defaults.BOOLEAN_YES));
+        assertTrue(biC.convertFromString(Defaults.BOOLEAN_YES_FR));
+        assertFalse(biC.convertFromString(Defaults.BOOLEAN_NO));
+        assertFalse(biC.convertFromString(Defaults.BOOLEAN_NO_FR));
+    }
+
     /** Tests converting to an English Yes/No String. */
     @Test
     public void testConvertToEnglishString() {
@@ -61,5 +88,12 @@ public class BooleanParserTest {
     public void testConvertToFrenchString() {
         assertEquals(Defaults.BOOLEAN_YES_FR, frC.convertToString(true));
         assertEquals(Defaults.BOOLEAN_NO_FR, frC.convertToString(false));
+    }
+
+    /** Tests the conversion to String when the parser has several possibilities. */
+    @Test
+    public void testConvertBilingualToString() {
+        assertEquals(Defaults.BOOLEAN_YES, biC.convertToString(true));
+        assertEquals(Defaults.BOOLEAN_NO, biC.convertToString(false));
     }
 }

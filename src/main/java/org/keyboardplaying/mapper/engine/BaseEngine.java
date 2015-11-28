@@ -86,7 +86,7 @@ public abstract class BaseEngine {
                 BooleanValues annot = field.getAnnotation(BooleanValues.class);
                 ((BooleanParser) parser).setTrueFalse(annot.whenTrue(), annot.whenFalse());
             } else {
-                ((BooleanParser) parser).setTrueFalse(Defaults.TRUE, Defaults.FALSE);
+                ((BooleanParser) parser).setTrueFalse(new String[] { Defaults.TRUE }, new String[] { Defaults.FALSE });
             }
         }
 
