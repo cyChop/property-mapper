@@ -77,7 +77,6 @@ public class MappingEngine extends BaseEngine {
         }
 
         /* Take care of inherited fields. */
-        // TODO #9 also examine interfaces
         final Class<?> superklass = klass.getSuperclass();
         if (!superklass.equals(Object.class)) {
             performMapping(bean, map, superklass);

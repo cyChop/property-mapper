@@ -82,7 +82,6 @@ public class UnmappingEngine extends BaseEngine {
         }
 
         /* Take care of inherited fields. */
-        // TODO #9 also examine interfaces
         Class<?> superklass = klass.getSuperclass();
         if (!superklass.equals(Object.class)) {
             performUnmapping(metadata, bean, superklass);
