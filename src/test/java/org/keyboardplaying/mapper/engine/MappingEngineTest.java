@@ -202,6 +202,7 @@ public class MappingEngineTest {
         bean.setSomeLong(4815162342L);
         bean.setSomeBig(BigInteger.valueOf(1337));
         bean.setCal(cal);
+        bean.setContact("Cyrille (555-1337)");
         // expected map
         Map<String, String> expected = makeEmptyExpectedMap();
         expected.put("some_bool", "true");
@@ -210,6 +211,8 @@ public class MappingEngineTest {
         expected.put("some_long", "4815162342");
         expected.put("some_bigint", "1337");
         expected.put("some_important_date", new SimpleDateFormat(TemporalType.DATETIME.getFormat()).format(now));
+        expected.put("somebody_s_name", "Cyrille");
+        expected.put("somebody_s_phone", "555-1337");
 
         /* Execute */
         Map<String, String> map = mappingEngine.map(bean);

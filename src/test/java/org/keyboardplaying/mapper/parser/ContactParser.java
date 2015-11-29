@@ -16,7 +16,7 @@ public class ContactParser implements ElaborateParser<String> {
     private static final String NAME_FIELD = "somebody_s_name";
     private static final String PHONE_FIELD = "somebody_s_phone";
 
-    private static final String PARSING_PATTERN = "(.*)(?:\\s+\\((.*)\\))?";
+    private static final String PARSING_PATTERN = "([A-Za-z]*)(?:\\s+\\((.*)\\))?";
 
     /*
      * (non-Javadoc)

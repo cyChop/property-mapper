@@ -177,9 +177,9 @@ public class UnmappingEngineTest {
         assertEquals(0, bean.getSomeInt());
     }
 
-    /** Tests the unmapping using a custom setter. */
+    /** Tests the unmapping using an ElaborateParser. */
     @Test
-    public void testUnmapToCustomSetter() throws MapperException {
+    public void testUnmapUsingElaborateParser() throws MapperException {
         /* Prepare */
         Map<String, String> metadata = makeMinimalMetadata();
         metadata.put("somebody_s_name", "John DOE");

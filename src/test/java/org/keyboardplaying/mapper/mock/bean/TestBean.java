@@ -3,7 +3,6 @@ package org.keyboardplaying.mapper.mock.bean;
 import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Map;
 
 import org.keyboardplaying.mapper.Defaults;
 import org.keyboardplaying.mapper.annotation.BooleanValues;
@@ -268,17 +267,5 @@ public class TestBean {
      */
     public void setContact(String contact) {
         this.contact = contact;
-    }
-
-    /**
-     * Sets the contact for this instance.
-     *
-     * @param name
-     *            the contact's name
-     * @param metadata
-     *            the metadata map to allow access to custom data
-     */
-    public void setContact(String name, Map<String, String> metadata) {
-        this.contact = String.format("%s (%s)", name, metadata.get("somebody_s_phone"));
     }
 }
