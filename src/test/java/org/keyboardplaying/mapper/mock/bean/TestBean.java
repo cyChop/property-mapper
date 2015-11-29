@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+import org.keyboardplaying.mapper.Defaults;
 import org.keyboardplaying.mapper.annotation.BooleanValues;
 import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
@@ -23,8 +24,11 @@ public class TestBean {
     private String hello;
 
     @Metadata("some_bool")
-    @BooleanValues(whenTrue = "true", whenFalse = "false")
     private boolean someBool;
+
+    @Metadata("some_yesno")
+    @BooleanValues(whenTrue = Defaults.BOOLEAN_YES, whenFalse = Defaults.BOOLEAN_NO)
+    private boolean someYesNo;
 
     @Metadata("some_int")
     private int someInt;
@@ -93,6 +97,25 @@ public class TestBean {
      */
     public void setSomeBool(boolean someBool) {
         this.someBool = someBool;
+    }
+
+    /**
+     * Returns the yesNo for this instance.
+     *
+     * @return the yesNo
+     */
+    public boolean isSomeYesNo() {
+        return someYesNo;
+    }
+
+    /**
+     * Returns the yesNo for this instance.
+     *
+     * @param someYesNo
+     *            the new yesNo
+     */
+    public void setSomeYesNo(boolean someYesNo) {
+        this.someYesNo = someYesNo;
     }
 
     /**

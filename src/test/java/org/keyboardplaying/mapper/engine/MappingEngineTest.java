@@ -197,6 +197,7 @@ public class MappingEngineTest {
         // bean
         TestBean bean = new TestBean();
         bean.setSomeBool(true);
+        bean.setSomeYesNo(true);
         bean.setSomeInt(42);
         bean.setSomeLong(4815162342L);
         bean.setSomeBig(BigInteger.valueOf(1337));
@@ -204,6 +205,7 @@ public class MappingEngineTest {
         // expected map
         Map<String, String> expected = makeEmptyExpectedMap();
         expected.put("some_bool", "true");
+        expected.put("some_yesno", "YES");
         expected.put("some_int", "42");
         expected.put("some_long", "4815162342");
         expected.put("some_bigint", "1337");
@@ -237,6 +239,7 @@ public class MappingEngineTest {
         Map<String, String> expected = new HashMap<>();
         expected.put("hello_world", "Didn't send hello... :(");
         expected.put("some_bool", "false");
+        expected.put("some_yesno", "NO");
         expected.put("some_int", "0");
         expected.put("some_long", null);
         expected.put("some_bigint", null);

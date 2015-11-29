@@ -82,8 +82,8 @@ public abstract class BaseEngine {
             }
 
         } else if (parser instanceof BooleanParser) {
-            if (field.isAnnotationPresent(BooleanValues.class)) {
-                BooleanValues annot = field.getAnnotation(BooleanValues.class);
+            BooleanValues annot = field.getAnnotation(BooleanValues.class);
+            if (annot != null) {
                 ((BooleanParser) parser).setTrueFalse(annot.whenTrue(), annot.whenFalse());
             } else {
                 ((BooleanParser) parser).setTrueFalse(new String[] { Defaults.TRUE }, new String[] { Defaults.FALSE });

@@ -214,6 +214,7 @@ public class UnmappingEngineTest {
         metadata.put("some_important_date", "1985/10/24-21:20:00");
         metadata.put("some_even_more_important_date", "2012/06/29");
         metadata.put("some_bool", "true");
+        metadata.put("some_yesno", "yes");
 
         /* Execute */
         TestBean bean = mappingEngine.unmapToClass(metadata, TestBean.class);
@@ -232,6 +233,7 @@ public class UnmappingEngineTest {
         assertEquals(dateConv.convertFromString(metadata.get("some_even_more_important_date")), bean.getDate());
         // boolean testing
         assertTrue(bean.isSomeBool());
+        assertTrue(bean.isSomeYesNo());
     }
 
     /** Tests the unmapping in case of an inherited field. */
