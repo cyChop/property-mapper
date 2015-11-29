@@ -70,7 +70,7 @@ public class MappingEngine extends BaseEngine {
 
         for (Field field : fields) {
             if (field.isAnnotationPresent(Nested.class)) {
-                performInnerMapping(bean, field, map);
+                performNestedMapping(bean, field, map);
             } else if (field.isAnnotationPresent(Metadata.class)) {
                 performFieldMapping(bean, field, map);
             }
@@ -83,12 +83,15 @@ public class MappingEngine extends BaseEngine {
         }
     }
 
-    private <T> void performInnerMapping(T bean, Field field, Map<String, String> result) throws MapperException {
+    private <T> void performNestedMapping(T bean, Field field, Map<String, String> result) throws MapperException {
         try {
 
             Object value = get(bean, field);
             if (value != null) {
                 map(value, result);
+            } else if (field.getAnnotation(Nested.class).mandatory()) {
+                throw new MappingException("Mandatory nested bean " + field.getName() + " of "
+                        + field.getDeclaringClass().getName() + " is null.");
             }
 
         } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException
@@ -108,7 +111,7 @@ public class MappingEngine extends BaseEngine {
             if (fieldValue == null) {
 
                 /* Field is null. */
-                if (!settings.defaultMetadata().equals(Defaults.EMPTY)) {
+                if (!Defaults.EMPTY.equals(settings.defaultMetadata())) {
 
                     /* Use the default value instead. */
                     setValue(map, settings, settings.defaultMetadata());
@@ -140,12 +143,15 @@ public class MappingEngine extends BaseEngine {
             throws ParserInitializationException, MappingException {
         @SuppressWarnings("unchecked")
         Class<? extends ElaborateParser<F>> elaborate = (Class<? extends ElaborateParser<F>>) settings.elaborate();
-        if (elaborate.equals(ElaborateParser.None.class)) {
+        if (!elaborate.equals(ElaborateParser.None.class)) {
+            // an elaborate parser was defined, overrides the default parser
+            serializeField(bean, field, map, elaborate);
+        } else if (Defaults.EMPTY.equals(settings.value())) {
+            throw new MappingException("No key nor elaborate parser was provided for field " + field.getName()
+                    + " of bean " + bean.getClass().getSimpleName());
+        } else {
             // simple parse and store
             setValue(map, settings, field == null ? null : getFieldAsString(bean, field));
-        } else {
-            // a custom getter was defined, overrides the default parser
-            serializeField(bean, field, map, elaborate);
         }
     }
 

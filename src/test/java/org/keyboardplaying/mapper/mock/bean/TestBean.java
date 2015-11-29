@@ -22,6 +22,9 @@ public class TestBean {
     @Metadata(value = "hello_world", defaultValue = "Didn't receive hello... :(", defaultMetadata = "Didn't send hello... :(")
     private String hello;
 
+    @Metadata(value = "Do do do", mandatory = true)
+    private String mandatory;
+
     @Metadata("some_bool")
     private boolean someBool;
 
@@ -77,6 +80,25 @@ public class TestBean {
      */
     public void setHello(String hello) {
         this.hello = hello;
+    }
+
+    /**
+     * Returns the mandatory String for this instance.
+     * 
+     * @return the mandatory String
+     */
+    public String getMandatory() {
+        return mandatory;
+    }
+
+    /**
+     * Sets the mandatory String for this instance.
+     * 
+     * @param mandatory
+     *            the mandatory String
+     */
+    public void setMandatory(String mandatory) {
+        this.mandatory = mandatory;
     }
 
     /**

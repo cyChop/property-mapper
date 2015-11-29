@@ -12,12 +12,14 @@ import java.util.Map.Entry;
 import java.util.Objects;
 
 import org.junit.Test;
+import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.annotation.Temporal.TemporalType;
 import org.keyboardplaying.mapper.exception.MapperException;
 import org.keyboardplaying.mapper.exception.MappingException;
 import org.keyboardplaying.mapper.mock.bean.TestBean;
 import org.keyboardplaying.mapper.mock.bean.TestDefaultedBean;
+import org.keyboardplaying.mapper.mock.bean.TestInnerBean;
 import org.keyboardplaying.mapper.mock.bean.TestInnerImpl;
 import org.keyboardplaying.mapper.mock.bean.TestSubBean;
 
@@ -46,7 +48,7 @@ public class MappingEngineTest {
     /** Tests the mapping of a bean to a {@code null} map. */
     @Test(expected = NullPointerException.class)
     public void testMapWithNullMap() throws MapperException {
-        mappingEngine.map(new TestBean(), null);
+        mappingEngine.map(makeMinimalBean(), null);
     }
 
     /** Tests the mapping of a bean with a {@link Nested} field. */
@@ -56,7 +58,7 @@ public class MappingEngineTest {
         // bean
         TestInnerImpl innerBean = new TestInnerImpl();
         innerBean.setHello("hello");
-        TestBean bean = new TestBean();
+        TestBean bean = makeMinimalBean();
         bean.setInnerImpl(innerBean);
         // expected map
         Map<String, String> expected = makeEmptyExpectedMap();
@@ -74,7 +76,7 @@ public class MappingEngineTest {
     public void testDefaultValueNotSet() throws MapperException {
         /* Prepare */
         // beans
-        TestBean bean1 = new TestBean();
+        TestBean bean1 = makeMinimalBean();
         TestDefaultedBean bean2 = new TestDefaultedBean();
         bean2.setNotNullString("I'm not null!");
         // expected map
@@ -99,7 +101,7 @@ public class MappingEngineTest {
     public void testDefaultValueSet() throws MapperException {
         /* Prepare */
         // bean
-        TestBean bean = new TestBean();
+        TestBean bean = makeMinimalBean();
         bean.setHello("Hello, gorgeous!");
         // expected map
         Map<String, String> expected = makeEmptyExpectedMap();
@@ -116,7 +118,7 @@ public class MappingEngineTest {
     @Test(expected = MappingException.class)
     public void testMapWithMandatoryFieldNotSet() throws MapperException {
         /* Prepare */
-        TestBean bean = new TestBean();
+        TestBean bean = makeMinimalBean();
         bean.setInnerImpl(new TestInnerImpl());
 
         /* Execute */
@@ -142,7 +144,7 @@ public class MappingEngineTest {
     public void testOverwriteDefaultValueNotSet() throws MapperException {
         /* Prepare */
         // bean
-        TestBean bean = new TestBean();
+        TestBean bean = makeMinimalBean();
         // expected map
         Map<String, String> expected = makeEmptyExpectedMap();
         expected.put("some_alien_meta", "This should not be erased.");
@@ -167,7 +169,7 @@ public class MappingEngineTest {
     public void testOverwriteDefaultValueSet() throws MapperException {
         /* Prepare */
         // bean
-        TestBean bean = new TestBean();
+        TestBean bean = makeMinimalBean();
         bean.setHello("That's my cue.");
         // expected map
         Map<String, String> expected = makeEmptyExpectedMap();
@@ -195,7 +197,7 @@ public class MappingEngineTest {
         Calendar cal = Calendar.getInstance();
         cal.setTime(now);
         // bean
-        TestBean bean = new TestBean();
+        TestBean bean = makeMinimalBean();
         bean.setSomeBool(true);
         bean.setSomeYesNo(true);
         bean.setSomeInt(42);
@@ -226,6 +228,7 @@ public class MappingEngineTest {
         /* Prepare */
         // bean
         TestSubBean bean = new TestSubBean();
+        bean.setMandatory("De da da da");
         bean.setHelloSub("Please give me a sub-teryaki...");
         // expected map
         Map<String, String> expected = makeEmptyExpectedMap();
@@ -238,9 +241,16 @@ public class MappingEngineTest {
         assertContentEquals(expected, map);
     }
 
+    private TestBean makeMinimalBean() {
+        TestBean bean = new TestBean();
+        bean.setMandatory("De da da da");
+        return bean;
+    }
+
     private Map<String, String> makeEmptyExpectedMap() {
         Map<String, String> expected = new HashMap<>();
         expected.put("hello_world", "Didn't send hello... :(");
+        expected.put("Do do do", "De da da da");
         expected.put("some_bool", "false");
         expected.put("some_yesno", "NO");
         expected.put("some_int", "0");
@@ -253,7 +263,7 @@ public class MappingEngineTest {
         return expected;
     }
 
-    private static void assertContentEquals(Map<?, ?> expected, Map<?, ?> actual) {
+    private void assertContentEquals(Map<?, ?> expected, Map<?, ?> actual) {
         if (expected.size() != actual.size()) {
             fail("Expected " + expected + " but found " + actual);
         }
@@ -264,5 +274,60 @@ public class MappingEngineTest {
                         + actual.get(entry.getKey()));
             }
         }
+    }
+
+    /** Ensures the mapping fails if no key was supplied for the field. */
+    @Test(expected = MappingException.class)
+    public void testMapWithEmptyMetadataKey() throws MapperException {
+        /* Execute */
+        mappingEngine.map(new Object() {
+            @Metadata
+            private String hello;
+
+            @SuppressWarnings("unused")
+            public String getHello() {
+                return hello;
+            }
+
+            @SuppressWarnings("unused")
+            public void setHello(String hello) {
+                this.hello = hello;
+            }
+        }, new HashMap<String, String>());
+    }
+
+    /** Ensures the mapping fails if a mandatory nested is null. */
+    @Test(expected = MappingException.class)
+    public void testMapUnexistingNested() throws MapperException {
+        /* Execute */
+        mappingEngine.map(new Object() {
+            @Nested(mandatory = true)
+            private TestInnerBean inner;
+
+            @SuppressWarnings("unused")
+            public TestInnerBean getInner() {
+                return inner;
+            }
+
+            @SuppressWarnings("unused")
+            public void setInner(TestInnerBean inner) {
+                this.inner = inner;
+            }
+        }, new HashMap<String, String>());
+    }
+
+    /** Ensures the mapping fails if the getter is absent. */
+    @Test(expected = MappingException.class)
+    public void testMapWithNoGetter() throws MapperException {
+        /* Execute */
+        mappingEngine.map(new Object() {
+            @Metadata("hello")
+            private String hello;
+
+            @SuppressWarnings("unused")
+            public void setHello(String hello) {
+                this.hello = hello;
+            }
+        }, new HashMap<String, String>());
     }
 }

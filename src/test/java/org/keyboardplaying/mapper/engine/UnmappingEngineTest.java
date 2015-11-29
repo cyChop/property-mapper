@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
+import org.keyboardplaying.mapper.annotation.Metadata;
 import org.keyboardplaying.mapper.annotation.Nested;
 import org.keyboardplaying.mapper.annotation.Temporal.TemporalType;
 import org.keyboardplaying.mapper.exception.MapperException;
@@ -35,6 +36,7 @@ public class UnmappingEngineTest {
     public void testUnmapNested() throws MapperException {
         /* Prepare */
         Map<String, String> metadata = makeMinimalMetadata();
+        metadata.put("hello_world_inner", "Hello, Little Big Planet!");
 
         /* Execute */
         TestBean bean = mappingEngine.unmapToClass(metadata, TestBean.class);
@@ -57,7 +59,20 @@ public class UnmappingEngineTest {
         Map<String, String> metadata = makeMinimalMetadata();
 
         /* Execute */
-        mappingEngine.unmapToClass(metadata, UnspecifiedNestedBean.class);
+        mappingEngine.unmapToBean(metadata, new Object() {
+            @Nested(mandatory = true)
+            private TestInnerBean inner;
+
+            @SuppressWarnings("unused")
+            public TestInnerBean getInner() {
+                return inner;
+            }
+
+            @SuppressWarnings("unused")
+            public void setInner(TestInnerBean inner) {
+                this.inner = inner;
+            }
+        });
     }
 
     /**
@@ -70,7 +85,20 @@ public class UnmappingEngineTest {
         Map<String, String> metadata = makeMinimalMetadata();
 
         /* Execute */
-        mappingEngine.unmapToClass(metadata, IncorrectNestedBean.class);
+        mappingEngine.unmapToBean(metadata, new Object() {
+            @Nested(mandatory = true)
+            private TestInnerBean inner;
+
+            @SuppressWarnings("unused")
+            public TestInnerBean getInner() {
+                return inner;
+            }
+
+            @SuppressWarnings("unused")
+            public void setInner(TestInnerBean inner) {
+                this.inner = inner;
+            }
+        });
     }
 
     /** Tests the default value when no value is set. */
@@ -146,6 +174,7 @@ public class UnmappingEngineTest {
         /* Prepare */
         Map<String, String> metadata = makeMinimalMetadata();
         metadata.put("hello_world", "Hello, World!");
+        metadata.put("hello_world_inner", "Hello, Little Big Planet!");
         TestBean bean = new TestBean();
         TestInnerImpl inner = new TestInnerImpl();
         inner.setHello("Yup, that's me!");
@@ -255,67 +284,49 @@ public class UnmappingEngineTest {
 
     private Map<String, String> makeMinimalMetadata() {
         Map<String, String> metadata = new HashMap<>();
-        metadata.put("hello_world_inner", "Hello, Little Big Planet!");
+        metadata.put("Do do do", "De da da da");
         return metadata;
     }
 
-    /**
-     * Test bean.
-     *
-     * @author Cyrille Chopelet (http://keyboardplaying.org)
-     */
-    public static class UnspecifiedNestedBean {
+    /** Ensures the mapping fails if no key was supplied. */
+    @Test(expected = MappingException.class)
+    public void testUnmapWithEmptyMetadataKey() throws MapperException {
+        /* Prepare */
+        Map<String, String> metadata = makeMinimalMetadata();
 
-        @Nested
-        private TestInnerBean inner;
+        /* Execute */
+        mappingEngine.unmapToBean(metadata, new Object() {
+            @Metadata
+            private String hello;
 
-        /**
-         * Returns the inner for this instance.
-         *
-         * @return the inner
-         */
-        public TestInnerBean getInner() {
-            return inner;
-        }
+            @SuppressWarnings("unused")
+            public String getHello() {
+                return hello;
+            }
 
-        /**
-         * Sets the inner for this instance.
-         *
-         * @param inner
-         *            the new inner
-         */
-        public void setInner(TestInnerBean inner) {
-            this.inner = inner;
-        }
+            @SuppressWarnings("unused")
+            public void setHello(String hello) {
+                this.hello = hello;
+            }
+        });
     }
 
-    /**
-     * Test bean.
-     *
-     * @author Cyrille Chopelet (http://keyboardplaying.org)
-     */
-    public static class IncorrectNestedBean {
+    /** Ensures the mapping fails if the setter is absent. */
+    @Test(expected = MappingException.class)
+    public void testUnmapWithNoSetter() throws MapperException {
+        /* Prepare */
+        Map<String, String> metadata = makeMinimalMetadata();
+        metadata.put("hello", "world");
 
-        @Nested(className = "fr.paris.jawad.IDidntKnow")
-        private TestInnerBean inner;
+        /* Execute */
+        mappingEngine.unmapToBean(metadata, new Object() {
+            @Metadata("hello")
+            private String hello;
 
-        /**
-         * Returns the inner for this instance.
-         *
-         * @return the inner
-         */
-        public TestInnerBean getInner() {
-            return inner;
-        }
-
-        /**
-         * Sets the inner for this instance.
-         *
-         * @param inner
-         *            the new inner
-         */
-        public void setInner(TestInnerBean inner) {
-            this.inner = inner;
-        }
+            @SuppressWarnings("unused")
+            public String getHello() {
+                return hello;
+            }
+        });
     }
 }

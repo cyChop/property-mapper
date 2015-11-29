@@ -75,7 +75,7 @@ public class UnmappingEngine extends BaseEngine {
 
         for (Field field : fields) {
             if (field.isAnnotationPresent(Nested.class)) {
-                performInnerUnmapping(metadata, bean, field);
+                performNestedUnmapping(metadata, bean, field);
             } else if (field.isAnnotationPresent(Metadata.class)) {
                 performFieldUnmapping(metadata, bean, field);
             }
@@ -100,29 +100,34 @@ public class UnmappingEngine extends BaseEngine {
      * @throws MapperException
      *             if the parser could not be initialized for a field or the mapping fails
      */
-    private <T> void performInnerUnmapping(Map<String, String> metadata, T bean, Field field) throws MapperException {
+    private <T> void performNestedUnmapping(Map<String, String> metadata, T bean, Field field) throws MapperException {
+        Nested annotation = field.getAnnotation(Nested.class);
         try {
 
             PropertyDescriptor descriptor = getPropertyDescriptor(bean, field);
 
             Object innerBean = get(bean, descriptor);
             if (innerBean == null) {
-                innerBean = intantiateBeanAndUnmap(metadata, field);
+                innerBean = intantiateBeanAndUnmap(metadata, field, annotation.className());
+                set(bean, descriptor, innerBean);
             } else {
                 // unmap to bean
                 innerBean = unmapToBean(metadata, innerBean);
             }
 
-            set(bean, descriptor, innerBean);
-
         } catch (IllegalAccessException | InvocationTargetException | IntrospectionException e) {
             throw new MappingException("Error while unmapping nested bean " + field.getName() + " of "
                     + field.getDeclaringClass().getName(), e);
+        } catch (MapperException e) {
+            if (annotation.mandatory()) {
+                throw e;
+            }
+            // XXX some log here would be great otherwise
         }
     }
 
-    private Object intantiateBeanAndUnmap(Map<String, String> metadata, Field field) throws MapperException {
-        String className = field.getAnnotation(Nested.class).className();
+    private Object intantiateBeanAndUnmap(Map<String, String> metadata, Field field, String className)
+            throws MapperException {
         try {
             // unmap to class
             return unmapToClass(metadata,
