@@ -94,10 +94,6 @@ Strings.</p>
             <small>Download</small>
             .tar.gz file
           </a>
-          <a href="apidocs" class="button">
-            <small>Browse</small>
-            Javadoc
-          </a>
 
           <p class="repo-owner"><a href="https://github.com/cyChop/property-mapper"></a> is maintained by <a href="https://github.com/cyChop">cyChop</a>.</p>
 

@@ -1,0 +1,5 @@
+org.keyboardplaying.mapper
+org.keyboardplaying.mapper.annotation
+org.keyboardplaying.mapper.engine
+org.keyboardplaying.mapper.exception
+org.keyboardplaying.mapper.parser
