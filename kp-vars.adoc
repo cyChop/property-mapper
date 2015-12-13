@@ -1,6 +1,7 @@
 // Github, Travis, Waffle/issues & license
 :github-user: cyChop
 :github-repo: property-mapper
+:github-description: A proof-of-concept for an annotation-based map-to-POJO mapper.
 :travis-built: true
 :waffle: {github-repo}
 :license-name: BSD 3-Clause
