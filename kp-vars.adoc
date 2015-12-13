@@ -1,0 +1,13 @@
+// Github, Travis, Waffle/issues & license
+:github-user: cyChop
+:github-repo: property-mapper
+:travis-built: true
+:waffle: {github-repo}
+:license-name: BSD 3-Clause
+:license-url: http://opensource.org/licenses/BSD-3-Clause
+// Maven projects
+:pom-groupid: org.keyboardplaying
+:pom-artifactid: property-mapper
+// Sonar projects
+:sonar-groupid: {pom-groupid}
+:sonar-artifactid: {pom-artifactid}

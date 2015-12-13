@@ -1,24 +1,9 @@
 = Property mapper
 Cyrille Chopelet <cyrille.chopelet@mines-nancy.org>
 
-// Set your repository informations here.
-:github-user: cyChop
-:github-repo: property-mapper
-:pom-groupid: org.keyboardplaying
-:pom-artifactid: property-mapper
-:waffle: {github-repo}
-:license-name: BSD 3-Clause
-:license-shield: New_BSD
-:license-url: http://opensource.org/licenses/BSD-3-Clause
-
-// The badges. Should not require any change.
-:url-shields: http://img.shields.io/
-:url-sonar: sonar.keyboardplaying.org
-image:{url-shields}travis/{github-user}/{github-repo}/master.svg[Build status, link="https://travis-ci.org/{github-user}/{github-repo}"]
-image:{url-shields}sonar/http/{url-sonar}/{pom-groupid}:{pom-artifactid}/coverage.svg[Test coverage, link="http://{url-sonar}/drilldown/measures/?id={pom-groupid}:{pom-artifactid}&metric=coverage"]
-image:{url-shields}sonar/http/{url-sonar}/{pom-groupid}:{pom-artifactid}/tech_debt.svg[Technical debt, link="http://{url-sonar}/dashboard/index?id={pom-groupid}:{pom-artifactid}"]
-image:{url-shields}github/issues-raw/{github-user}/{github-repo}.svg[Waffle, link="https://waffle.io/{github-user}/{waffle}"]
-image:{url-shields}github/license/{github-user}/{github-repo}.svg[License: {license-name}, link="{license-url}"]
+// Template
+include::kp-vars.adoc[]
+include::kp-badges.adoc[]
 
 // Now, the main documentation.
 :url-dozer: http://dozer.sourceforge.net/
