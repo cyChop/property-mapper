@@ -31,6 +31,9 @@ endif::sonar-groupid,sonar-artifactid[]
 ifdef::waffle[]
 image:{url-shields}github/issues-raw/{github-user}/{github-repo}.svg[Waffle, link="https://waffle.io/{github-user}/{waffle}"]
 endif::waffle[]
+ifndef::waffle[]
+image:{url-shields}github/issues-raw/{github-user}/{github-repo}.svg[Waffle, link="https://github.com/{github-user}/{github-repo}/issues"]
+endif::waffle[]
 // License
 image:{url-shields}github/license/{github-user}/{github-repo}.svg[License: {license-name}, link="{license-url}"]
 
