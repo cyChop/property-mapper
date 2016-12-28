@@ -23,14 +23,16 @@ import org.keyboardplaying.mapper.parser.StringParser;
 /**
  * Tests for the {@link AutoDiscoverParserProvider}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 @SuppressWarnings("javadoc")
 public class AutoDiscoverParserProviderTest {
 
     private AutoDiscoverParserProvider provider = AutoDiscoverParserProvider.getInstance();
 
-    /** Tests the fetching of standard parsers. */
+    /**
+     * Tests the fetching of standard parsers.
+     */
     @Test
     public void testGetParser() throws ParserInitializationException {
         assertParserClass(StringParser.class, String.class);
@@ -66,13 +68,17 @@ public class AutoDiscoverParserProviderTest {
         provider.getParser(char.class);
     }
 
-    /** Tests the fetching of a SimpleParser when the descriptor file is empty. */
+    /**
+     * Tests the fetching of a SimpleParser when the descriptor file is empty.
+     */
     @Test(expected = ParserInitializationException.class)
     public void testGetParserWithEmptyDescriptor() throws ParserInitializationException {
         provider.getParser(Short.class);
     }
 
-    /** Tests the fetching of the parser when no no-arg constructor is available. */
+    /**
+     * Tests the fetching of the parser when no no-arg constructor is available.
+     */
     @Test(expected = InstantiationException.class)
     public void testGetParserWithArgumentedConstructor() throws Throwable {
         try {
@@ -84,7 +90,9 @@ public class AutoDiscoverParserProviderTest {
         fail("A ParserInitializationException was expected.");
     }
 
-    /** Tests the fetching of a SimpleParser when the constructor is private. */
+    /**
+     * Tests the fetching of a SimpleParser when the constructor is private.
+     */
     @Test(expected = IllegalAccessException.class)
     public void testGetParserWithPrivateConstructor() throws Throwable {
         try {
@@ -96,26 +104,34 @@ public class AutoDiscoverParserProviderTest {
         fail("A ParserInitializationException was expected.");
     }
 
-    /** Tests the fetching of a SimpleParser defined within using project. */
+    /**
+     * Tests the fetching of a SimpleParser defined within using project.
+     */
     @Test
     public void testGetExtensibleParser() throws ParserInitializationException {
         assertParserClass(DoubleParser.class, Double.class);
     }
 
-    /** Tests the fetching of a SimpleParser for a class whose descriptor overrides one defined by default. */
+    /**
+     * Tests the fetching of a SimpleParser for a class whose descriptor overrides one defined by default.
+     */
     @Test
     public void testDescriptorOverriding() throws ParserInitializationException {
         assertParserClass(ExtendedDateParser.class, Date.class);
     }
 
-    /** Tests the fetching of a SimpleParser when the class in the descriptor is not a parser. */
+    /**
+     * Tests the fetching of a SimpleParser when the class in the descriptor is not a parser.
+     */
     @Test(expected = ParserInitializationException.class)
     public void testGetNonParserDescriptor() throws ParserInitializationException {
         // descriptor file does not link to a SimpleParser
         provider.getParser(Character.class);
     }
 
-    /** Tests the fetching of a SimpleParser when the class in descriptor does not exist. */
+    /**
+     * Tests the fetching of a SimpleParser when the class in descriptor does not exist.
+     */
     @Test(expected = ParserInitializationException.class)
     public void testGetNonExistingParserDescriptor() throws ParserInitializationException {
         // descriptor file links to a non-existent class

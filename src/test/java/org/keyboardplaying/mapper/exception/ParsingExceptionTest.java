@@ -7,23 +7,29 @@ import org.junit.Test;
 /**
  * Tests each constructor for {@link ParsingException}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class ParsingExceptionTest extends MapperExceptionTest<ParsingException> {
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public ParsingExceptionTest() {
         super(ParsingException.class);
     }
 
-    /** Tests {@link ParsingException#ParsingException()}. */
+    /**
+     * Tests {@link ParsingException#ParsingException()}.
+     */
     @Test
     @Override
     public void testNoArgConstructor() throws InstantiationException, IllegalAccessException {
         super.testNoArgConstructor();
     }
 
-    /** Tests {@link ParsingException#ParsingException(String)}. */
+    /**
+     * Tests {@link ParsingException#ParsingException(String)}.
+     */
     @Test
     @Override
     public void testMessageConstructor() throws InstantiationException, IllegalAccessException,
@@ -31,7 +37,9 @@ public class ParsingExceptionTest extends MapperExceptionTest<ParsingException> 
         super.testMessageConstructor();
     }
 
-    /** Tests {@link ParsingException#ParsingException(Throwable)}. */
+    /**
+     * Tests {@link ParsingException#ParsingException(Throwable)}.
+     */
     @Test
     @Override
     public void testCauseConstructor() throws InstantiationException, IllegalAccessException, IllegalArgumentException,
@@ -39,7 +47,9 @@ public class ParsingExceptionTest extends MapperExceptionTest<ParsingException> 
         super.testCauseConstructor();
     }
 
-    /** Tests {@link ParsingException#ParsingException(String, Throwable)}. */
+    /**
+     * Tests {@link ParsingException#ParsingException(String, Throwable)}.
+     */
     @Test
     @Override
     public void testBothConstructor() throws InstantiationException, IllegalAccessException, IllegalArgumentException,

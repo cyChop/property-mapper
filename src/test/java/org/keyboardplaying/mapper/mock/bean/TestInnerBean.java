@@ -3,7 +3,7 @@ package org.keyboardplaying.mapper.mock.bean;
 /**
  * An interface for testing correct interpretation of annotations in interface implementations.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public interface TestInnerBean {
 
@@ -12,5 +12,5 @@ public interface TestInnerBean {
      *
      * @return the hello
      */
-    public String getHello();
+    String getHello();
 }

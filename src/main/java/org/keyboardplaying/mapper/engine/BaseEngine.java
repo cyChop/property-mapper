@@ -20,18 +20,19 @@ import org.keyboardplaying.mapper.parser.TemporalParser;
  * An abstract base for engine. This class includes methods for fetching {@link SimpleParser} instances when mapping or
  * unmapping.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public abstract class BaseEngine {
 
-    /** The {@link ParserProvider}. */
+    /**
+     * The {@link ParserProvider}.
+     */
     private ParserProvider parserProvider;
 
     /**
      * Sets the provider for fetching parsers.
      *
-     * @param parserProvider
-     *            the parser provider
+     * @param parserProvider the parser provider
      */
     public void setParserProvider(ParserProvider parserProvider) {
         this.parserProvider = parserProvider;
@@ -54,14 +55,11 @@ public abstract class BaseEngine {
     /**
      * Returns the appropriate {@link SimpleParser} based on the supplied field's type.
      *
-     * @param field
-     *            the field to convert a value from or to
+     * @param field the field to convert a value from or to
      * @return the {@link SimpleParser} to use
-     * @throws MappingException
-     *             if no {@link SimpleParser} can be found or annotation settings are missing (e.g. {@link Temporal} on
-     *             temporal fields)
-     * @throws ParserInitializationException
-     *             if the {@link SimpleParser} cannot be found or initialized
+     * @throws MappingException              if no {@link SimpleParser} can be found or annotation settings are missing (e.g. {@link Temporal} on
+     *                                       temporal fields)
+     * @throws ParserInitializationException if the {@link SimpleParser} cannot be found or initialized
      */
     @SuppressWarnings("unchecked")
     protected <T> SimpleParser<T> getParser(Field field) throws MappingException, ParserInitializationException {
@@ -86,7 +84,7 @@ public abstract class BaseEngine {
             if (annot != null) {
                 ((BooleanParser) parser).setTrueFalse(annot.whenTrue(), annot.whenFalse());
             } else {
-                ((BooleanParser) parser).setTrueFalse(new String[] { Defaults.TRUE }, new String[] { Defaults.FALSE });
+                ((BooleanParser) parser).setTrueFalse(new String[]{Defaults.TRUE}, new String[]{Defaults.FALSE});
             }
         }
 
@@ -96,13 +94,10 @@ public abstract class BaseEngine {
     /**
      * Returns a {@link PropertyDescriptor} for the supplied field.
      *
-     * @param bean
-     *            the bean to get a descriptor for
-     * @param field
-     *            the field to get a descriptor for
+     * @param bean  the bean to get a descriptor for
+     * @param field the field to get a descriptor for
      * @return the {@link PropertyDescriptor}
-     * @throws IntrospectionException
-     *             if an exception occurs during introspection.
+     * @throws IntrospectionException if an exception occurs during introspection.
      */
     protected <T> PropertyDescriptor getPropertyDescriptor(T bean, Field field) throws IntrospectionException {
         return new PropertyDescriptor(field.getName(), bean.getClass());
@@ -111,24 +106,20 @@ public abstract class BaseEngine {
     /**
      * Gets the value of a field in the supplied bean.
      *
-     * @param bean
-     *            the bean
-     * @param field
-     *            the field
+     * @param bean  the bean
+     * @param field the field
      * @return the value
      */
     protected <T> T get(Object bean, Field field)
-            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IntrospectionException {
+            throws IllegalAccessException, InvocationTargetException, IntrospectionException {
         return get(bean, getPropertyDescriptor(bean, field));
     }
 
     /**
      * Gets the value of a field in the supplied bean.
      *
-     * @param bean
-     *            the bean
-     * @param descriptor
-     *            the field's descriptor
+     * @param bean       the bean
+     * @param descriptor the field's descriptor
      * @return the value
      */
     @SuppressWarnings("unchecked")
@@ -144,12 +135,9 @@ public abstract class BaseEngine {
     /**
      * Sets the value of a field in the supplied bean.
      *
-     * @param bean
-     *            the bean
-     * @param field
-     *            the field
-     * @param value
-     *            the value
+     * @param bean  the bean
+     * @param field the field
+     * @param value the value
      */
     protected void set(Object bean, Field field, Object value)
             throws IllegalAccessException, InvocationTargetException, IntrospectionException {
@@ -159,12 +147,9 @@ public abstract class BaseEngine {
     /**
      * Sets the value of a field in the supplied bean.
      *
-     * @param bean
-     *            the bean
-     * @param descriptor
-     *            the field's descriptor
-     * @param value
-     *            the value
+     * @param bean       the bean
+     * @param descriptor the field's descriptor
+     * @param value      the value
      */
     protected void set(Object bean, PropertyDescriptor descriptor, Object value)
             throws IllegalAccessException, InvocationTargetException {

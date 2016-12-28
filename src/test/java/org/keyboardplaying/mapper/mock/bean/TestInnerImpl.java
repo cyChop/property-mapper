@@ -5,7 +5,7 @@ import org.keyboardplaying.mapper.annotation.Metadata;
 /**
  * An interface implementation for testing correct interpretation of annotations in interface implementations.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class TestInnerImpl implements TestInnerBean {
 
@@ -25,8 +25,7 @@ public class TestInnerImpl implements TestInnerBean {
     /**
      * Sets the hello for this instance.
      *
-     * @param hello
-     *            the new hello
+     * @param hello the new hello
      */
     public void setHello(String hello) {
         this.hello = hello;

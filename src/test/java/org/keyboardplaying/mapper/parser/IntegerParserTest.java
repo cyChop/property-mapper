@@ -3,11 +3,13 @@ package org.keyboardplaying.mapper.parser;
 /**
  * {@link NumberParserTest} implementation for {@link IntegerParser}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class IntegerParserTest extends NumberParserTest<Integer> {
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public IntegerParserTest() {
         super(new IntegerParser());
     }
@@ -19,6 +21,6 @@ public class IntegerParserTest extends NumberParserTest<Integer> {
      */
     @Override
     protected Integer getValue(int number) {
-        return Integer.valueOf(number);
+        return number;
     }
 }

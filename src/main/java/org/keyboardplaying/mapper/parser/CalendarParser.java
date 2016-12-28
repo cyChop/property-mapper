@@ -7,7 +7,7 @@ import org.keyboardplaying.mapper.exception.ParsingException;
 /**
  * Implementation of {@link SimpleParser} for {@code Calendar} to {@code String} parsing.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class CalendarParser extends BaseTemporalParser<Calendar> {
 
@@ -16,11 +16,9 @@ public class CalendarParser extends BaseTemporalParser<Calendar> {
      * <p/>
      * The {@link String} is expected to conform to the format specified for this {@link BaseTemporalParser}.
      *
-     * @param value
-     *            the {@link String} representation of a date
+     * @param value the {@link String} representation of a date
      * @return a {@link Calendar} instance
-     * @throws ParsingException
-     *             if the supplied {@link String} could not be parsed
+     * @throws ParsingException if the supplied {@link String} could not be parsed
      */
     /* @see BaseTemporalParser#convertStringToDate(String) */
     @Override
@@ -35,8 +33,7 @@ public class CalendarParser extends BaseTemporalParser<Calendar> {
      * <p/>
      * The {@link String} will conform to the format specified for this {@link BaseTemporalParser}.
      *
-     * @param value
-     *            the {@link Calendar}
+     * @param value the {@link Calendar}
      * @return a {@link String} representation of the supplied date
      */
     /* @see BaseTemporalParser#convertDateToString(String) */

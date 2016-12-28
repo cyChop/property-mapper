@@ -26,32 +26,40 @@ import org.keyboardplaying.mapper.mock.bean.TestSubBean;
 /**
  * Tests for the {@link MappingEngine}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 @SuppressWarnings("javadoc")
 public class MappingEngineTest {
 
     private MappingEngine mappingEngine = new MappingEngine();
 
-    /** Tests mapping a {@code null} bean. */
+    /**
+     * Tests mapping a {@code null} bean.
+     */
     @Test(expected = NullPointerException.class)
     public void testMapWithNullBean() throws MapperException {
         mappingEngine.map(null);
     }
 
-    /** Tests the mapping of a {@code null} bean while specifying the map. */
+    /**
+     * Tests the mapping of a {@code null} bean while specifying the map.
+     */
     @Test(expected = NullPointerException.class)
     public void testMapWithNullBean2() throws MapperException {
         mappingEngine.map(null, new HashMap<String, String>());
     }
 
-    /** Tests the mapping of a bean to a {@code null} map. */
+    /**
+     * Tests the mapping of a bean to a {@code null} map.
+     */
     @Test(expected = NullPointerException.class)
     public void testMapWithNullMap() throws MapperException {
         mappingEngine.map(makeMinimalBean(), null);
     }
 
-    /** Tests the mapping of a bean with a {@link Nested} field. */
+    /**
+     * Tests the mapping of a bean with a {@link Nested} field.
+     */
     @Test
     public void testMapNested() throws MapperException {
         /* Prepare */
@@ -71,7 +79,9 @@ public class MappingEngineTest {
         assertContentEquals(expected, map);
     }
 
-    /** Tests the default value when no value is set. */
+    /**
+     * Tests the default value when no value is set.
+     */
     @Test
     public void testDefaultValueNotSet() throws MapperException {
         /* Prepare */
@@ -96,7 +106,9 @@ public class MappingEngineTest {
         assertContentEquals(expected2, map2);
     }
 
-    /** Tests the default value when a value is set. */
+    /**
+     * Tests the default value when a value is set.
+     */
     @Test
     public void testDefaultValueSet() throws MapperException {
         /* Prepare */
@@ -114,7 +126,9 @@ public class MappingEngineTest {
         assertContentEquals(expected, map);
     }
 
-    /** Tests the mapping of a bean with a mandatory field left blank. */
+    /**
+     * Tests the mapping of a bean with a mandatory field left blank.
+     */
     @Test(expected = MappingException.class)
     public void testMapWithMandatoryFieldNotSet() throws MapperException {
         /* Prepare */
@@ -125,7 +139,9 @@ public class MappingEngineTest {
         mappingEngine.map(bean);
     }
 
-    /** Tests the mapping of a bean with a mandatory field with a default value but no default metadata left blank. */
+    /**
+     * Tests the mapping of a bean with a mandatory field with a default value but no default metadata left blank.
+     */
     @Test(expected = MappingException.class)
     public void testMapWithMandatoryFieldWithDefaultValueNotSet() throws MapperException {
         /* Prepare */
@@ -189,7 +205,9 @@ public class MappingEngineTest {
 
     // TODO test custom getter
 
-    /** Tests the mapping of a bean to a map. */
+    /**
+     * Tests the mapping of a bean to a map.
+     */
     @Test
     public void testMapToBean() throws MapperException {
         /* Prepare */
@@ -276,7 +294,9 @@ public class MappingEngineTest {
         }
     }
 
-    /** Ensures the mapping fails if no key was supplied for the field. */
+    /**
+     * Ensures the mapping fails if no key was supplied for the field.
+     */
     @Test(expected = MappingException.class)
     public void testMapWithEmptyMetadataKey() throws MapperException {
         /* Execute */
@@ -296,7 +316,9 @@ public class MappingEngineTest {
         }, new HashMap<String, String>());
     }
 
-    /** Ensures the mapping fails if a mandatory nested is null. */
+    /**
+     * Ensures the mapping fails if a mandatory nested is null.
+     */
     @Test(expected = MappingException.class)
     public void testMapUnexistingNested() throws MapperException {
         /* Execute */
@@ -316,7 +338,9 @@ public class MappingEngineTest {
         }, new HashMap<String, String>());
     }
 
-    /** Ensures the mapping fails if the getter is absent. */
+    /**
+     * Ensures the mapping fails if the getter is absent.
+     */
     @Test(expected = MappingException.class)
     public void testMapWithNoGetter() throws MapperException {
         /* Execute */

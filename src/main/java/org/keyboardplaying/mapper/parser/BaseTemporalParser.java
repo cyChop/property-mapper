@@ -13,13 +13,14 @@ import org.keyboardplaying.mapper.exception.ParsingException;
  * Using this implies to use {@link Date} objects at least as intermediary steps. You might wish to use more direct ways
  * if it is possible.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
- * @param <T>
- *            the type of time objects this {@link SimpleParser} converts from and to
+ * @param <T> the type of time objects this {@link SimpleParser} converts from and to
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public abstract class BaseTemporalParser<T> implements TemporalParser<T> {
 
-    /** The format to use for the string representation of timestamps. */
+    /**
+     * The format to use for the string representation of timestamps.
+     */
     private DateFormat format;
 
     /*
@@ -37,11 +38,9 @@ public abstract class BaseTemporalParser<T> implements TemporalParser<T> {
      * <p/>
      * The {@link String} is expected to conform to the format specified for this {@link BaseTemporalParser}.
      *
-     * @param value
-     *            the {@link String} representation of a date
+     * @param value the {@link String} representation of a date
      * @return a {@link Date} instance
-     * @throws ParsingException
-     *             if the supplied {@link String} could not be parsed
+     * @throws ParsingException if the supplied {@link String} could not be parsed
      */
     protected Date convertStringToDate(String value) throws ParsingException {
         try {
@@ -57,11 +56,8 @@ public abstract class BaseTemporalParser<T> implements TemporalParser<T> {
      * <p/>
      * The {@link String} will conform to the format specified for this {@link BaseTemporalParser}.
      *
-     * @param value
-     *            the {@link Date}
+     * @param value the {@link Date}
      * @return a {@link String} representation of the supplied date
-     * @throws ParsingException
-     *             if the supplied {@link String} could not be parsed
      */
     protected String convertDateToString(Date value) {
         return format.format(value);

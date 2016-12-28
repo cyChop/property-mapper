@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.keyboardplaying</groupId>
@@ -12,8 +12,8 @@
 
     <licenses>
         <license>
-            <name>BSD 3-Clause License</name>
-            <url>http://opensource.org/licenses/BSD-3-Clause</url>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/MIT</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -35,11 +35,11 @@
     </properties>
 
     <dependencies>
-            <!--<![CDATA[
-                 _____       _
-                |_   _|__ __| |_
-                  | |/ -_|_-<  _|
-                  |_|\___/__/\__| ]]>-->
+        <!--<![CDATA[
+             _____       _
+            |_   _|__ __| |_
+              | |/ -_|_-<  _|
+              |_|\___/__/\__| ]]>-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -74,7 +74,7 @@
     </ciManagement>
     <organization>
         <name>Keyboard Playing</name>
-        <url>http://keyboardplaying.org</url>
+        <url>https://keyboardplaying.org</url>
     </organization>
     <developers>
         <developer>
@@ -85,7 +85,7 @@
                 <role>developer</role>
             </roles>
             <timezone>+1</timezone>
-            <url>http://keyboardplaying.org</url>
+            <url>https://keyboardplaying.org</url>
         </developer>
     </developers>
 </project>

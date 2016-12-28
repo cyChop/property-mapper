@@ -20,20 +20,17 @@ import org.keyboardplaying.mapper.parser.ElaborateParser;
 /**
  * The mapping engine for mapping an annotated POJO to a flat {@link Map} (mapping).
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class MappingEngine extends BaseEngine {
 
     /**
      * Converts the annotated bean to {@link Map}.
      *
-     * @param bean
-     *            the annotated bean
+     * @param bean the annotated bean
      * @return the {@link Map} containing the mapped properties
-     * @throws MapperException
-     *             if a SimpleParser could not be initialized or the mapping fails
-     * @throws NullPointerException
-     *             if the supplied bean is {@code null}
+     * @throws MapperException      if a SimpleParser could not be initialized or the mapping fails
+     * @throws NullPointerException if the supplied bean is {@code null}
      */
     public <T> Map<String, String> map(T bean) throws MapperException {
         return map(bean, new HashMap<String, String>());
@@ -42,15 +39,11 @@ public class MappingEngine extends BaseEngine {
     /**
      * Converts the annotated bean to {@link Map}.
      *
-     * @param bean
-     *            the annotated bean
-     * @param map
-     *            the destination map
+     * @param bean the annotated bean
+     * @param map  the destination map
      * @return the {@link Map} containing the mapped properties
-     * @throws MapperException
-     *             if a SimpleParser could not be initialized or the mapping fails
-     * @throws NullPointerException
-     *             if either parameter is {@code null}
+     * @throws MapperException      if a SimpleParser could not be initialized or the mapping fails
+     * @throws NullPointerException if either parameter is {@code null}
      */
     public <T> Map<String, String> map(T bean, Map<String, String> map) throws MapperException {
         Objects.requireNonNull(map, "The destination map must not be null.");
@@ -65,7 +58,7 @@ public class MappingEngine extends BaseEngine {
     }
 
     private <T> void performMapping(T bean, Map<String, String> map, Class<?> klass)
-            throws MapperException, ParserInitializationException, MappingException {
+            throws MapperException {
         final Field[] fields = klass.getDeclaredFields();
 
         for (Field field : fields) {
@@ -168,7 +161,7 @@ public class MappingEngine extends BaseEngine {
 
     @SuppressWarnings("unchecked")
     private <T, F> void serializeField(T bean, Field field, Map<String, String> map,
-            Class<? extends ElaborateParser<F>> parser) throws MappingException {
+                                       Class<? extends ElaborateParser<F>> parser) throws MappingException {
         try {
             parser.newInstance().toMap((F) get(bean, field), map);
         } catch (ParsingException | InstantiationException | IllegalAccessException | IllegalArgumentException

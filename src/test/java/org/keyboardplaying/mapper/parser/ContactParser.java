@@ -9,7 +9,7 @@ import org.keyboardplaying.mapper.exception.ParsingException;
 /**
  * Test {@link ElaborateParser}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class ContactParser implements ElaborateParser<String> {
 

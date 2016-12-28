@@ -7,11 +7,13 @@ import org.keyboardplaying.mapper.annotation.Temporal.TemporalType;
 /**
  * {@link TemporalParserTest} implementation for {@link CalendarParser} for datetimes.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class CalendarDateTimeParserTest extends TemporalParserTest<Calendar> {
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public CalendarDateTimeParserTest() {
         super(makeParser(), makeExpected(), true);
     }

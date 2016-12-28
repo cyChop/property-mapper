@@ -13,7 +13,7 @@ import org.keyboardplaying.mapper.parser.ElaborateParser;
  * This annotation marks a field that should be mapped between map and bean. It should be used to map the bean's field
  * with the name of its counterpart in the map as a value.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

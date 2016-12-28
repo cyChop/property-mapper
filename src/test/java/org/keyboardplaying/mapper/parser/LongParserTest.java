@@ -3,11 +3,13 @@ package org.keyboardplaying.mapper.parser;
 /**
  * {@link NumberParserTest} implementation for {@link LongParser}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class LongParserTest extends NumberParserTest<Long> {
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public LongParserTest() {
         super(new LongParser());
     }
@@ -19,6 +21,6 @@ public class LongParserTest extends NumberParserTest<Long> {
      */
     @Override
     protected Long getValue(int number) {
-        return Long.valueOf(number);
+        return (long) number;
     }
 }

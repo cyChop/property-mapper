@@ -5,13 +5,13 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * A test class to test the project's exceptions' constructors work as intended.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 abstract class MapperExceptionTest<T extends MapperException> extends ExceptionTest {
 
     private Class<T> klass;
 
-    protected MapperExceptionTest(Class<T> klass) {
+    MapperExceptionTest(Class<T> klass) {
         this.klass = klass;
     }
 

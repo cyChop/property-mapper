@@ -11,7 +11,7 @@ import org.keyboardplaying.mapper.Defaults;
 /**
  * Defines the {@link String} representations for {@code true} and {@code false} when dealing with boolean metadata.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -26,7 +26,7 @@ public @interface BooleanValues {
      *
      * @return the {@link String} representation of a {@code true} boolean.
      */
-    String[] whenTrue() default { Defaults.TRUE };
+    String[] whenTrue() default {Defaults.TRUE};
 
     /**
      * The {@link String} representations of a {@code false} boolean.
@@ -36,5 +36,5 @@ public @interface BooleanValues {
      *
      * @return the {@link String} representation of a {@code false} boolean.
      */
-    String[] whenFalse() default { Defaults.FALSE };
+    String[] whenFalse() default {Defaults.FALSE};
 }

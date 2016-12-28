@@ -7,7 +7,7 @@ import org.keyboardplaying.mapper.exception.ParsingException;
  * <p/>
  * No change is made except in case of a default value.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class StringParser implements SimpleParser<String> {
 

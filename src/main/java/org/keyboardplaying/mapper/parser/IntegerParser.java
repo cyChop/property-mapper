@@ -5,7 +5,7 @@ import org.keyboardplaying.mapper.exception.ParsingException;
 /**
  * Implementation of {@link SimpleParser} for {@code Integer} to {@code String} parsing.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class IntegerParser implements SimpleParser<Integer> {
 

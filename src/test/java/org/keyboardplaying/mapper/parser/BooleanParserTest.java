@@ -12,7 +12,7 @@ import org.keyboardplaying.mapper.exception.ParsingException;
 /**
  * Test class for {@link BooleanParser}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 @SuppressWarnings("javadoc")
 public class BooleanParserTest {

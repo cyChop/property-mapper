@@ -5,7 +5,7 @@ import java.math.BigInteger;
 /**
  * {@link NumberParserTest} implementation for {@link BigIntegerParser}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class BigIntegerParserTest extends NumberParserTest<BigInteger> {
 

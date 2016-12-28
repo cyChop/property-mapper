@@ -12,18 +12,17 @@ import org.keyboardplaying.mapper.exception.ParsingException;
  * <strong>Notice:</strong> Please note that all implementations of this interface should provide a {@code public}
  * no-arg constructor, so that the {@link ParserProvider} is able to instantiate any {@link ElaborateParser}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
- * @param <F>
- *            the type of field this parser parses from and to
+ * @param <F> the type of field this parser parses from and to
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public interface ElaborateParser<F> {
 
     /**
      * An {@link ElaborateParser} when the {@link SimpleParser} should be used.
      *
-     * @author Cyrille Chopelet (http://keyboardplaying.org)
+     * @author Cyrille Chopelet (https://keyboardplaying.org)
      */
-    static class None implements ElaborateParser<Object> {
+    class None implements ElaborateParser<Object> {
 
         /*
          * (non-Javadoc)
@@ -51,11 +50,9 @@ public interface ElaborateParser<F> {
      * <p/>
      * Implementations do not need to be null-safe.
      *
-     * @param map
-     *            the map containing the serialized objects
+     * @param map the map containing the serialized objects
      * @return the deserialized object
-     * @throws ParsingException
-     *             if the parsing cannot be performed
+     * @throws ParsingException if the parsing cannot be performed
      */
     F fromMap(Map<String, String> map) throws ParsingException;
 
@@ -64,12 +61,9 @@ public interface ElaborateParser<F> {
      * <p/>
      * Implementations <strong>must be</strong> null-safe.
      *
-     * @param value
-     *            the unserialized object
-     * @param map
-     *            the map containing the serialized objects
-     * @throws ParsingException
-     *             if the parsing cannot be performed
+     * @param value the unserialized object
+     * @param map   the map containing the serialized objects
+     * @throws ParsingException if the parsing cannot be performed
      */
     void toMap(F value, Map<String, String> map) throws ParsingException;
 }

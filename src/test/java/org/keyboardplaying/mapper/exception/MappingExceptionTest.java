@@ -7,23 +7,29 @@ import org.junit.Test;
 /**
  * Tests each constructor for {@link MappingException}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class MappingExceptionTest extends MapperExceptionTest<MappingException> {
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public MappingExceptionTest() {
         super(MappingException.class);
     }
 
-    /** Tests {@link MappingException#MappingException()}. */
+    /**
+     * Tests {@link MappingException#MappingException()}.
+     */
     @Test
     @Override
     public void testNoArgConstructor() throws InstantiationException, IllegalAccessException {
         super.testNoArgConstructor();
     }
 
-    /** Tests {@link MappingException#MappingException(String)}. */
+    /**
+     * Tests {@link MappingException#MappingException(String)}.
+     */
     @Test
     @Override
     public void testMessageConstructor() throws InstantiationException, IllegalAccessException,
@@ -31,7 +37,9 @@ public class MappingExceptionTest extends MapperExceptionTest<MappingException> 
         super.testMessageConstructor();
     }
 
-    /** Tests {@link MappingException#MappingException(Throwable)}. */
+    /**
+     * Tests {@link MappingException#MappingException(Throwable)}.
+     */
     @Test
     @Override
     public void testCauseConstructor() throws InstantiationException, IllegalAccessException, IllegalArgumentException,
@@ -39,7 +47,9 @@ public class MappingExceptionTest extends MapperExceptionTest<MappingException> 
         super.testCauseConstructor();
     }
 
-    /** Tests {@link MappingException#MappingException(String, Throwable)}. */
+    /**
+     * Tests {@link MappingException#MappingException(String, Throwable)}.
+     */
     @Test
     @Override
     public void testBothConstructor() throws InstantiationException, IllegalAccessException, IllegalArgumentException,

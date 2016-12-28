@@ -7,9 +7,9 @@ import java.util.Map;
 /**
  * A utility to get the default value of a class.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
-public final class DefaultValueProvider {
+final class DefaultValueProvider {
 
     private boolean bool;
     private byte b;
@@ -22,8 +22,10 @@ public final class DefaultValueProvider {
 
     private final Map<Class<?>, Object> defaults;
 
-    /** Creates a new instance. */
-    public DefaultValueProvider() {
+    /**
+     * Creates a new instance.
+     */
+    DefaultValueProvider() {
         Map<Class<?>, Object> values = new HashMap<>();
         values.put(boolean.class, bool);
         values.put(byte.class, b);
@@ -41,11 +43,10 @@ public final class DefaultValueProvider {
      * <p/>
      * A non-null value will only be returned for primitive types.
      *
-     * @param klass
-     *            the type we need the default value of
+     * @param klass the type we need the default value of
      * @return the default value for the supplied type
      */
-    public Object getDefaultValue(Class<?> klass) {
+    Object getDefaultValue(Class<?> klass) {
         return defaults.get(klass);
     }
 }

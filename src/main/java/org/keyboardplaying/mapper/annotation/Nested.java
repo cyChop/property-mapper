@@ -16,7 +16,7 @@ import org.keyboardplaying.mapper.Defaults;
  * <p/>
  * Any nested bean should provide a {@code public} no-argument constructor.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -38,7 +38,7 @@ public @interface Nested {
      * In all cases, the mapper will try to map the nested bean. If a mandatory nested bean is missing, the mapper will
      * throw an error.
      * <p/>
-     * The unmapper will also try to unmap the nested bean. If {@link #mandatory()} is {@code false}, the nested bean
+     * The unmapper will also try to unmap the nested bean. If this method returns false {@code false}, the nested bean
      * will be {@code null} in case of an error. If it is {@code true}, the mapping errors will be propagated.
      *
      * @return {@code true} if nested bean is mandatory, {@code false} otherwise

@@ -3,25 +3,29 @@ package org.keyboardplaying.mapper.parser;
 import org.keyboardplaying.mapper.Defaults;
 import org.keyboardplaying.mapper.exception.ParsingException;
 
+import java.util.Arrays;
+
 /**
  * Implementation of {@link SimpleParser} for {@code Boolean} to {@code String} parsing.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class BooleanParser implements SimpleParser<Boolean> {
 
-    /** The {@link String} representation of {@code true}. */
-    private String[] whenTrue = { Defaults.BOOLEAN_YES };
-    /** The {@link String} representation of {@code false}. */
-    private String[] whenFalse = { Defaults.BOOLEAN_NO };
+    /**
+     * The {@link String} representation of {@code true}.
+     */
+    private String[] whenTrue = {Defaults.BOOLEAN_YES};
+    /**
+     * The {@link String} representation of {@code false}.
+     */
+    private String[] whenFalse = {Defaults.BOOLEAN_NO};
 
     /**
      * Sets the values to use for {@code true} and {@code false} values.
      *
-     * @param trueStrings
-     *            the {@link String} representations of {@code true}
-     * @param falseStrings
-     *            the {@link String} representations of {@code false}
+     * @param trueStrings  the {@link String} representations of {@code true}
+     * @param falseStrings the {@link String} representations of {@code false}
      */
     public void setTrueFalse(String[] trueStrings, String[] falseStrings) {
         this.whenTrue = checkArray(trueStrings, "The array of true representations should contain at least one value.");
@@ -50,7 +54,7 @@ public class BooleanParser implements SimpleParser<Boolean> {
             result = false;
         } else {
             throw new ParsingException("Value <" + value + "> could not be parsed to boolean (authorized: "
-                    + this.whenTrue + "/" + this.whenFalse + ")");
+                    + Arrays.toString(this.whenTrue) + "/" + Arrays.toString(this.whenFalse) + ")");
         }
         return result;
     }
@@ -71,6 +75,6 @@ public class BooleanParser implements SimpleParser<Boolean> {
      */
     @Override
     public String convertToString(Boolean bool) {
-        return (bool.booleanValue() ? this.whenTrue : this.whenFalse)[0];
+        return (bool ? this.whenTrue : this.whenFalse)[0];
     }
 }

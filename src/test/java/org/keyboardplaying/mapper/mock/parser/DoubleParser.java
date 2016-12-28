@@ -6,7 +6,7 @@ import org.keyboardplaying.mapper.parser.SimpleParser;
 /**
  * Implementation of {@link SimpleParser} for {@code Double} to {@code String} parsing.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class DoubleParser implements SimpleParser<Double> {
 

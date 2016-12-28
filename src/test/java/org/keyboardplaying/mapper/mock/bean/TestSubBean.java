@@ -5,7 +5,7 @@ import org.keyboardplaying.mapper.annotation.Metadata;
 /**
  * A subclass to test the interpretation of annotations in an inheritance context..
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class TestSubBean extends TestBean {
 
@@ -24,8 +24,7 @@ public class TestSubBean extends TestBean {
     /**
      * Sets the sub hello for this instance.
      *
-     * @param helloSub
-     *            the new sub hello
+     * @param helloSub the new sub hello
      */
     public void setHelloSub(String helloSub) {
         this.helloSub = helloSub;

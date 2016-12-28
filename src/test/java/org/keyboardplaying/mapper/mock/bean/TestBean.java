@@ -15,7 +15,7 @@ import org.keyboardplaying.mapper.parser.ContactParser;
 /**
  * Test bean.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class TestBean {
 
@@ -58,7 +58,9 @@ public class TestBean {
     @Metadata(elaborate = ContactParser.class)
     private String contact;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public TestBean() {
         super();
     }
@@ -75,8 +77,7 @@ public class TestBean {
     /**
      * Sets the hello for this instance.
      *
-     * @param hello
-     *            the new hello
+     * @param hello the new hello
      */
     public void setHello(String hello) {
         this.hello = hello;
@@ -84,7 +85,7 @@ public class TestBean {
 
     /**
      * Returns the mandatory String for this instance.
-     * 
+     *
      * @return the mandatory String
      */
     public String getMandatory() {
@@ -93,9 +94,8 @@ public class TestBean {
 
     /**
      * Sets the mandatory String for this instance.
-     * 
-     * @param mandatory
-     *            the mandatory String
+     *
+     * @param mandatory the mandatory String
      */
     public void setMandatory(String mandatory) {
         this.mandatory = mandatory;
@@ -113,8 +113,7 @@ public class TestBean {
     /**
      * Sets the someBool for this instance.
      *
-     * @param someBool
-     *            the new someBool
+     * @param someBool the new someBool
      */
     public void setSomeBool(boolean someBool) {
         this.someBool = someBool;
@@ -132,8 +131,7 @@ public class TestBean {
     /**
      * Returns the yesNo for this instance.
      *
-     * @param someYesNo
-     *            the new yesNo
+     * @param someYesNo the new yesNo
      */
     public void setSomeYesNo(boolean someYesNo) {
         this.someYesNo = someYesNo;
@@ -151,8 +149,7 @@ public class TestBean {
     /**
      * Sets the someInt for this instance.
      *
-     * @param someInt
-     *            the new someInt
+     * @param someInt the new someInt
      */
     public void setSomeInt(int someInt) {
         this.someInt = someInt;
@@ -170,8 +167,7 @@ public class TestBean {
     /**
      * Sets the someLong for this instance.
      *
-     * @param someLong
-     *            the new someLong
+     * @param someLong the new someLong
      */
     public void setSomeLong(Long someLong) {
         this.someLong = someLong;
@@ -189,8 +185,7 @@ public class TestBean {
     /**
      * Sets the someBig for this instance.
      *
-     * @param someBig
-     *            the new someBig
+     * @param someBig the new someBig
      */
     public void setSomeBig(BigInteger someBig) {
         this.someBig = someBig;
@@ -208,8 +203,7 @@ public class TestBean {
     /**
      * Sets the date for this instance.
      *
-     * @param date
-     *            the new date
+     * @param date the new date
      */
     public void setDate(Date date) {
         this.date = date;
@@ -227,8 +221,7 @@ public class TestBean {
     /**
      * Sets the cal for this instance.
      *
-     * @param cal
-     *            the new cal
+     * @param cal the new cal
      */
     public void setCal(Calendar cal) {
         this.cal = cal;
@@ -246,8 +239,7 @@ public class TestBean {
     /**
      * Sets the innerImpl for this instance.
      *
-     * @param innerImpl
-     *            the new innerImpl
+     * @param innerImpl the new innerImpl
      */
     public void setInnerImpl(TestInnerImpl innerImpl) {
         this.innerImpl = innerImpl;
@@ -265,8 +257,7 @@ public class TestBean {
     /**
      * Sets the innerItf for this instance.
      *
-     * @param innerItf
-     *            the new innerItf
+     * @param innerItf the new innerItf
      */
     public void setInnerItf(TestInnerBean innerItf) {
         this.innerItf = innerItf;
@@ -284,8 +275,7 @@ public class TestBean {
     /**
      * Sets the contact for this instance.
      *
-     * @param contact
-     *            the new contact
+     * @param contact the new contact
      */
     public void setContact(String contact) {
         this.contact = contact;

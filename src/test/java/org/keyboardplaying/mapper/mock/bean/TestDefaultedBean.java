@@ -5,7 +5,7 @@ import org.keyboardplaying.mapper.annotation.Metadata;
 /**
  * A bean designed for testing the behavior of the mapping and unmapping engines when default values are concerned.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 @SuppressWarnings("javadoc")
 public class TestDefaultedBean {

@@ -7,7 +7,7 @@ import org.junit.Test;
 /**
  * Tests each constructor for {@link FieldMappingException}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 @SuppressWarnings("javadoc")
 public class FieldMappingExceptionTest extends ExceptionTest {
@@ -21,14 +21,18 @@ public class FieldMappingExceptionTest extends ExceptionTest {
         return this.getClass().getDeclaredField("test");
     }
 
-    /** Tests {@link FieldMappingException#FieldMappingException(Field)}. */
+    /**
+     * Tests {@link FieldMappingException#FieldMappingException(Field)}.
+     */
     @Test
     public void testNoArgConstructor() throws NoSuchFieldException, SecurityException {
         FieldMappingException exception = new FieldMappingException(getField());
         assertMessageOnly(FIELD_PREFIX, exception);
     }
 
-    /** Tests {@link FieldMappingException#FieldMappingException(Field, String)}. */
+    /**
+     * Tests {@link FieldMappingException#FieldMappingException(Field, String)}.
+     */
     @Test
     public void testMessageConstructor() throws IllegalArgumentException, SecurityException, NoSuchFieldException {
         String message = "Hello, world!";
@@ -36,7 +40,9 @@ public class FieldMappingExceptionTest extends ExceptionTest {
         assertMessageOnly(FIELD_PREFIX + message, exception);
     }
 
-    /** Tests {@link FieldMappingException#FieldMappingException(Field, Throwable)}. */
+    /**
+     * Tests {@link FieldMappingException#FieldMappingException(Field, Throwable)}.
+     */
     @Test
     public void testCauseConstructor() throws IllegalArgumentException, SecurityException, NoSuchFieldException {
         Throwable cause = new IllegalArgumentException("He's dead, Jim!");
@@ -44,7 +50,9 @@ public class FieldMappingExceptionTest extends ExceptionTest {
         assertMessageAndCause(FIELD_PREFIX + cause.getMessage(), cause, exception);
     }
 
-    /** Tests {@link FieldMappingException#FieldMappingException(Field, String, Throwable)}. */
+    /**
+     * Tests {@link FieldMappingException#FieldMappingException(Field, String, Throwable)}.
+     */
     @Test
     public void testBothConstructor() throws IllegalArgumentException, SecurityException, NoSuchFieldException {
         String message = "Hello, world!";

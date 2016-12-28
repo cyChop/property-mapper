@@ -13,7 +13,7 @@ import org.keyboardplaying.mapper.Defaults;
  * <p/>
  * More specifically, it defines which {@link TemporalType} should be used when mapping from and to the metadata map.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -30,25 +30,30 @@ public @interface Temporal {
     /**
      * This enum lists the available time representations in the metadata mapping.
      *
-     * @author Cyrille Chopelet (http://keyboardplaying.org)
+     * @author Cyrille Chopelet (https://keyboardplaying.org)
      */
-    public static enum TemporalType {
-        /** For date values, not including the notion of time. */
+    enum TemporalType {
+        /**
+         * For date values, not including the notion of time.
+         */
         DATE(Defaults.FORMAT_DATE),
-        /** For timestamp values, including both date and time. */
+        /**
+         * For timestamp values, including both date and time.
+         */
         DATETIME(Defaults.FORMAT_DATETIME);
 
-        /** The format of the string representation of the date. */
+        /**
+         * The format of the string representation of the date.
+         */
         private String format;
 
         /**
          * Private constructor.
          *
-         * @param format
-         *            the format to use when parsing the {@link String} representation of a time or formatting the time
-         *            to a {@link String}
+         * @param format the format to use when parsing the {@link String} representation of a time or formatting the time
+         *               to a {@link String}
          */
-        private TemporalType(String format) {
+        TemporalType(String format) {
             this.format = format;
         }
 

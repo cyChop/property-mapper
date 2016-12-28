@@ -19,7 +19,7 @@ import org.keyboardplaying.mapper.parser.ElaborateParser;
 /**
  * The mapping engine for mapping a flat map to a POJO (unmapping).
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class UnmappingEngine extends BaseEngine {
 
@@ -28,13 +28,10 @@ public class UnmappingEngine extends BaseEngine {
     /**
      * Instantiates a new bean of specified type and unmaps metadata to it, based on the annotations in the bean.
      *
-     * @param metadata
-     *            the flat metadata
-     * @param beanType
-     *            the destination bean's type
+     * @param metadata the flat metadata
+     * @param beanType the destination bean's type
      * @return the destination bean
-     * @throws MapperException
-     *             if the parser could not be initialized for a field or the mapping fails
+     * @throws MapperException if the parser could not be initialized for a field or the mapping fails
      */
     public <T> T unmapToClass(Map<String, String> metadata, Class<T> beanType) throws MapperException {
         try {
@@ -50,13 +47,10 @@ public class UnmappingEngine extends BaseEngine {
      * <p/>
      * Non-annotated fields are not overwritten.
      *
-     * @param metadata
-     *            the flat metadata
-     * @param bean
-     *            the destination bean
+     * @param metadata the flat metadata
+     * @param bean     the destination bean
      * @return the destination bean
-     * @throws MapperException
-     *             if the parser could not be initialized for a field or the mapping fails
+     * @throws MapperException if the parser could not be initialized for a field or the mapping fails
      */
     public <T> T unmapToBean(Map<String, String> metadata, T bean) throws MapperException {
         /* Control the validity of arguments. */
@@ -70,7 +64,7 @@ public class UnmappingEngine extends BaseEngine {
     }
 
     private <T> void performUnmapping(Map<String, String> metadata, T bean, Class<?> klass)
-            throws MapperException, ParserInitializationException, MappingException {
+            throws MapperException {
         final Field[] fields = klass.getDeclaredFields();
 
         for (Field field : fields) {
@@ -91,14 +85,10 @@ public class UnmappingEngine extends BaseEngine {
     /**
      * Performs the unmapping to a field which is an inner bean (marked with the {@link Nested} annotation).
      *
-     * @param metadata
-     *            the flat metadata
-     * @param bean
-     *            the destination bean
-     * @param field
-     *            the field to set
-     * @throws MapperException
-     *             if the parser could not be initialized for a field or the mapping fails
+     * @param metadata the flat metadata
+     * @param bean     the destination bean
+     * @param field    the field to set
+     * @throws MapperException if the parser could not be initialized for a field or the mapping fails
      */
     private <T> void performNestedUnmapping(Map<String, String> metadata, T bean, Field field) throws MapperException {
         Nested annotation = field.getAnnotation(Nested.class);
@@ -112,7 +102,7 @@ public class UnmappingEngine extends BaseEngine {
                 set(bean, descriptor, innerBean);
             } else {
                 // unmap to bean
-                innerBean = unmapToBean(metadata, innerBean);
+                unmapToBean(metadata, innerBean);
             }
 
         } catch (IllegalAccessException | InvocationTargetException | IntrospectionException e) {
@@ -141,16 +131,11 @@ public class UnmappingEngine extends BaseEngine {
     /**
      * Performs the unmapping for a convertible-typed field.
      *
-     * @param metadata
-     *            the flat metadata
-     * @param bean
-     *            the destination bean
-     * @param field
-     *            the field to set
-     * @throws ParserInitializationException
-     *             if the parser for the field could not be initialized
-     * @throws MappingException
-     *             if the mapping fails
+     * @param metadata the flat metadata
+     * @param bean     the destination bean
+     * @param field    the field to set
+     * @throws ParserInitializationException if the parser for the field could not be initialized
+     * @throws MappingException              if the mapping fails
      */
     private <T> void performFieldUnmapping(Map<String, String> metadata, T bean, Field field)
             throws ParserInitializationException, MappingException {
@@ -198,22 +183,17 @@ public class UnmappingEngine extends BaseEngine {
      * <p/>
      * This requires the bean to respect the bean notation.
      *
-     * @param bean
-     *            the destination bean
-     * @param field
-     *            the field to set
-     * @param value
-     *            the non-converted value for the field
-     * @throws ParserInitializationException
-     *             if the parser for the field could not be initialized
-     * @throws MappingException
-     *             if the mapping fails
+     * @param bean  the destination bean
+     * @param field the field to set
+     * @param value the non-converted value for the field
+     * @throws ParserInitializationException if the parser for the field could not be initialized
+     * @throws MappingException              if the mapping fails
      */
     private <T> void setField(T bean, Field field, String value)
             throws ParserInitializationException, MappingException {
         try {
             set(bean, field, value == null ? DEFAULT_VALUES.getDefaultValue(field.getType())
-                    : this.<T> getParser(field).convertFromString(value));
+                    : this.<T>getParser(field).convertFromString(value));
         } catch (IllegalAccessException | InvocationTargetException | IntrospectionException | ParsingException e) {
             throw new MappingException(
                     "Field " + field.getName() + " of " + field.getDeclaringClass().getName() + " could not be set.",
@@ -228,19 +208,14 @@ public class UnmappingEngine extends BaseEngine {
      * will receive the value for the required metadata as the first argument, and the whole flat metadata as the
      * second.
      *
-     * @param bean
-     *            the destination bean
-     * @param field
-     *            the field to set
-     * @param parser
-     *            the {@link ElaborateParser} to use
-     * @param metadata
-     *            the flat metadata
-     * @throws MappingException
-     *             if the mapping fails
+     * @param bean     the destination bean
+     * @param field    the field to set
+     * @param parser   the {@link ElaborateParser} to use
+     * @param metadata the flat metadata
+     * @throws MappingException if the mapping fails
      */
     private <T> void setElaborateField(T bean, Field field, Class<? extends ElaborateParser<?>> parser,
-            Map<String, String> metadata) throws MappingException {
+                                       Map<String, String> metadata) throws MappingException {
         try {
             Object value = parser.newInstance().fromMap(metadata);
             set(bean, field, value == null ? DEFAULT_VALUES.getDefaultValue(field.getType()) : value);

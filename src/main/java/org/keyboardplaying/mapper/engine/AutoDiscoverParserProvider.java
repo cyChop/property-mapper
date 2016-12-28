@@ -34,7 +34,7 @@ import org.keyboardplaying.mapper.parser.SimpleParser;
  * <p/>
  * This class implements the singleton design pattern.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class AutoDiscoverParserProvider implements ParserProvider {
 
@@ -87,10 +87,7 @@ public class AutoDiscoverParserProvider implements ParserProvider {
             try {
                 parser = parserClass.newInstance();
                 parsers.put(parserClass, parser);
-            } catch (InstantiationException e) {
-                throw new ParserInitializationException(parserClass.getName()
-                        + " could not be instanciated. Does it define a public no-arg constructor?", e);
-            } catch (IllegalAccessException e) {
+            } catch (InstantiationException | IllegalAccessException e) {
                 throw new ParserInitializationException(parserClass.getName()
                         + " could not be instanciated. Does it define a public no-arg constructor?", e);
             }

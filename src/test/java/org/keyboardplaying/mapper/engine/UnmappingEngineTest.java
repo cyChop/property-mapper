@@ -24,14 +24,16 @@ import org.keyboardplaying.mapper.parser.DateParser;
 /**
  * Tests for the {@link UnmappingEngine}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 @SuppressWarnings("javadoc")
 public class UnmappingEngineTest {
 
     private UnmappingEngine mappingEngine = new UnmappingEngine();
 
-    /** Tests the {@link Nested} annotation. */
+    /**
+     * Tests the {@link Nested} annotation.
+     */
     @Test
     public void testUnmapNested() throws MapperException {
         /* Prepare */
@@ -101,7 +103,9 @@ public class UnmappingEngineTest {
         });
     }
 
-    /** Tests the default value when no value is set. */
+    /**
+     * Tests the default value when no value is set.
+     */
     @Test
     public void testUnmapDefaultValueNotSet() throws MapperException {
         /* Prepare */
@@ -119,7 +123,9 @@ public class UnmappingEngineTest {
         assertEquals("", bean2.getNotNullString());
     }
 
-    /** Tests the unmapping of a bean with mandatory metadata left blank. */
+    /**
+     * Tests the unmapping of a bean with mandatory metadata left blank.
+     */
     @Test(expected = MappingException.class)
     public void testUnmapWithMandatoryMetadataNotSet() throws MapperException {
         /* Prepare */
@@ -129,7 +135,9 @@ public class UnmappingEngineTest {
         mappingEngine.unmapToClass(metadata, TestBean.class);
     }
 
-    /** Tests the unmapping of a bean with a mandatory metadata with a default metadata but no default value. */
+    /**
+     * Tests the unmapping of a bean with a mandatory metadata with a default metadata but no default value.
+     */
     @Test(expected = MappingException.class)
     public void testUnmapMandatoryFieldWithDefaultValueNotSet() throws MapperException {
         /* Prepare */
@@ -139,7 +147,9 @@ public class UnmappingEngineTest {
         mappingEngine.unmapToClass(metadata, TestDefaultedBean.class);
     }
 
-    /** Tests the default value when a value is set. */
+    /**
+     * Tests the default value when a value is set.
+     */
     @Test
     public void testUnmapDefaultValueSet() throws MapperException {
         /* Prepare */
@@ -153,7 +163,9 @@ public class UnmappingEngineTest {
         assertEquals("Hello, World!", bean.getHello());
     }
 
-    /** Tests the unmapping (using the default value) to a previously set bean. */
+    /**
+     * Tests the unmapping (using the default value) to a previously set bean.
+     */
     @Test
     public void testUnmapToExistingBeanDefault() throws MapperException {
         /* Prepare */
@@ -168,7 +180,9 @@ public class UnmappingEngineTest {
         assertEquals("Didn't receive hello... :(", bean.getHello());
     }
 
-    /** Tests the unmapping to a previously set bean. */
+    /**
+     * Tests the unmapping to a previously set bean.
+     */
     @Test
     public void testUnmapToExistingBeanMetadata() throws MapperException {
         /* Prepare */
@@ -189,7 +203,9 @@ public class UnmappingEngineTest {
         assertEquals("Hello, Little Big Planet!", bean.getInnerImpl().getHello());
     }
 
-    /** Tests the unmapping is null-proof. */
+    /**
+     * Tests the unmapping is null-proof.
+     */
     @Test
     public void testUnmapWithNullData() throws MapperException {
         /* Prepare */
@@ -206,7 +222,9 @@ public class UnmappingEngineTest {
         assertEquals(0, bean.getSomeInt());
     }
 
-    /** Tests the unmapping using an ElaborateParser. */
+    /**
+     * Tests the unmapping using an ElaborateParser.
+     */
     @Test
     public void testUnmapUsingElaborateParser() throws MapperException {
         /* Prepare */
@@ -221,7 +239,9 @@ public class UnmappingEngineTest {
         assertEquals("John DOE (4815162342)", bean.getContact());
     }
 
-    /** Tests the unmapping of a boolean in an incorrect format. */
+    /**
+     * Tests the unmapping of a boolean in an incorrect format.
+     */
     @Test(expected = MappingException.class)
     public void testUnmapIncorrectBoolean() throws MapperException {
         /* Prepare */
@@ -232,7 +252,9 @@ public class UnmappingEngineTest {
         mappingEngine.unmapToClass(metadata, TestBean.class);
     }
 
-    /** Tests the unmapping of a data map with several types of metadata. */
+    /**
+     * Tests the unmapping of a data map with several types of metadata.
+     */
     @Test
     public void testUnmapToBean() throws MapperException {
         /* Prepare */
@@ -265,7 +287,9 @@ public class UnmappingEngineTest {
         assertTrue(bean.isSomeYesNo());
     }
 
-    /** Tests the unmapping in case of an inherited field. */
+    /**
+     * Tests the unmapping in case of an inherited field.
+     */
     @Test
     public void testUnmapSubclassedBean() throws MapperException {
         /* Prepare */
@@ -288,7 +312,9 @@ public class UnmappingEngineTest {
         return metadata;
     }
 
-    /** Ensures the mapping fails if no key was supplied. */
+    /**
+     * Ensures the mapping fails if no key was supplied.
+     */
     @Test(expected = MappingException.class)
     public void testUnmapWithEmptyMetadataKey() throws MapperException {
         /* Prepare */
@@ -311,7 +337,9 @@ public class UnmappingEngineTest {
         });
     }
 
-    /** Ensures the mapping fails if the setter is absent. */
+    /**
+     * Ensures the mapping fails if the setter is absent.
+     */
     @Test(expected = MappingException.class)
     public void testUnmapWithNoSetter() throws MapperException {
         /* Prepare */

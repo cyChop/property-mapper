@@ -5,9 +5,9 @@ import static org.junit.Assert.assertEquals;
 /**
  * Utility methods when testing Exceptions.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
-public class ExceptionTest {
+abstract class ExceptionTest {
 
     protected void assertNoMessageNorCause(Exception exception) {
         assertMessageAndCause(null, null, exception);

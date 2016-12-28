@@ -15,9 +15,8 @@ import org.keyboardplaying.mapper.exception.ParsingException;
  * <strong>Notice:</strong> Please note that all implementations of this interface should provide a {@code public}
  * no-arg constructor, so that the {@link ParserProvider} is able to instantiate any {@link SimpleParser}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
- * @param <T>
- *            the type of object being parsed from and to {@code String}
+ * @param <T> the type of object being parsed from and to {@code String}
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public interface SimpleParser<T> {
 
@@ -26,11 +25,9 @@ public interface SimpleParser<T> {
      * <p/>
      * Implementations do not need to be null-safe.
      *
-     * @param value
-     *            the {@code String} value accepted
+     * @param value the {@code String} value accepted
      * @return the object
-     * @throws ParsingException
-     *             if the parsing cannot be performed
+     * @throws ParsingException if the parsing cannot be performed
      */
     T convertFromString(String value) throws ParsingException;
 
@@ -39,11 +36,9 @@ public interface SimpleParser<T> {
      * <p/>
      * Implementations do not need to be null-safe.
      *
-     * @param value
-     *            the object to parse
+     * @param value the object to parse
      * @return the {@code String} representation
-     * @throws ParsingException
-     *             if the parsing cannot be performed
+     * @throws ParsingException if the parsing cannot be performed
      */
     String convertToString(T value) throws ParsingException;
 }

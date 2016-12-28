@@ -7,23 +7,29 @@ import org.junit.Test;
 /**
  * Tests each constructor for {@link ParserInitializationException}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class ParserInitializationExceptionTest extends MapperExceptionTest<ParserInitializationException> {
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public ParserInitializationExceptionTest() {
         super(ParserInitializationException.class);
     }
 
-    /** Tests {@link ParserInitializationException#ParserInitializationException()}. */
+    /**
+     * Tests {@link ParserInitializationException#ParserInitializationException()}.
+     */
     @Test
     @Override
     public void testNoArgConstructor() throws InstantiationException, IllegalAccessException {
         super.testNoArgConstructor();
     }
 
-    /** Tests {@link ParserInitializationException#ParserInitializationException(String)}. */
+    /**
+     * Tests {@link ParserInitializationException#ParserInitializationException(String)}.
+     */
     @Test
     @Override
     public void testMessageConstructor() throws InstantiationException, IllegalAccessException,
@@ -31,7 +37,9 @@ public class ParserInitializationExceptionTest extends MapperExceptionTest<Parse
         super.testMessageConstructor();
     }
 
-    /** Tests {@link ParserInitializationException#ParserInitializationException(Throwable)}. */
+    /**
+     * Tests {@link ParserInitializationException#ParserInitializationException(Throwable)}.
+     */
     @Test
     @Override
     public void testCauseConstructor() throws InstantiationException, IllegalAccessException, IllegalArgumentException,
