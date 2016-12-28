@@ -120,8 +120,9 @@ public class UnmappingEngine extends BaseEngine {
             throws MapperException {
         try {
             // unmap to class
-            return unmapToClass(metadata,
-                    className == null || className.length() == 0 ? field.getType() : Class.forName(className));
+            // compilation fails when variable is inline (?!)
+            Class<?> beanType = className == null || className.length() == 0 ? field.getType() : Class.forName(className);
+            return unmapToClass(metadata, beanType);
         } catch (ClassNotFoundException e) {
             throw new MappingException("Could not find class " + className + " when instantiating bean for inner field "
                     + field.getName() + " of class " + field.getDeclaringClass().getName(), e);
