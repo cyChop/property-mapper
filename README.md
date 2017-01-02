@@ -1,5 +1,7 @@
 # Property mapper
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1688c68d63d84187a4baaeccc830407b)](https://www.codacy.com/app/cyrille-chopelet/property-mapper?utm_source=github.com&utm_medium=referral&utm_content=cyChop/property-mapper&utm_campaign=badger)
+
 [travis-badge]: https://img.shields.io/travis/cyChop/property-mapper.svg
 [travis]: https://travis-ci.org/cyChop/property-mapper
 [sonarc-badge]: https://img.shields.io/sonar/https/sonarqube.com/org.keyboardplaying:property-mapper/coverage.svg
