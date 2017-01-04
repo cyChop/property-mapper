@@ -6,6 +6,8 @@
 [sonarc]: https://sonarqube.com/overview/coverage?id=org.keyboardplaying:property-mapper
 [sonarq-badge]: https://img.shields.io/sonar/https/sonarqube.com/org.keyboardplaying:property-mapper/tech_debt.svg
 [sonarq]: https://sonarqube.com/overview/debt?id=org.keyboardplaying:property-mapper
+[codacy-badge]: https://img.shields.io/codacy/grade/1688c68d63d84187a4baaeccc830407b.svg
+[codacy]: https://www.codacy.com/app/cyrille-chopelet/property-mapper
 [issues-badge]: https://img.shields.io/github/issues-raw/cyChop/property-mapper.svg
 [issues]: https://github.com/cyChop/property-mapper/issues
 [waffle]: https://waffle.io/cyChop/property-mapper
@@ -17,6 +19,7 @@
 [![Build status][travis-badge]][travis]
 [![Test coverage][sonarc-badge]][sonarc]
 [![Technical debt][sonarq-badge]][sonarq]
+[![Codacy grade][codacy-badge]][codacy]
 [![Issues][issues-badge]][issues]
 [![License: MIT][licens-badge]][licens]
 
