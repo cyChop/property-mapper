@@ -4,7 +4,7 @@
 
   <groupId>org.keyboardplaying</groupId>
   <artifactId>property-mapper</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
+  <version>1.1.0</version>
 
   <name>Property mapper</name>
   <description>A proof-of-concept for an annotation-based map-to-object and object-to-map parser</description>
