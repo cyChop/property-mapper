@@ -8,6 +8,7 @@ import org.keyboardplaying.mapper.parser.SimpleParser;
  *
  * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
+@FunctionalInterface
 public interface ParserProvider {
 
     /**
