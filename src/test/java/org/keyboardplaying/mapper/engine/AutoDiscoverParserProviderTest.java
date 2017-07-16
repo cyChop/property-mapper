@@ -28,7 +28,7 @@ import org.keyboardplaying.mapper.parser.StringParser;
 @SuppressWarnings("javadoc")
 public class AutoDiscoverParserProviderTest {
 
-    private AutoDiscoverParserProvider provider = AutoDiscoverParserProvider.getInstance();
+    private final AutoDiscoverParserProvider provider = AutoDiscoverParserProvider.getInstance();
 
     /**
      * Tests the fetching of standard parsers.

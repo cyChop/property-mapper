@@ -13,7 +13,7 @@ import org.keyboardplaying.mapper.exception.ParsingException;
 @SuppressWarnings("javadoc")
 public class StringParserTest {
 
-    private StringParser c = new StringParser();
+    private final StringParser c = new StringParser();
 
     /**
      * Tests the conversion of a {@link String} in the object to a {@link String} in the map.

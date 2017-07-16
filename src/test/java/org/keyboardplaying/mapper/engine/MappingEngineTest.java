@@ -31,7 +31,7 @@ import org.keyboardplaying.mapper.mock.bean.TestSubBean;
 @SuppressWarnings("javadoc")
 public class MappingEngineTest {
 
-    private MappingEngine mappingEngine = new MappingEngine();
+    private final MappingEngine mappingEngine = new MappingEngine();
 
     /**
      * Tests mapping a {@code null} bean.
@@ -46,7 +46,7 @@ public class MappingEngineTest {
      */
     @Test(expected = NullPointerException.class)
     public void testMapWithNullBean2() throws MapperException {
-        mappingEngine.map(null, new HashMap<String, String>());
+        mappingEngine.map(null, new HashMap<>());
     }
 
     /**
@@ -313,7 +313,7 @@ public class MappingEngineTest {
             public void setHello(String hello) {
                 this.hello = hello;
             }
-        }, new HashMap<String, String>());
+        }, new HashMap<>());
     }
 
     /**
@@ -335,7 +335,7 @@ public class MappingEngineTest {
             public void setInner(TestInnerBean inner) {
                 this.inner = inner;
             }
-        }, new HashMap<String, String>());
+        }, new HashMap<>());
     }
 
     /**
@@ -352,6 +352,6 @@ public class MappingEngineTest {
             public void setHello(String hello) {
                 this.hello = hello;
             }
-        }, new HashMap<String, String>());
+        }, new HashMap<>());
     }
 }

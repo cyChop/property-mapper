@@ -41,12 +41,12 @@ public class AutoDiscoverParserProvider implements ParserProvider {
     private static final String CONVERTER_DEFINITION_PATH = "META-INF/services/org.keyboardplaying.mapper.parser/";
     private static final String CONVERTER_PROPERTY = "parser";
 
-    private static AutoDiscoverParserProvider instance = new AutoDiscoverParserProvider();
+    private static final AutoDiscoverParserProvider instance = new AutoDiscoverParserProvider();
 
     /** A list of parser types to use based on the field type. */
-    private Map<Class<?>, Class<? extends SimpleParser<?>>> parserDefinitions = new HashMap<>();
+    private final Map<Class<?>, Class<? extends SimpleParser<?>>> parserDefinitions = new HashMap<>();
     /** A list of all previously loaded parsers based on their type. */
-    private Map<Class<? extends SimpleParser<?>>, SimpleParser<?>> parsers = new HashMap<>();
+    private final Map<Class<? extends SimpleParser<?>>, SimpleParser<?>> parsers = new HashMap<>();
 
     /* Private constructor. */
     private AutoDiscoverParserProvider() {

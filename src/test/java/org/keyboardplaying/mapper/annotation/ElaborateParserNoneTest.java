@@ -15,14 +15,14 @@ import org.keyboardplaying.mapper.parser.ElaborateParser.None;
 @SuppressWarnings("javadoc")
 public class ElaborateParserNoneTest {
 
-    private ElaborateParser<Object> parser = new None();
+    private final ElaborateParser<Object> parser = new None();
 
     /**
      * Tests the unmapping with a {@link None} fails.
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testFromMap() throws ParsingException {
-        parser.fromMap(new HashMap<String, String>());
+        parser.fromMap(new HashMap<>());
     }
 
     /**
@@ -30,6 +30,6 @@ public class ElaborateParserNoneTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testToMap() throws ParsingException {
-        parser.toMap("hello", new HashMap<String, String>());
+        parser.toMap("hello", new HashMap<>());
     }
 }

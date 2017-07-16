@@ -9,7 +9,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 abstract class MapperExceptionTest<T extends MapperException> extends ExceptionTest {
 
-    private Class<T> klass;
+    private final Class<T> klass;
 
     MapperExceptionTest(Class<T> klass) {
         this.klass = klass;

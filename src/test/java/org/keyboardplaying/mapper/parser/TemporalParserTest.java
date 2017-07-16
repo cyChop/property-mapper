@@ -17,9 +17,9 @@ public abstract class TemporalParserTest<T> {
     private static final String DATE_TIME = "1985/10/24-21:20:42";
     private static final String DATE = "2012/06/29";
 
-    private TemporalParser<T> parser;
-    private T expectedObject;
-    private boolean timestamp;
+    private final TemporalParser<T> parser;
+    private final T expectedObject;
+    private final boolean timestamp;
 
     TemporalParserTest(TemporalParser<T> parser, T expectedObject, boolean timestamp) {
         this.parser = parser;

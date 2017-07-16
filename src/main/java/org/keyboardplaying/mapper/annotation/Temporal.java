@@ -45,7 +45,7 @@ public @interface Temporal {
         /**
          * The format of the string representation of the date.
          */
-        private String format;
+        private final String format;
 
         /**
          * Private constructor.

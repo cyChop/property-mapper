@@ -13,7 +13,7 @@ import org.keyboardplaying.mapper.exception.ParsingException;
 @SuppressWarnings("javadoc")
 public abstract class NumberParserTest<T extends Number> {
 
-    private SimpleParser<T> parser;
+    private final SimpleParser<T> parser;
 
     /**
      * Creates a new instance.

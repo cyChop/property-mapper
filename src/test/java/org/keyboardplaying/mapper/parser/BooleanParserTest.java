@@ -17,9 +17,9 @@ import org.keyboardplaying.mapper.exception.ParsingException;
 @SuppressWarnings("javadoc")
 public class BooleanParserTest {
 
-    private BooleanParser enC = new BooleanParser();
-    private BooleanParser frC = new BooleanParser();
-    private BooleanParser biC = new BooleanParser();
+    private final BooleanParser enC = new BooleanParser();
+    private final BooleanParser frC = new BooleanParser();
+    private final BooleanParser biC = new BooleanParser();
 
     /** Initializes the languages of the French parser. */
     @Before

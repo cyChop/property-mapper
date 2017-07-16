@@ -33,7 +33,7 @@ public class MappingEngine extends BaseEngine {
      * @throws NullPointerException if the supplied bean is {@code null}
      */
     public <T> Map<String, String> map(T bean) throws MapperException {
-        return map(bean, new HashMap<String, String>());
+        return map(bean, new HashMap<>());
     }
 
     /**
@@ -163,7 +163,7 @@ public class MappingEngine extends BaseEngine {
     private <T, F> void serializeField(T bean, Field field, Map<String, String> map,
                                        Class<? extends ElaborateParser<F>> parser) throws MappingException {
         try {
-            parser.newInstance().toMap((F) get(bean, field), map);
+            parser.newInstance().toMap(get(bean, field), map);
         } catch (ParsingException | InstantiationException | IllegalAccessException | IllegalArgumentException
                 | InvocationTargetException | IntrospectionException e) {
             throw new FieldMappingException(field,

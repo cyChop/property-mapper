@@ -29,7 +29,7 @@ import org.keyboardplaying.mapper.parser.DateParser;
 @SuppressWarnings("javadoc")
 public class UnmappingEngineTest {
 
-    private UnmappingEngine mappingEngine = new UnmappingEngine();
+    private final UnmappingEngine mappingEngine = new UnmappingEngine();
 
     /**
      * Tests the {@link Nested} annotation.

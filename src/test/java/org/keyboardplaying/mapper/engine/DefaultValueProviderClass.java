@@ -12,7 +12,7 @@ import org.junit.Test;
  */
 public class DefaultValueProviderClass {
 
-    private DefaultValueProvider provider = new DefaultValueProvider();
+    private final DefaultValueProvider provider = new DefaultValueProvider();
 
     /**
      * Ensures the default value for a primitive is correct.
